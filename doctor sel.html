@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Selection</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the background image and overlay */
+        body {
+            font-family: "Inter", sans-serif;
+            background-image: url('campus.png'); /* Placeholder for campus.png */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+        .overlay-box {
+            background-color: rgba(37, 40, 107, 0.85); /* Specified color with opacity */
+            backdrop-filter: blur(5px); /* Optional: Add a slight blur to the background for better readability */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="overlay-box p-8 md:p-12 rounded-lg shadow-2xl max-w-sm w-full mx-auto text-center">
+        <h1 class="text-white text-3xl md:text-4xl font-bold mb-8">Select Your Role</h1>
+        <div class="flex flex-col space-y-6">
+            <button
+                class="bg-white text-blue-800 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                onclick="window.location.href='doctorlogin.html'"
+            >
+                Chief Doctor
+            </button>
+            <button
+                class="bg-white text-blue-800 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                onclick="window.location.href='doctorlogin.html'"
+            >
+                Doctor
+            </button>
+        </div>
+    </div>
+</body>
+</html>

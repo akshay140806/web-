@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRM Dental College - Your Healthy Smile Starts Here</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Body Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7f6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header (Navigation Bar) */
+        header {
+            background-color: #25286b; /* Dark Blue */
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px; /* Adjust logo size */
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping */
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #7ed6df; /* Light Blue/Cyan */
+        }
+
+        .auth-buttons button {
+            background-color: white;
+            color: #25286b;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-buttons button:hover {
+            background-color: #ddd;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://via.placeholder.com/1500x600?text=Happy+Dental+Patient') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .cta-buttons a {
+            background-color: #5cb85c; /* Green */
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 0 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .hero .cta-buttons a.secondary {
+            background-color: transparent;
+            border: 2px solid white;
+        }
+
+        .hero .cta-buttons a.book-slot { /* New style for the "Book an S" button */
+            background-color: #7ed6df; /* Light Blue/Cyan */
+            color: #25286b; /* Dark Blue */
+            border: 2px solid #7ed6df; /* Match border to background */
+        }
+
+        .hero .cta-buttons a:hover {
+            background-color: #4cae4c; /* Darker Green */
+            transform: translateY(-2px);
+        }
+
+        .hero .cta-buttons a.secondary:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-color: #7ed6df;
+        }
+
+        .hero .cta-buttons a.book-slot:hover { /* Hover for the new button */
+            background-color: #5cb85c; /* Green on hover */
+            color: white;
+            border-color: #5cb85c;
+        }
+
+
+        /* Section Styling */
+        section {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        /* Updated: Replaced grey shade with campus.png background with light overlay */
+        section:nth-of-type(even) {
+            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('campus.png') no-repeat center center/cover; /* Placeholder for campus.png */
+            background-attachment: fixed; /* Optional: for parallax-like effect */
+        }
+
+        section h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #25286b;
+        }
+
+        /* Welcome Section */
+        .welcome .highlights {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .welcome .highlight-item {
+            text-align: center;
+            color: #25286b;
+        }
+
+        .welcome .highlight-item i {
+            font-size: 40px;
+            color: #7ed6df;
+            margin-bottom: 10px;
+        }
+
+        .welcome .highlight-item h3 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .service-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* Make service-card a flex container */
+            flex-direction: column; /* Stack content vertically */
+            justify-content: space-between; /* Push "Learn More" to bottom */
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .service-card .icon-or-image { /* New class for icon/image container */
+            height: 50px; /* Fixed height for consistency */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .service-card .icon-or-image i {
+            font-size: 50px;
+            color: #25286b;
+            margin-bottom: 0; /* Reset margin */
+        }
+
+        .service-card .icon-or-image img {
+            max-width: 100%;
+            max-height: 50px; /* Match icon height */
+            object-fit: contain; /* Ensure image fits without cropping */
+            border-radius: 5px; /* Slight rounding for images */
+        }
+
+
+        .service-card h3 {
+            font-size: 24px;
+            color: #25286b;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: #555;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Allow paragraph to take up available space */
+        }
+
+        .service-card a {
+            display: inline-block;
+            background-color: #7ed6df; /* Light Blue/Cyan */
+            color: #25286b;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: auto; /* Push to the bottom */
+        }
+
+        .service-card a:hover {
+            background-color: #5cb85c; /* Green */
+            color: white;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .reason-item {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .reason-item i {
+            font-size: 35px;
+            color: #25286b;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .reason-item .text-content h3 {
+            font-size: 20px;
+            color: #25286b;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .reason-item .text-content p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            position: relative;
+        }
+
+        .testimonial-grid { /* New grid container for testimonials */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid for testimonials */
+            gap: 30px; /* Space between testimonial cards */
+            max-width: 1200px; /* Max width for the grid */
+            margin: 0 auto; /* Center the grid */
+            padding: 0 20px; /* Padding for small screens */
+        }
+
+        .testimonial-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            height: auto; /* Allow height to adjust to content */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover effect */
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .testimonial-card i.fa-quote-left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+            color: #7ed6df;
+            opacity: 0.3;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 17px;
+            margin-bottom: 20px;
+            color: #444;
+            padding-left: 50px;
+            flex-grow: 1;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #25286b;
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .stars {
+            color: gold;
+            font-size: 18px;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        /* Blog Section (Simplified) */
+        .blog-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .blog-post-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            overflow: hidden; /* Ensures image corners are rounded */
+            text-align: left;
+        }
+
+        .blog-post-card img {
+            width: 100%;
+            height: 120px;           /* Reduce height for a more compact look */
+            object-fit: contain;     /* Show the whole image, keep aspect ratio */
+            background: #f4f7f6;     /* Optional: subtle background for transparency */
+            display: block;
+            margin: 0 auto;
+            padding: 10px 0;         /* Optional: vertical padding for spacing */
+        }
+
+        .blog-post-content {
+            padding: 20px;
+        }
+
+        .blog-post-content h3 {
+            font-size: 22px;
+            color: #25286b;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .blog-post-content p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .blog-post-content a {
+            color: #7ed6df;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .blog-post-content a:hover {
+            color: #25286b;
+        }
+
+
+        /* Contact Section */
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            text-align: center;
+            color: #25286b;
+        }
+
+        .contact-item i {
+            font-size: 40px;
+            color: #7ed6df;
+            margin-bottom: 10px;
+        }
+
+        .contact-item h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .contact-item p {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .social-media {
+            margin-top: 40px;
+        }
+
+        .social-media a {
+            color: #25286b;
+            font-size: 30px;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-media a:hover {
+            color: #7ed6df;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #25286b;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        footer .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        footer .footer-links a:hover {
+            color: #7ed6df;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 10px 10px 10px; /* Adjust margin for wrapped items */
+            }
+
+            .auth-buttons {
+                margin-top: 15px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .hero .cta-buttons a {
+                padding: 12px 25px;
+                font-size: 16px;
+                display: block;
+                margin: 10px auto;
+                max-width: 250px;
+            }
+
+            section h2 {
+                font-size: 30px;
+            }
+
+            .welcome .highlights,
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 25px;
+            }
+
+            .service-card,
+            .reason-item,
+            .blog-post-card {
+                margin: 0 10px; /* Add some horizontal padding for cards on smaller screens */
+            }
+
+            .testimonial-grid { /* Adjusted for mobile */
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .service-card .icon-or-image i,
+            .service-card .icon-or-image img {
+                font-size: 40px;
+                height: 40px;
+            }
+            .service-card h3 {
+                font-size: 20px;
+            }
+            .reason-item {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+            .reason-item i {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .testimonial-card p {
+                padding-left: 20px;
+                font-size: 16px;
+            }
+            .testimonial-card i.fa-quote-left {
+                font-size: 30px;
+                top: 15px;
+                left: 15px;
+            }
+            .booking-form {
+                padding: 25px;
+            }
+            .contact-item i {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="logo.png" alt="SRM Dental College Logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/E0F2F7/2C3E50?text=LOGO';">
+                SRM Dental College
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#doctors">Doctors</a></li>
+                    <li><a href="#resources">Patient Resources</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button onclick="window.location.href='index.html'">Login</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Achieve Your Brightest Smile with SRM Dental College</h1>
+                <p>Providing compassionate, state-of-the-art dental care for your entire family.</p>
+                <div class="cta-buttons">
+                    <a href="#services" class="secondary">Explore our services</a>
+                    <!-- New "Book an Slot" button -->
+                    <a href="user.html" target="_blank" class="book-slot">Book an appointment</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="welcome" id="about">
+            <div class="container">
+                <h2>Welcome to SRM Dental College: Your Partner in Oral Health</h2>
+                <p>At SRM Dental College, we are dedicated to providing exceptional dental care in a comfortable and welcoming environment. Our experienced team uses advanced technology to ensure every visit is pleasant and effective, helping you achieve and maintain a healthy, beautiful smile for life.</p>
+                <div class="highlights">
+                    <div class="highlight-item">
+                        <i class="fas fa-tooth"></i>
+                        <h3>Expert Care</h3>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="far fa-calendar-check"></i>
+                        <h3>Easy Appointments</h3>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Trusted Professionals</h3>
+                    </div>
+                  <div class="highlight-item">
+    <i class="fas fa-users"></i>
+    <h3>Family-Friendly</h3>
+</div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="services" id="services">
+            <div class="container">
+                <h2>Our Specialized Dental Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="icon-or-image">
+                            <i class="fas fa-x-ray"></i>
+                        </div>
+                        <h3>Oral Medicine and Radiology (OMR)</h3>
+                        <p>Deals with diagnosis and medical management of oral diseases, and includes dental radiology (X-rays, CBCT).</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-or-image">
+                            <img src="https://placehold.co/50x50/7ed6df/25286b?text=OMFS" alt="Oral and Maxillofacial Surgery Icon" onerror="this.onerror=null;this.src='https://placehold.co/50x50/7ed6df/25286b?text=OMFS';">
+                        </div>
+                        <h3>Oral and Maxillofacial Surgery (OMFS)</h3>
+                        <p>Focuses on surgical treatments — like tooth extractions, trauma, jaw surgeries, cysts, tumors, and implants.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-or-image">
+                            <img src="https://placehold.co/50x50/7ed6df/25286b?text=PROS" alt="Prosthodontics Icon" onerror="this.onerror=null;this.src='https://placehold.co/50x50/7ed6df/25286b?text=PROS';">
+                        </div>
+                        <h3>Prosthodontics</h3>
+                        <p>Specializes in replacement of missing teeth through crowns, bridges, dentures, and implants.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-or-image">
+                            <i class="fas fa-fill-drip"></i>
+                        </div>
+                        <h3>Conservative Dentistry and Endodontics</h3>
+                        <p>Concerned with tooth preservation through fillings, root canal treatments, and cosmetic restorations.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-or-image">
+                            <i class="fas fa-tooth"></i>
+                        </div>
+                        <h3>Periodontics</h3>
+                        <p>Manages gum and supporting structures of teeth — including scaling, flap surgeries, and bone grafting.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-or-image">
+                            <i class="fas fa-teeth-open"></i>
+                        </div>
+                        <h3>Orthodontics</h3>
+                        <p>Deals with alignment of teeth and jaws using braces, aligners, and other appliances.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-or-image">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Pedodontics (Pediatric Dentistry)</h3>
+                        <p>Provides dental care to children, including preventive and interceptive treatments.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-or-image">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <h3>Oral Pathology and Microbiology</h3>
+                        <p>Studies diseases affecting the oral cavity through microscopic and molecular diagnosis.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-or-image">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Public Health Dentistry (Community Dentistry)</h3>
+                        <p>Focuses on promoting oral health at the community level through education, screening, and outreach programs.</p>
+                        <a href="#">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-choose-us">
+            <div class="container">
+                <h2>Why Patients Trust SRM Dental College</h2>
+                <div class="why-choose-us-grid">
+                    <div class="reason-item">
+                        <i class="fas fa-user-md"></i>
+                        <div class="text-content">
+                            <h3>Expert Care Team</h3>
+                            <p>Highly experienced doctors, surgeons, and faculty provide compassionate, patient-focused care. Every case is managed with precision, empathy, and clinical expertise.</p>
+                        </div>
+                    </div>
+                    <div class="reason-item">
+                        <i class="fas fa-microscope"></i>
+                        <div class="text-content">
+                            <h3>Advanced Technology</h3>
+                            <p>Equipped with digital scanners, CAD/CAM systems, and modern diagnostic tools. We ensure accurate treatment planning and comfortable procedures.</p>
+                        </div>
+                    </div>
+                    <div class="reason-item">
+                        <i class="fas fa-award"></i>
+                        <div class="text-content">
+                            <h3>Top-Ranked Institution</h3>
+                            <p>Nationally recognized for excellence in dental education and patient care. Treatment protocols are guided by the latest research and innovations.</p>
+                        </div>
+                    </div>
+                    <div class="reason-item">
+                        <i class="fas fa-rupee-sign"></i>
+                        <div class="text-content">
+                            <h3>Affordable Treatment</h3>
+                            <p>World-class care at accessible costs through supervised student clinics. We make dental treatment budget-friendly without compromising on quality.</p>
+                        </div>
+                    </div>
+                    <div class="reason-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="text-content">
+                            <h3>Safe & Sterile Environment</h3>
+                            <p>Our clinics follow strict sterilization and infection control protocols. Patients are treated in a clean, secure, and well-regulated environment.</p>
+                        </div>
+                    </div>
+                    <div class="reason-item">
+                        <i class="fas fa-first-aid"></i>
+                        <div class="text-content">
+                            <h3>Emergency & Surgical Care Facilities</h3>
+                            <p>Fully equipped trauma care unit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="container">
+                <h2>Hear From Our Happy Patients</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"I had a wonderful experience at SRM Dental College. The staff was incredibly friendly and professional, and my dental implant procedure was seamless. I highly recommend them!"</p>
+                        <div class="testimonial-author">
+                            - Priya S.
+                            <div class="stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"The orthodontics department is fantastic! My clear aligner treatment was explained thoroughly, and I'm thrilled with the results. Thank you, SRM Dental College!"</p>
+                        <div class="testimonial-author">
+                            - Rahul K.
+                            <div class="stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"My child's first dental visit was made so comfortable by the Pedodontics team. They are truly amazing with kids and made it a fun experience!"</p>
+                        <div class="testimonial-author">
+                            - Meena L.
+                            <div class="stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="testimonial-card">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"I came for a complex root canal, and the Endodontics team was incredibly skilled and gentle. The procedure was pain-free, and recovery was quick. Highly recommended!"</p>
+                        <div class="testimonial-author">
+                            - Suresh V.
+                            <div class="stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="blog" id="resources">
+            <div class="container">
+                <h2>Latest Dental Health Tips</h2>
+                <div class="blog-posts-grid">
+                    <div class="blog-post-card">
+                        <img src="oral.webp" alt="Oral hygiene awareness">
+                        <div class="blog-post-content">
+                            <h3>Oral hygiene awareness and practice among dental college patients</h3>
+                            <p>A cross-sectional study in North India showing a serious gap in awareness and habits—highlighting the need for educational programs.</p>
+                            <a href="#">Read More &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="blog-post-card">
+                        <img src="Overall-health.webp" alt="Oral health's effect on overall community well-being">
+                        <div class="blog-post-content">
+                            <h3>Oral health's effect on overall community well-being</h3>
+                            <p>A comprehensive report linking oral care to physical, mental, social, and economic health.</p>
+                            <a href="#">Read More &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="blog-post-card">
+                        <img src="cdc.png" alt="CDC’s oral hygiene tips for adults">
+                        <div class="blog-post-content">
+                            <h3>CDC’s oral hygiene tips for adults</h3>
+                            <p>Guidance on brushing, flossing, managing dry mouth, and lifestyle choices like alcohol avoidance & HPV vaccination.</p>
+                            <a href="#">Read More &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="blog-post-card">
+                        <img src="world-oral-health-day.jpg" alt="WHO’s oral health fact sheet">
+                        <div class="blog-post-content">
+                            <h3>WHO’s oral health fact sheet</h3>
+                            <p>Stresses that most oral diseases are preventable and highlights the role of fluoride, diet, and access to care.</p>
+                            <a href="#">Read More &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="blog-post-card">
+                        <img src="time.jpeg" alt="TIME Health: 'Reading This Will Make You Want to Floss'">
+                        <div class="blog-post-content">
+                            <h3>TIME Health: "Reading This Will Make You Want to Floss"</h3>
+                            <p>Explains the oral-systemic link: flossing and brushing reduce risks of heart disease, diabetes, cancer, and more.</p>
+                            <a href="#">Read More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container">
+                <h2>Connect With Us</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <h3>Call Us</h3>
+                        <p><a href="tel:+914412345678">+044 2249 0526</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Email Us</h3>
+                        <p><a href="mailto:info@srmdentalcollege.com">info@srmdentalcollege.com</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Visit Us</h3>
+                        <p>SRM Dental College-Ramapuram,<br> Chennai - 600089, Tamil Nadu, India</p>
+                    </div>
+                </div>
+                <div class="social-media">
+                    <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 SRM Dental College. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Removed all carousel-related JavaScript
+        document.addEventListener('DOMContentLoaded', () => {
+            // Any other DOM-related scripts can go here if needed
+        });
+    </script>
+
+</body>
+</html>

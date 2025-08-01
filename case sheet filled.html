@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Doctor Case Sheet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Campus.png') no-repeat center center fixed; /* Placeholder for campus.png */
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      padding: 40px 20px;
+    }
+    .case-sheet {
+      background-color: rgba(38, 40, 107, 0.85);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    h2 {
+      border-bottom: 1px solid white;
+      padding-bottom: 5px;
+      margin-top: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"], input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      color: #333; /* Ensure text is visible */
+      background-color: #f0f0f0; /* Ensure background is visible */
+    }
+    .checkbox-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+    }
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #26286b;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    /* Message box for alerts */
+    .message-box-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s ease;
+    }
+
+    .message-box-container.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .message-box {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        color: #333;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        max-width: 400px;
+        width: 90%;
+    }
+
+    .message-box h2 {
+        margin-top: 0;
+        color: #d32f2f; /* Red for error */
+    }
+
+    .message-box p {
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .message-box button {
+        background-color: #3C8DFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .message-box button:hover {
+        background-color: #2e7ae6;
+    }
+  </style>
+</head>
+<body>
+  <div class="case-sheet">
+      <div style="text-align: center; margin-bottom: 20px;">
+    <img src="logo.png" alt="SRM Dental College Logo" style="max-width: 120px; height: auto; margin-bottom: 10px;" /> <!-- Placeholder for dental logo.png -->
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6" style="margin: 0;">SRM Dental College</h2>
+  </div>
+    <form>
+      <div class="page active">
+        <h2>1. Extra Oral Examination</h2>
+        <div class="form-group"><label>Facial Symmetry:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Tmj:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Interincisal Opening:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Lip:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Smile Line:</label></div>
+        <div class="form-group checkbox-group">
+          <label><input type="checkbox" checked /> High:</label>
+          <label><input type="checkbox" checked /> Medium:</label>
+          <label><input type="checkbox" checked /> Low:</label>
+        </div>
+
+        <h2>2. Periodontal Examination</h2>
+        <div class="form-group"><label>Gingival Examination:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Oral Hygiene Practice:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Periodontal Status Of Adjacent, Opposing Teeth:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Occlusal Examination:</label><input type="text" value="Sample Data" /></div>
+
+        <h2>3. Evaluation Of Edentulous Space</h2>
+        <div class="form-group"><label>Clinical Examination:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Attached Mucosa:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Vestibule:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Frenum Attachment:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Gingival Biotype:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Mesio-Distal Width Of Edentulous Space:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Inter Arch Space:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Concavity Of Edentulous Space:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Status Of Opposing Teeth:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Classification Of Edentulous Space:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Siebert Classification:</label><input type="text" value="Sample Data" /></div>
+
+        <h2>4. Radiological Examination</h2>
+        <div class="form-group"><label>Relative Magnification:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Vertical Height Of Bone:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Mesio-Distal Width:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Proximity Of Anatomical Landmarks:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Density Of Bone (Ct):</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Root Proximity:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Diagnostic Casts:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Bone Mapping:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Stent Preparation:</label><input type="text" value="Sample Data" /></div>
+      </div>
+
+      <div class="page">
+        <h2>5. Haematological Investigations</h2>
+        <div class="form-group"><label>Haematological Investigations:</label><input type="text" value="Sample Data" /></div>
+
+        <h2>6. Diagnosis</h2>
+        <div class="form-group"><label>Periodontal State:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Edentulous State:</label><input type="text" value="Sample Data" /></div>
+
+        <h2>7. Summary</h2>
+        <div class="form-group"><label>Summary:</label><input type="text" value="Sample Data" /></div>
+      </div>
+
+      <div class="page">
+        <h2>8. Treatment Plan</h2>
+        <div class="form-group"><label>Periodontal Treatment:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Implant Treatment:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Type Of Prosthesis:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Number Of Implants:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Diameter/Length Of Implant:</label></div>
+        <div class="form-group checkbox-group">
+          <label><Input Type="Checkbox" /> Diameter:</label>
+          <label><Input Type="Checkbox" /> Length:</label>
+        </div>
+        <div class="form-group"><label>Implant System:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Flap/Flapless:</label></div>
+        <div class="form-group checkbox-group">
+          <label><Input Type="Checkbox" /> Flap:</label>
+          <label><Input Type="Checkbox" /> Flapless:</label>
+        </div>
+        <div class="form-group"><label>One/Two Stage:</label></div>
+        <div class="form-group checkbox-group">
+          <label><Input Type="Checkbox" /> One:</label>
+          <label><Input Type="Checkbox" /> Two:</label>
+        </div>
+        <div class="form-group"><label>One/Two Piece Implant:</label></div>
+        <div class="form-group checkbox-group">
+          <label><Input Type="Checkbox" /> One Piece:</label>
+          <label><Input Type="Checkbox" /> Two Piece:</label>
+        </div>
+        <div class="form-group"><label>Loading: Immediate/Early / Delayed.:</label></div>
+        <div class="form-group checkbox-group">
+          <label><Input Type="Checkbox" /> Immediate:</label>
+          <label><Input Type="Checkbox" /> Early:</label>
+          <label><Input Type="Checkbox" /> Delayed:</label>
+        </div>
+        <div class="form-group"><label>Screw/Cement Retained:</label></div>
+        <div class="form-group checkbox-group">
+          <label><Input Type="Checkbox" /> Screw:</label>
+          <label><Input Type="Checkbox" /> Cement:</label>
+        </div>
+      </div>
+
+      <div class="page">
+        <h2>9. Surgical Details At Implant Placement</h2>
+        <div class="form-group"><label>Flap Design:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Soft Tissue Thickness:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Density Of The Bone:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Anatomical Defect:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Complications:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Graft/Membrane Used:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Primary Stability Achieved:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group"><label>Cover Screw/Abutment:</label></div>
+        <div class="form-group checkbox-group">
+          <label><Input Type="Checkbox" /> Cover Screw:</label>
+          <label><Input Type="Checkbox" /> Abutment:</label>
+        </div>
+        <div class="form-group"><label>Additional Findings:</label><input type="text" value="Sample Data" /></div>
+
+        <h2>10. Prosthetic Opinion</h2>
+        <div class="form-group"><label>Straight/Angulated Abutment:</label></div>
+        <div class="form-group checkbox-group">
+          <label><Input Type="Checkbox" /> Straight:</label>
+          <label><Input Type="Checkbox" /> Angulated:</label>
+        </div>
+        <div class="form-group"><label>Size Of The Abutment:</label><input type="text" value="Sample Data" /></div>
+        <div class="form-group checkbox-group">
+          <label><Input Type="Checkbox" /> Screw:</label>
+          <label><Input Type="Checkbox" /> Cement:</label>
+        </div>
+
+        <h2>11. Treatment Done</h2>
+        <div class="form-group"><label>Treatment Done:</label><input type="text" value="Sample Data" /></div>
+        
+        <!-- Doctor's Authentication Section -->
+        <div class="doctor-auth-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+            <h2>Doctor's Authentication</h2>
+            <div class="form-group">
+                <label for="doctorName">Doctor's Name *</label>
+                <input type="text" id="doctorName" placeholder="Enter full name" required />
+            </div>
+            <div class="form-group">
+                <label for="digitalSignature">Upload Digital Signature *</label>
+                <input type="file" id="digitalSignature" accept="image/*" onchange="previewSignature()" required />
+                <div id="signaturePreview" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+      </div>
+
+      <div class="navigation">
+        <button type="button" id="prevBtn">Back</button>
+        <button type="button" id="nextBtn">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Message box for alerts -->
+  <div id="messageBoxContainer" class="message-box-container">
+      <div class="message-box">
+          <h2 id="messageBoxTitle"></h2>
+          <p id="messageBoxMessage"></p>
+          <button onclick="hideMessageBox()">OK</button>
+      </div>
+  </div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentPage = 0;
+
+    // Function to show custom message box
+    function showMessageBox(title, message) {
+        const msgBoxContainer = document.getElementById('messageBoxContainer');
+        document.getElementById('messageBoxTitle').innerText = title;
+        document.getElementById('messageBoxMessage').innerText = message;
+        msgBoxContainer.classList.add('show');
+    }
+
+    // Function to hide custom message box
+    function hideMessageBox() {
+        document.getElementById('messageBoxContainer').classList.remove('show');
+    }
+
+    // Function to preview the uploaded signature
+    function previewSignature() {
+        const fileInput = document.getElementById('digitalSignature');
+        const previewDiv = document.getElementById('signaturePreview');
+        previewDiv.innerHTML = ''; // Clear previous preview
+
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '150px'; // Limit image size for preview
+                img.style.maxHeight = '100px';
+                img.style.marginTop = '10px';
+                previewDiv.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function showPage(index) {
+        window.scrollTo(0, 0);
+        pages.forEach((page, i) => {
+            page.classList.toggle('active', i === index);
+        });
+        // Disable back button on the first page
+        prevBtn.disabled = index === 0;
+        nextBtn.textContent = index === pages.length - 1 ? 'Submit' : 'Next';
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < pages.length - 1) {
+            currentPage++;
+            showPage(currentPage);
+        } else {
+            // This is the last page, handle submission and doctor authentication
+            const doctorName = document.getElementById('doctorName').value.trim();
+            const digitalSignatureFile = document.getElementById('digitalSignature').files[0];
+
+            if (!doctorName) {
+                showMessageBox('Error', 'Please enter the Doctor\'s Name.');
+                return;
+            }
+            if (!digitalSignatureFile) {
+                showMessageBox('Error', 'Please upload your Digital Signature.');
+                return;
+            }
+
+            // In a real application, you would save the doctor's name and signature data here
+            // For now, we'll just log it and navigate.
+            console.log('Doctor Name:', doctorName);
+            console.log('Digital Signature File:', digitalSignatureFile.name);
+
+            // Simulate saving signature data (e.g., to localStorage or a database)
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const signatureDataUrl = e.target.result;
+                // Example: localStorage.setItem('generalCaseDoctorSignature', signatureDataUrl);
+                // Example: localStorage.setItem('generalCaseDoctorName', doctorName);
+                showMessageBox('Success', 'Case Sheet submitted and authenticated successfully!');
+                setTimeout(() => {
+                    window.location.href = "chief.html"; // Navigate after a short delay
+                }, 1500); // Give time for the message to be seen
+            };
+            reader.readAsDataURL(digitalSignatureFile);
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+
+    showPage(currentPage); // Initialize the page display
+  </script>
+</body>
+</html>

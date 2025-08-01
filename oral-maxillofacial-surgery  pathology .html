@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Doctor Case Sheet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1920x1080/E0E0E0/000000?text=Campus+Image') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      padding: 40px 20px;
+    }
+    .case-sheet {
+      background-color: rgba(38, 40, 107, 0.85);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header img {
+      max-width: 120px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    .header h1 {
+      font-size: 29px; /* Increased from 28px */
+      font-weight: bold;
+      margin: 0 0 5px 0;
+    }
+    .header h2 {
+      font-size: 19px; /* Increased from 18px */
+      margin: 0 0 10px 0;
+    }
+    .header h3 {
+      font-size: 17px; /* Increased from 16px */
+      margin: 0;
+    }
+    h2 {
+      border-bottom: 1px solid white;
+      padding-bottom: 5px;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      font-size: 19px; /* Increased from 18px */
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    .form-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 15px; /* Increased from 14px */
+    }
+    input[type="text"], input[type="date"], textarea, input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      box-sizing: border-box;
+      font-size: 14px; /* Maintain readability for input fields if not explicitly specified */
+      color: #333; /* Ensure text is visible */
+      background-color: #f0f0f0; /* Ensure background is visible */
+    }
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    .checkbox-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+      font-size: 15px; /* Increased from 14px */
+    }
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 5px;
+      width: auto;
+    }
+    .radio-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .radio-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+      font-size: 15px; /* Increased from 14px */
+    }
+    .radio-group input[type="radio"] {
+      margin-right: 5px;
+      width: auto;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #26286b;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 15px; /* Increased from 14px */
+    }
+    button:hover {
+      background-color: #f0f0f0;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .diet-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .diet-table th, .diet-table td {
+      border: 1px solid white;
+      padding: 8px;
+      text-align: left;
+      font-size: 15px; /* Increased from 14px (implicit for table cells) */
+    }
+    .diet-table th {
+      background-color: rgba(255,255,255,0.1);
+    }
+    .diet-table input {
+      width: 100%;
+      padding: 4px;
+      margin: 0;
+      font-size: 14px; /* Maintain readability for input fields */
+    }
+    .inline-form {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .inline-form input {
+      flex: 1;
+    }
+    .treatment-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .treatment-table th, .treatment-table td {
+      border: 1px solid white;
+      padding: 8px;
+      text-align: left;
+      font-size: 15px; /* Increased from 14px (implicit for table cells) */
+    }
+    .treatment-table th {
+      background-color: rgba(255,255,255,0.1);
+    }
+    .treatment-table input {
+      width: 100%;
+      padding: 4px;
+      margin: 0;
+      font-size: 14px; /* Maintain readability for input fields */
+    }
+    /* Message box for alerts */
+    .message-box-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s ease;
+    }
+
+    .message-box-container.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .message-box {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        color: #333;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        max-width: 400px;
+        width: 90%;
+    }
+
+    .message-box h2 {
+        margin-top: 0;
+        color: #d32f2f; /* Red for error */
+    }
+
+    .message-box p {
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .message-box button {
+        background-color: #3C8DFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .message-box button:hover {
+        background-color: #2e7ae6;
+    }
+  </style>
+</head>
+<body>
+  <div class="case-sheet">
+    <div class="header">
+      <img src="https://placehold.co/120x120/E0E0E0/000000?text=Dental+Logo" alt="SRM Dental College Logo" />
+      <h1>SRM DENTAL COLLEGE</h1>
+      <h2>DEPARTMENT OF PEDODONTICS</h2>
+      <h3>CLINICAL ASSESSMENT & EVALUATION FORM</h3>
+    </div>
+
+    <form>
+      <div class="page active">
+        <h2>Medical History:</h2>
+        <div class="form-group">
+          <textarea id="medicalHistory" rows="3"></textarea>
+        </div>
+
+        <h2>Dental History:</h2>
+        <div class="form-group">
+          <textarea id="dentalHistory" rows="3"></textarea>
+        </div>
+
+        <h2>Medications taken:</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Current:</label>
+            <textarea id="currentMedications" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Recent past:</label>
+            <textarea id="recentMedications" rows="2"></textarea>
+          </div>
+        </div>
+
+        <h2>Allergies:</h2>
+        <div class="form-group">
+          <textarea id="allergies" rows="2"></textarea>
+        </div>
+
+        <h2>Feeding patterns:</h2>
+        <div class="form-group">
+          <label>• History of breast feeding:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="breastfeeding" id="breastfeedingYes" value="yes"> Yes</label>
+            <label><input type="radio" name="breastfeeding" id="breastfeedingNo" value="no"> No</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>• Usage of nursing bottle:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="bottleUsage" id="bottleUsageYes" value="yes"> Yes</label>
+            <label><input type="radio" name="bottleUsage" id="bottleUsageNo" value="no"> No</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>• Period of usage:</label>
+          <input type="text" id="bottlePeriod" />
+        </div>
+
+        <div class="form-group">
+          <label>• Contents of bottle:</label>
+          <input type="text" id="bottleContents" />
+        </div>
+
+        <h2>Brushing habits:</h2>
+        <div class="form-group">
+          <textarea id="brushingHabits" rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="page">
+        <h2>Behavioral assessment:</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Wright:</label>
+            <input type="text" id="wright" />
+          </div>
+          <div class="form-group">
+            <label>Lampshire:</label>
+            <input type="text" id="lampshire" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Body type:</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="bodyType" id="bodyTypeEctomorph" value="ectomorph"> Ectomorph</label>
+            <label><input type="checkbox" name="bodyType" id="bodyTypeMesomorph" value="mesomorph"> Mesomorph</label>
+            <label><input type="checkbox" name="bodyType" id="bodyTypeEndomorph" value="endomorph"> Endomorph</label>
+          </div>
+        </div>
+
+        <h2>Diet history:</h2>
+        <div class="form-group">
+          <label>Diet chart recording 24hrs/days diet diary/one week</label>
+          <table class="diet-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Food consumed</th>
+                <th>Type of sugar exposure</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" id="dietTime1" /></td>
+                <td><input type="text" id="dietFood1" /></td>
+                <td><input type="text" id="dietSugar1" /></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="dietTime2" /></td>
+                <td><input type="text" id="dietFood2" /></td>
+                <td><input type="text" id="dietSugar2" /></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="dietTime3" /></td>
+                <td><input type="text" id="dietFood3" /></td>
+                <td><input type="text" id="dietSugar3" /></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="dietTime4" /></td>
+                <td><input type="text" id="dietFood4" /></td>
+                <td><input type="text" id="dietSugar4" /></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="dietTime5" /></td>
+                <td><input type="text" id="dietFood5" /></td>
+                <td><input type="text" id="dietSugar5" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-group">
+          <label>Inference:</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="dietInference" id="dietInferenceCariogenic" value="cariogenic"> cariogenic</label>
+            <label><input type="checkbox" name="dietInference" id="dietInferenceNonCariogenic" value="non-cariogenic"> non-cariogenic</label>
+            <label><input type="checkbox" name="dietInference" id="dietInferenceBalanced" value="balanced"> balanced</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Deleterious oral habits:</label>
+          <textarea id="oralHabits" rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="page">
+        <h2>Extra oral examination:</h2>
+
+        <div class="form-group">
+          <label>Profile:</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="profile" id="profileStraight" value="straight"> Straight</label>
+            <label><input type="checkbox" name="profile" id="profileConvex" value="convex"> Convex</label>
+            <label><input type="checkbox" name="profile" id="profileConcave" value="concave"> Concave</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Face:</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="face" id="faceSymmetrical" value="bilaterally-symmetrical"> bilaterally symmetrical</label>
+            <label><input type="checkbox" name="face" id="faceAsymmetrical" value="asymmetrical"> asymmetrical</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Lips:</label>
+          <input type="text" id="lips" />
+        </div>
+
+        <div class="form-group">
+          <label>Swallowing:</label>
+          <input type="text" id="swallowing" />
+        </div>
+
+        <div class="form-group">
+          <label>TMJ:</label>
+          <input type="text" id="tmj" />
+        </div>
+
+        <div class="form-group">
+          <label>Lymph nodes:</label>
+          <input type="text" id="lymphNodes" />
+        </div>
+
+        <h2>Intra oral examination</h2>
+        <h3>Soft tissue examination</h3>
+
+        <div class="form-group">
+          <label>• Labial mucosa:</label>
+          <input type="text" id="labialMucosa" />
+        </div>
+
+        <div class="form-group">
+          <label>• Buccal mucosa:</label>
+          <input type="text" id="buccalMucosa" />
+        </div>
+
+        <div class="form-group">
+          <label>• Vestibule:</label>
+          <input type="text" id="vestibule" />
+        </div>
+
+        <div class="form-group">
+          <label>• Floor of mouth:</label>
+          <input type="text" id="floorOfMouth" />
+        </div>
+
+        <div class="form-group">
+          <label>• Gingiva:</label>
+          <input type="text" id="gingiva" />
+        </div>
+
+        <div class="form-group">
+          <label>• Tongue:</label>
+          <input type="text" id="tongue" />
+        </div>
+
+        <div class="form-group">
+          <label>• Hard and soft palate:</label>
+          <input type="text" id="palate" />
+        </div>
+
+        <div class="form-group">
+          <label>• Pharynx/Tonsils:</label>
+          <input type="text" id="pharynxTonsils" />
+        </div>
+      </div>
+
+      <div class="page">
+        <h2>Hard Tissue Examination</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>No. of Teeth Present:</label>
+            <input type="text" id="numberOfTeeth" />
+          </div>
+          <div class="form-group">
+            <label>Dental age:</label>
+            <input type="text" id="dentalAge" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>FDI (Tooth numbering):</label>
+          <textarea id="fdiNumbering" rows="3"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Decayed -</label>
+            <input type="text" id="decayed" />
+          </div>
+          <div class="form-group">
+            <label>Mobility -</label>
+            <input type="text" id="mobility" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Missing -</label>
+            <input type="text" id="missing" />
+          </div>
+          <div class="form-group">
+            <label>Filled -</label>
+            <input type="text" id="filled" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Other findings:</label>
+          <textarea id="otherFindings" rows="2"></textarea>
+        </div>
+
+        <h2>Occlusal analysis</h2>
+
+        <div class="form-group">
+          <label>Spacing:</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="spacing" id="spacingPhysiological" value="physiological"> physiological</label>
+            <label><input type="checkbox" name="spacing" id="spacingPrimate" value="primate"> primate</label>
+            <label><input type="checkbox" name="spacing" id="spacingInterdental" value="interdental"> interdental</label>
+            <label><input type="checkbox" name="spacing" id="spacingDiastema" value="diastema"> diastema</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Overjet:</label>
+            <input type="text" id="overjet" />
+          </div>
+          <div class="form-group">
+            <label>Overbite:</label>
+            <input type="text" id="overbite" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Cross bite/ Open bite:</label>
+            <input type="text" id="crossbite" />
+          </div>
+          <div class="form-group">
+            <label>Midline:</label>
+            <input type="text" id="midline" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Molar relationships:</label>
+            <input type="text" id="molarRelationships" />
+          </div>
+          <div class="form-group">
+            <label>Canine relationship:</label>
+            <input type="text" id="canineRelationship" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Primary:</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="primary" id="primaryFlushTerminal" value="flush-terminal"> Flush terminal plane</label>
+            <label><input type="checkbox" name="primary" id="primaryMesialStep" value="mesial-step"> Mesial step</label>
+            <label><input type="checkbox" name="primary" id="primaryDistalStep" value="distal-step"> Distal step</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Permanent:</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="permanent" id="permanentClass1" value="class-1"> Class-I</label>
+            <label><input type="checkbox" name="permanent" id="permanentClass2" value="class-2"> Class-II</label>
+            <label><input type="checkbox" name="permanent" id="permanentClass3" value="class-3"> Class-III</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Crowding/ rotation/displacement:</label>
+          <input type="text" id="crowdingRotation" />
+        </div>
+      </div>
+
+      <div class="page">
+        <h2>Differential diagnosis:</h2>
+        <div class="form-group">
+          <textarea id="differentialDiagnosis" rows="3"></textarea>
+        </div>
+
+        <h2>Investigation:</h2>
+        <div class="form-group">
+          <textarea id="investigation" rows="3"></textarea>
+        </div>
+
+        <h2>Final diagnosis:</h2>
+        <div class="form-group">
+          <textarea id="finalDiagnosis" rows="3"></textarea>
+        </div>
+
+        <h2>Treatment plan</h2>
+
+        <div class="form-group">
+          <label>1. Systemic phase:</label>
+          <textarea id="systemicPhase" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>2. Preventive phase:</label>
+          <textarea id="preventivePhase" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>3. Preparatory phase:</label>
+          <textarea id="preparatoryPhase" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>4. Corrective phase:</label>
+          <textarea id="correctivePhase" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>5. Maintenance phase:</label>
+          <textarea id="maintenancePhase" rows="2"></textarea>
+        </div>
+
+        <!-- Doctor's Authentication Section -->
+        <div class="doctor-auth-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+            <h2>Doctor's Authentication</h2>
+            <div class="form-group">
+                <label for="doctorName">Doctor's Name *</label>
+                <input type="text" id="doctorName" placeholder="Enter full name" required />
+            </div>
+            <div class="form-group">
+                <label for="digitalSignature">Upload Digital Signature *</label>
+                <input type="file" id="digitalSignature" accept="image/*" onchange="previewSignature()" required />
+                <div id="signaturePreview" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+      </div>
+
+      <div class="navigation">
+        <button type="button" id="prevBtn">Back</button>
+        <button type="button" id="nextBtn">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Message box for alerts -->
+  <div id="messageBoxContainer" class="message-box-container">
+      <div class="message-box">
+          <h2 id="messageBoxTitle"></h2>
+          <p id="messageBoxMessage"></p>
+          <button onclick="hideMessageBox()">OK</button>
+      </div>
+  </div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentPage = 0;
+
+    // Function to show custom message box
+    function showMessageBox(title, message) {
+        const msgBoxContainer = document.getElementById('messageBoxContainer');
+        document.getElementById('messageBoxTitle').innerText = title;
+        document.getElementById('messageBoxMessage').innerText = message;
+        msgBoxContainer.classList.add('show');
+    }
+
+    // Function to hide custom message box
+    function hideMessageBox() {
+        document.getElementById('messageBoxContainer').classList.remove('show');
+    }
+
+    // Function to preview the uploaded signature
+    function previewSignature() {
+        const fileInput = document.getElementById('digitalSignature');
+        const previewDiv = document.getElementById('signaturePreview');
+        previewDiv.innerHTML = ''; // Clear previous preview
+
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '150px'; // Limit image size for preview
+                img.style.maxHeight = '100px';
+                img.style.marginTop = '10px';
+                previewDiv.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function showPage(index) {
+        window.scrollTo(0, 0);
+        pages.forEach((page, i) => {
+            page.classList.toggle('active', i === index);
+        });
+        // Disable back button on the first page
+        prevBtn.disabled = index === 0;
+        nextBtn.textContent = index === pages.length - 1 ? 'Submit' : 'Next';
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < pages.length - 1) {
+            currentPage++;
+            showPage(currentPage);
+        } else {
+            // This is the last page, handle submission and doctor authentication
+            const doctorName = document.getElementById('doctorName').value.trim();
+            const digitalSignatureFile = document.getElementById('digitalSignature').files[0];
+
+            if (!doctorName) {
+                showMessageBox('Error', 'Please enter the Doctor\'s Name.');
+                return;
+            }
+            if (!digitalSignatureFile) {
+                showMessageBox('Error', 'Please upload your Digital Signature.');
+                return;
+            }
+
+            // In a real application, you would save the doctor's name and signature data here
+            // For now, we'll just log it and navigate.
+            console.log('Doctor Name:', doctorName);
+            console.log('Digital Signature File:', digitalSignatureFile.name);
+
+            // Simulate saving signature data (e.g., to localStorage or a database)
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const signatureDataUrl = e.target.result;
+                // Example: localStorage.setItem('generalCaseDoctorSignature', signatureDataUrl);
+                // Example: localStorage.setItem('generalCaseDoctorName', doctorName);
+                showMessageBox('Success', 'Case Sheet submitted and authenticated successfully!');
+                setTimeout(() => {
+                    window.location.href = "chief.html"; // Navigate after a short delay
+                }, 1500); // Give time for the message to be seen
+            };
+            reader.readAsDataURL(digitalSignatureFile);
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+
+    showPage(currentPage); // Initialize the page display
+  </script>
+</body>
+</html>

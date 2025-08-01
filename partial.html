@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprehensive Medical Case Sheet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('campus.png'); /* Placeholder for campus.png */
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center center;
+      color: #fff; /* Changed text color to white for better contrast */
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      background: rgba(37, 40, 107, 0.85); /* Translucent box background */
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adjusted shadow for dark background */
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff; /* Changed text color to white */
+      margin-bottom: 30px;
+    }
+
+    h2, h3, h4 {
+      margin-top: 30px;
+      color: #fff; /* Changed text color to white */
+      border-bottom: 2px solid rgba(255, 255, 255, 0.5); /* Lighter border for contrast */
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+    }
+
+    form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea,
+    input[type="date"] { /* Added date input */
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque input background */
+      color: #333; /* Darker text color for inputs */
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    /* General checkbox/radio group styling */
+    .checkbox-group,
+    .radio-group,
+    .option-group {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .checkbox-group label,
+    .radio-group label,
+    .option-group label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+      margin-top: 0;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      margin-right: 8px;
+      width: auto; /* Override width: 100% for checkboxes/radios */
+    }
+
+    /* Specific styling for the medical history checkbox group */
+    .medical-history-conditions {
+      display: flex;
+      flex-direction: column; /* Stack items vertically */
+      gap: 10px; /* Space between each condition row */
+    }
+
+    .medical-history-conditions .condition-item {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Space between label and Yes/No */
+      white-space: nowrap; /* Keep content on one line */
+    }
+
+    .medical-history-conditions .condition-item label {
+      font-weight: bold; /* Keep the condition name bold */
+      margin-top: 0;
+      flex-shrink: 0; /* Prevent label from shrinking */
+    }
+
+    .medical-history-conditions .condition-item input[type="radio"] {
+      width: auto;
+      margin-top: 0;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 10px 20px;
+      background: #007BFF;
+      color: rgb(22, 21, 21);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .score-label {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .interpret-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+      max-width: 300px;
+      background-color: rgba(255, 255, 255, 0.1); /* Lighter translucent background for interpretation box */
+      border-radius: 5px;
+      color: #fff; /* Ensure text is readable */
+    }
+
+    .interpret-box strong {
+        color: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+      color: #fff; /* Ensure table text is readable */
+    }
+
+    th {
+      background-color: rgba(255, 255, 255, 0.1); /* Lighter translucent background for table headers */
+    }
+
+    table input[type="text"],
+    table input[type="number"] {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #eee;
+      border-radius: 3px;
+      box-sizing: border-box;
+      background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque input background */
+      color: #333; /* Darker text color for table inputs */
+    }
+
+    .image-upload {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px dashed #ccc;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.1); /* Lighter translucent background */
+    }
+
+    .image-upload label {
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .image-upload input[type="file"] {
+      width: auto;
+      padding: 5px;
+      border: none;
+      background: none;
+    }
+
+    .navigation-menu {
+      background-color: rgba(255, 255, 255, 0.1); /* Lighter translucent background */
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Adjusted shadow */
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .navigation-menu a {
+      text-decoration: none;
+      color: #fff; /* White text for navigation links */
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .navigation-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.2); /* Lighter hover effect */
+    }
+
+    /* Specific adjustments for input number widths in gingival/oral hygiene section */
+    .gingival-score-inputs input[type="number"] {
+      width: 60px;
+      padding: 5px;
+      margin: 4px;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.9); /* Opaque input background */
+      color: #333; /* Darker text for inputs */
+    }
+
+    /* Styles for Consent Form and Feedback Forms */
+    .form-section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border */
+      border-radius: 8px;
+      background-color: rgba(0, 0, 0, 0.2); /* Slightly darker translucent background */
+      color: #fff; /* Ensure text is readable */
+    }
+
+    .form-section h2, .form-section h3 {
+        text-align: center;
+        border-bottom: none;
+        margin-bottom: 15px;
+        color: #fff; /* Ensure headings are white */
+    }
+
+    .form-section p {
+        color: #fff; /* Ensure paragraph text is white */
+    }
+
+    .question {
+      margin-bottom: 15px;
+    }
+
+    .question label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .options label {
+      font-weight: normal;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .feedback-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .feedback-header h2, .feedback-header h3 {
+        border-bottom: none;
+        margin-top: 0;
+        color: #fff; /* Ensure feedback headers are white */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Comprehensive Medical Case Sheet</h1>
+
+    <!-- <nav class="navigation-menu">
+      <a href="#medical-history">Medical History</a>
+      <a href="#patient-info">Patient Information</a>
+      <a href="#clinical-extraoral">Clinical & Extraoral Examination</a>
+      <a href="#intraoral-examination">Intraoral Examination</a>
+      <a href="#gingival-oral-hygiene">Gingival & Oral Hygiene Index</a>
+      <a href="#periodontal-charting">Periodontal Charting</a>
+      <a href="#tooth-structure-ridge">Tooth Structure & Ridge Status</a>
+      <a href="#abutment-evaluation">Abutment Evaluation & Investigations</a>
+      <a href="#edentulous-classification">Edentulous Arch Classification & Treatment Plan</a>
+      <a href="#treatment-procedure">Treatment Procedure</a>
+      <a href="#consent-form">Consent Form (Tamil)</a>
+      <a href="#feedback-english">Patient Feedback (English)</a>
+      <a href="#feedback-tamil">Patient Feedback (Tamil)</a>
+    </nav> -->
+
+    <form id="main-case-sheet-form">
+      <!-- Section 1: Medical History (from case sheet 1.html) -->
+      <h2 id="medical-history">4. Medical History</h2>
+      <p>Does the patient suffer/suffered from any of the following disease/s:</p>
+
+      <div class="checkbox-group medical-history-conditions">
+        <div class="condition-item">
+          <label for="cardio_yes">Cardiovascular disease</label>
+          <input type="radio" id="cardio_yes" name="cardio" value="yes"> Yes
+          <input type="radio" id="cardio_no" name="cardio" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="resp_yes">Respiratory disorder</label>
+          <input type="radio" id="resp_yes" name="resp" value="yes"> Yes
+          <input type="radio" id="resp_no" name="resp" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="diabetes_yes">Diabetes</label>
+          <input type="radio" id="diabetes_yes" name="diabetes" value="yes"> Yes
+          <input type="radio" id="diabetes_no" name="diabetes" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="blood_yes">Blood dyscrasias</label>
+          <input type="radio" id="blood_yes" name="blood" value="yes"> Yes
+          <input type="radio" id="blood_no" name="blood" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="neuro_yes">Neurological disease/facial palsy</label>
+          <input type="radio" id="neuro_yes" name="neuro" value="yes"> Yes
+          <input type="radio" id="neuro_no" name="neuro" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="rheumatic_yes">Rheumatic fever</label>
+          <input type="radio" id="rheumatic_yes" name="rheumatic" value="yes"> Yes
+          <input type="radio" id="rheumatic_no" name="rheumatic" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="skin_yes">Skin disorders</label>
+          <input type="radio" id="skin_yes" name="skin" value="yes"> Yes
+          <input type="radio" id="skin_no" name="skin" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="bone_yes">Rheumatoid arthritis/bone disorders</label>
+          <input type="radio" id="bone_yes" name="bone" value="yes"> Yes
+          <input type="radio" id="bone_no" name="bone" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="hep_yes">Hepatitis</label>
+          <input type="radio" id="hep_yes" name="hep" value="yes"> Yes
+          <input type="radio" id="hep_no" name="hep" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="immune_yes">Immune disorders</label>
+          <input type="radio" id="immune_yes" name="immune" value="yes"> Yes
+          <input type="radio" id="immune_no" name="immune" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="allergy_yes">Allergic reactions</label>
+          <input type="radio" id="allergy_yes" name="allergy" value="yes"> Yes
+          <input type="radio" id="allergy_no" name="allergy" value="no"> No
+        </div>
+        <div class="condition-item">
+          <label for="others_medical_yes">Others:</label>
+          <input type="radio" id="others_medical_yes" name="others_medical" value="yes"> Yes
+          <input type="radio" id="others_medical_no" name="others_medical" value="no"> No
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="treatment">A. Details of treatment for any of the above said ailments:</label>
+        <textarea id="treatment" name="treatment" rows="4" placeholder="Enter treatment details here..." required></textarea>
+      </div>
+
+      <h3>5. General Examination</h3>
+      <div class="form-group">
+        <label for="gait">Gait-</label>
+        <input type="text" id="gait" name="gait" />
+
+        <label for="tuilt">Tuilt-</label>
+        <input type="text" id="tuilt" name="tuilt" />
+
+        <label for="weight">Weight-</label>
+        <input type="text" id="weight" name="weight" />
+
+        <label for="height">Height-</label>
+        <input type="text" id="height" name="height" />
+      </div>
+
+      <h4>Vital Signs</h4>
+      <div class="form-group">
+        <label for="bp">Blood pressure-</label>
+        <input type="text" id="bp" name="bp" />
+
+        <label for="resp-rate">Respiratory rate-</label>
+        <input type="text" id="resp-rate" name="resp-rate" />
+
+        <label for="heart-rate">Heart rate-</label>
+        <input type="text" id="heart-rate" name="heart-rate" />
+
+        <label for="temperature">Body temperature-</label>
+        <input type="text" id="temperature" name="temperature" />
+      </div>
+
+      <!-- Section 2: Patient Information, Habits, Dental History (from case sheet 2.html) -->
+      <h2 id="patient-info">Patient Information</h2>
+
+      <label for="nutrition">6. Nutritional status:</label>
+      <input type="text" id="nutrition" name="nutrition" />
+
+      <h3>7. Patient's Mental Attitude: (M.M. House Classification)</h3>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="attitude" value="Philosophical" /> Philosophical</label>
+        <label><input type="checkbox" name="attitude" value="Exacting" /> Exacting</label>
+        <label><input type="checkbox" name="attitude" value="Hysterical" /> Hysterical</label>
+        <label><input type="checkbox" name="attitude" value="Indifferent" /> Indifferent</label>
+      </div>
+
+      <h3>8. Habits:</h3>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="habit" value="Smoking" /> Smoking</label>
+        <label><input type="checkbox" name="habit" value="Pan chewing" /> Pan Chewing</label>
+      </div>
+      <label for="habit-duration">Duration/frequency of the habit:</label>
+      <input type="text" id="habit-duration" name="habit-duration" />
+
+      <h3>9. Dental History:</h3>
+      <label for="prev-treatment">A. History of previous dental treatment/s:</label>
+      <textarea id="prev-treatment" name="prev-treatment" rows="3"></textarea>
+
+      <label>Reasons for tooth loss:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="loss-reason" value="Caries" /> Caries</label>
+        <label><input type="checkbox" name="loss-reason" value="Congenital" /> Congenital absence of teeth</label>
+        <label><input type="checkbox" name="loss-reason" value="Periodontal" /> Periodontal disease</label>
+        <label><input type="checkbox" name="loss-reason" value="Trauma" /> Trauma</label>
+        <label><input type="checkbox" name="loss-reason" value="Others_loss_reason" /> Others</label>
+      </div>
+
+      <label for="loss-sequence">C. Sequence of loss of teeth:</label>
+      <h4>Maxillary</h4>
+      <label for="max-anterior">Anterior:</label>
+      <input type="text" id="max-anterior" name="max-anterior" />
+      <label for="max-posterior">Posterior:</label>
+      <input type="text" id="max-posterior" name="max-posterior" />
+
+      <h4>Mandibulars</h4>
+      <label for="mand-anterior">Anterior:</label>
+      <input type="text" id="mand-anterior" name="mand-anterior" />
+      <label for="mand-posterior">Posterior:</label>
+      <input type="text" id="mand-posterior" name="mand-posterior" />
+
+      <label for="duration-rulones">D. Duration of rulones:</label>
+      <input type="text" id="duration-rulones" name="duration-rulones" />
+
+      <!-- Section 3: Clinical Examination (from case sheet 3.html) -->
+      <h2 id="clinical-extraoral">10. Clinical Examination </h2>
+
+      <h3>A. Extra Oral Examination</h3>
+
+      <label for="facial-symmetry">a) Facial symmetry:</label>
+      <input type="text" id="facial-symmetry" name="facial-symmetry" />
+
+      <label>b) Facial profile (Angle's classification):</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="facial-profile" value="Normal"> Normal</label>
+        <label><input type="checkbox" name="facial-profile" value="Retrognathic"> Retrognathic</label>
+        <label><input type="checkbox" name="facial-profile" value="Prognathic"> Prognathic</label>
+      </div>
+
+      <label>Facial form (House and Loop, Prush and Fischer, Leon Williams):</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="facial-form" value="Square"> Square</label>
+        <label><input type="checkbox" name="facial-form" value="Square-tapering"> Square-tapering</label>
+        <label><input type="checkbox" name="facial-form" value="Tapering"> Tapering</label>
+        <label><input type="checkbox" name="facial-form" value="Ovoid"> Ovoid</label>
+      </div>
+
+      <h3>TMJ Examination</h3>
+
+      <h4>1. Inspection</h4>
+
+      <label for="mouth-opening">a) Maximum mouth opening (mm):</label>
+      <input type="text" id="mouth-opening" name="mouth-opening" />
+
+      <label>b) Deviation of mandible:</label>
+      <div class="radio-group">
+        <label><input type="radio" name="mandible-deviation" value="Yes"> Yes</label>
+        <label><input type="radio" name="mandible-deviation" value="No"> No</label>
+      </div>
+
+      <label>Opening Deviation:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="opening-deviation" value="Left"> Deviation to Left</label>
+        <label><input type="checkbox" name="opening-deviation" value="Right"> Deviation to Right</label>
+      </div>
+
+      <label>Closing Deviation:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="closing-deviation" value="Left"> Deviation to Left</label>
+        <label><input type="checkbox" name="closing-deviation" value="Right"> Deviation to Right</label>
+      </div>
+
+      <h4>2. Palpation</h4>
+      <label for="pain-tenderness">a) Pain/tenderness:</label>
+      <input type="text" id="pain-tenderness" name="pain-tenderness" />
+
+      <label for="clicking">b) Clicking:</label>
+      <input type="text" id="clicking" name="clicking" />
+
+      <h4>3. Auscultation</h4>
+
+      <label for="crepitus">a) Crepitus:</label>
+      <input type="text" id="crepitus" name="crepitus" />
+
+      <label for="lymph-nodes">b) Lymph nodes:</label>
+      <input type="text" id="lymph-nodes" name="lymph-nodes" />
+
+      <label for="lips">c) Lips:</label>
+      <input type="text" id="lips" name="lips" />
+
+      <label for="competency">Competency:</label>
+      <input type="text" id="competency" name="competency" />
+
+      <label>Lip length:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="lip-length" value="High"> High</label>
+        <label><input type="checkbox" name="lip-length" value="Medium"> Medium</label>
+        <label><input type="checkbox" name="lip-length" value="Low"> Low</label>
+      </div>
+
+      <label for="pathology">Pathology if any:</label>
+      <textarea id="pathology" name="pathology" rows="3"></textarea>
+
+      <!-- Section 4: Intraoral Examination (from case sheet 4.html) -->
+      <h2 id="intraoral-examination"> Intraoral Examination</h2>
+
+      <h3>c) Extra Oral Muscle Tone (M.M. House Classification)</h3>
+      <div class="option-group">
+        <label><input type="radio" name="muscle-tone" value="Class I"> Class I</label>
+        <label><input type="radio" name="muscle-tone" value="Class II"> Class II</label>
+        <label><input type="radio" name="muscle-tone" value="Class III"> Class III</label>
+      </div>
+
+      <h3>8. Intraoral Examination</h3>
+
+      <h4>a) Buccal Mucosa</h4>
+      <label for="buccal-colour">Colour:</label>
+      <input type="text" id="buccal-colour" name="buccal-colour" />
+      <label for="buccal-texture">Texture:</label>
+      <input type="text" id="buccal-texture" name="buccal-texture" />
+      <label for="buccal-others">Others:</label>
+      <input type="text" id="buccal-others" name="buccal-others" />
+
+      <h4>b) Floor of the Mouth</h4>
+      <label for="floor-colour">Colour:</label>
+      <input type="text" id="floor-colour" name="floor-colour" />
+      <label for="floor-others">Others:</label>
+      <input type="text" id="floor-others" name="floor-others" />
+
+      <h4>c) Hard Palate</h4>
+      <label for="hard-shape">High arched / Normal:</label>
+      <input type="text" id="hard-shape" name="hard-shape" />
+      <label for="hard-tori">Tori:</label>
+      <input type="text" id="hard-tori" name="hard-tori" />
+      <label for="hard-hyperplasia">Hyperplasia:</label>
+      <input type="text" id="hard-hyperplasia" name="hard-hyperplasia" />
+      <label for="hard-inflammation">Inflammation:</label>
+      <input type="text" id="hard-inflammation" name="hard-inflammation" />
+      <label for="hard-others">Others:</label>
+      <input type="text" id="hard-others" name="hard-others" />
+
+      <h4>d) Soft Palate</h4>
+      <label>Soft Palatal Form (Sheldon Winkler):</label>
+      <div class="option-group">
+        <label><input type="radio" name="soft-palate-form" value="Class I"> Class I</label>
+        <label><input type="radio" name="soft-palate-form" value="Class II"> Class II</label>
+        <label><input type="radio" name="soft-palate-form" value="Class III"> Class III</label>
+      </div>
+      <label for="soft-colour">Colour:</label>
+      <input type="text" id="soft-colour" name="soft-colour" />
+      <label for="soft-others">Others:</label>
+      <input type="text" id="soft-others" name="soft-others" />
+
+      <h4>e) Tongue</h4>
+      <label>Size (M.M. House Classification):</label>
+      <div class="option-group">
+        <label><input type="radio" name="tongue-size" value="Class I"> Class I</label>
+        <label><input type="radio" name="tongue-size" value="Class II"> Class II</label>
+        <label><input type="radio" name="tongue-size" value="Class III"> Class III</label>
+      </div>
+
+      <label>Tongue Position (Wright's Classification):</label>
+      <div class="option-group">
+        <label><input type="radio" name="tongue-position" value="Class I"> Class I</label>
+        <label><input type="radio" name="tongue-position" value="Class II"> Class II</label>
+        <label><input type="radio" name="tongue-position" value="Class III"> Class III</label>
+      </div>
+
+      <label>Mobility:</label>
+      <div class="option-group">
+        <label><input type="radio" name="tongue-mobility" value="Normal"> Normal</label>
+        <label><input type="radio" name="tongue-mobility" value="Reduced"> Reduced (tongue tie)</label>
+        <label><input type="radio" name="tongue-mobility" value="Others"> Others</label>
+      </div>
+
+      <h4>f) Saliva (M.M. House Classification)</h4>
+      <div class="option-group">
+        <label><input type="radio" name="saliva-class" value="Class I"> Class I</label>
+        <label><input type="radio" name="saliva-class" value="Class II"> Class II</label>
+        <label><input type="radio" name="saliva-class" value="Class III"> Class III</label>
+      </div>
+
+      <!-- Section 5: Gingival & Oral Hygiene Index (from case sheet 5.html) -->
+      <h2 id="gingival-oral-hygiene"> Gingival & Oral Hygiene Index</h2>
+
+      <h3>h) Gingival Index (Loe and Silness)</h3>
+
+      <label>Upper Arch</label>
+      <div class="gingival-score-inputs">
+        <span>Buccal</span><br/>
+        Distal:
+        <input type="number" name="buccal-upper-distal" id="buccal-upper-distal" />
+        Mesial:
+        <input type="number" name="buccal-upper-mesial" id="buccal-upper-mesial" />
+      </div>
+
+      <div class="gingival-score-inputs">
+        <span>Palatal</span><br/>
+        Distal:
+        <input type="number" name="palatal-upper-distal" id="palatal-upper-distal" />
+        Mesial:
+        <input type="number" name="palatal-upper-mesial" id="palatal-upper-mesial" />
+      </div>
+
+      <label>Lower Arch</label>
+      <div class="gingival-score-inputs">
+        <span>Buccal</span><br/>
+        Distal:
+        <input type="number" name="buccal-lower-distal" id="buccal-lower-distal" />
+        Mesial:
+        <input type="number" name="buccal-lower-mesial" id="buccal-lower-mesial" />
+      </div>
+
+      <div class="gingival-score-inputs">
+        <span>Lingual</span><br/>
+        Distal:
+        <input type="number" name="lingual-lower-distal" id="lingual-lower-distal" />
+        Mesial:
+        <input type="number" name="lingual-lower-mesial" id="lingual-lower-mesial" />
+      </div>
+
+      <label class="score-label">Gingival Index:</label>
+      <input type="number" id="gingival-index" step="0.1" readonly />
+
+      <div class="interpret-box">
+        <strong>Interpretation:</strong><br/>
+        Mild gingivitis: 0.1 to 1.0<br/>
+        Moderate gingivitis: 1.1 to 2.0<br/>
+        Severe gingivitis: 2.1 to 3.0
+      </div>
+
+      <h3>h) Oral Hygiene Index - Simplified (Green and Vermillion)</h3>
+
+      <h4>i. Debris Score</h4>
+      <label>Enter scores for teeth:</label><br/>
+      <div class="gingival-score-inputs">
+        16: <input type="number" id="debris-16" />
+        11: <input type="number" id="debris-11" />
+        26: <input type="number" id="debris-26" />
+        46: <input type="number" id="debris-46" />
+        31: <input type="number" id="debris-31" />
+        36: <input type="number" id="debris-36" />
+      </div>
+
+      <label class="score-label">Debris Score:</label>
+      <input type="number" id="debris-score" step="0.1" readonly />
+
+      <h4>ii. Calculus Score</h4>
+      <label>Enter scores for teeth:</label><br/>
+      <div class="gingival-score-inputs">
+        16: <input type="number" id="calc-16" />
+        11: <input type="number" id="calc-11" />
+        26: <input type="number" id="calc-26" />
+        46: <input type="number" id="calc-46" />
+        31: <input type="number" id="calc-31" />
+        36: <input type="number" id="calc-36" />
+      </div>
+
+      <label class="score-label">Calculus Score:</label>
+      <input type="number" id="calculus-score" step="0.1" readonly />
+
+      <button type="button" onclick="calculateScores()">Calculate All Scores</button>
+
+      <!-- Section 6: Periodontal Charting (from case sheet 6.html) -->
+      <h2 id="periodontal-charting">Periodontal Charting & Oral Hygiene</h2>
+
+      <label>Oral Hygiene Index - S</label>
+      <p><strong>OHI-S = Debris Index-S + Calculus Index-S</strong></p>
+      <input type="number" id="debrisTotal" placeholder="Debris" />
+      +
+      <input type="number" id="calculusTotal" placeholder="Calculus" />
+      =
+      <input type="number" id="ohis" readonly placeholder="OHI-S" />
+
+      <div class="interpret-box">
+        <strong>Interpretation:</strong><br/>
+        Good: 0.0 to 1.2<br/>
+        Fair: 1.3 to 3.0<br/>
+        Poor: 3.1 to 6.0
+      </div>
+
+      <h3>i) DMF Index (H.T. Klein, C.E. Palmer, J.W. Knutson)</h3>
+      <table>
+        <thead>
+          <tr><th colspan="16">MAX</th></tr>
+          <tr>
+            <td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Maxillary Teeth Inputs -->
+            <td><input type="text" name="dmf_max8" /></td>
+            <td><input type="text" name="dmf_max7" /></td>
+            <td><input type="text" name="dmf_max6" /></td>
+            <td><input type="text" name="dmf_max5" /></td>
+            <td><input type="text" name="dmf_max4" /></td>
+            <td><input type="text" name="dmf_max3" /></td>
+            <td><input type="text" name="dmf_max2" /></td>
+            <td><input type="text" name="dmf_max1" /></td>
+            <td><input type="text" name="dmf_max1_r" /></td>
+            <td><input type="text" name="dmf_max2_r" /></td>
+            <td><input type="text" name="dmf_max3_r" /></td>
+            <td><input type="text" name="dmf_max4_r" /></td>
+            <td><input type="text" name="dmf_max5_r" /></td>
+            <td><input type="text" name="dmf_max6_r" /></td>
+            <td><input type="text" name="dmf_max7_r" /></td>
+            <td><input type="text" name="dmf_max8_r" /></td>
+          </tr>
+        </tbody>
+        <thead>
+          <tr><th colspan="16">MAND</th></tr>
+          <tr>
+            <td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Mandibular Teeth Inputs -->
+            <td><input type="text" name="dmf_mand8" /></td>
+            <td><input type="text" name="dmf_mand7" /></td>
+            <td><input type="text" name="dmf_mand6" /></td>
+            <td><input type="text" name="dmf_mand5" /></td>
+            <td><input type="text" name="dmf_mand4" /></td>
+            <td><input type="text" name="dmf_mand3" /></td>
+            <td><input type="text" name="dmf_mand2" /></td>
+            <td><input type="text" name="dmf_mand1" /></td>
+            <td><input type="text" name="dmf_mand1_r" /></td>
+            <td><input type="text" name="dmf_mand2_r" /></td>
+            <td><input type="text" name="dmf_mand3_r" /></td>
+            <td><input type="text" name="dmf_mand4_r" /></td>
+            <td><input type="text" name="dmf_mand5_r" /></td>
+            <td><input type="text" name="dmf_mand6_r" /></td>
+            <td><input type="text" name="dmf_mand7_r" /></td>
+            <td><input type="text" name="dmf_mand8_r" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>j) Periodontal Status of Existing Dentition</h3>
+
+      <label>Mobility (Miller’s Classification)</label>
+      <table>
+        <thead>
+          <tr><th colspan="16">MAX</th></tr>
+          <tr>
+            <td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Maxillary Mobility Inputs -->
+            <td><input type="text" name="mob_max8" /></td>
+            <td><input type="text" name="mob_max7" /></td>
+            <td><input type="text" name="mob_max6" /></td>
+            <td><input type="text" name="mob_max5" /></td>
+            <td><input type="text" name="mob_max4" /></td>
+            <td><input type="text" name="mob_max3" /></td>
+            <td><input type="text" name="mob_max2" /></td>
+            <td><input type="text" name="mob_max1" /></td>
+            <td><input type="text" name="mob_max1_r" /></td>
+            <td><input type="text" name="mob_max2_r" /></td>
+            <td><input type="text" name="mob_max3_r" /></td>
+            <td><input type="text" name="mob_max4_r" /></td>
+            <td><input type="text" name="mob_max5_r" /></td>
+            <td><input type="text" name="mob_max6_r" /></td>
+            <td><input type="text" name="mob_max7_r" /></td>
+            <td><input type="text" name="mob_max8_r" /></td>
+          </tr>
+        </tbody>
+        <thead>
+          <tr><th colspan="16">MAND</th></tr>
+         <tr>
+            <td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Mandibular Mobility Inputs -->
+            <td><input type="text" name="mob_mand8" /></td>
+            <td><input type="text" name="mob_mand7" /></td>
+            <td><input type="text" name="mob_mand6" /></td>
+            <td><input type="text" name="mob_mand5" /></td>
+            <td><input type="text" name="mob_mand4" /></td>
+            <td><input type="text" name="mob_mand3" /></td>
+            <td><input type="text" name="mob_mand2" /></td>
+            <td><input type="text" name="mob_mand1" /></td>
+            <td><input type="text" name="mob_mand1_r" /></td>
+            <td><input type="text" name="mob_mand2_r" /></td>
+            <td><input type="text" name="mob_mand3_r" /></td>
+            <td><input type="text" name="mob_mand4_r" /></td>
+            <td><input type="text" name="mob_mand5_r" /></td>
+            <td><input type="text" name="mob_mand6_r" /></td>
+            <td><input type="text" name="mob_mand7_r" /></td>
+            <td><input type="text" name="mob_mand8_r" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label>Furcation Involvement (Glickman’s Classification)</label>
+      <table>
+        <thead>
+          <tr><th colspan="16">MAX</th></tr>
+         <tr>
+            <td>8</td><td>7</td><td>6</td></td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Maxillary Furcation Inputs -->
+            <td><input type="text" name="furc_max8" /></td>
+            <td><input type="text" name="furc_max7" /></td>
+            <td><input type="text" name="furc_max6" /></td>
+            <td><input type="text" name="furc_max5" /></td>
+            <td><input type="text" name="furc_max4" /></td>
+            <td><input type="text" name="furc_max3" /></td>
+            <td><input type="text" name="furc_max2" /></td>
+            <td><input type="text" name="furc_max1" /></td>
+            <td><input type="text" name="furc_max1_r" /></td>
+            <td><input type="text" name="furc_max2_r" /></td>
+            <td><input type="text" name="furc_max3_r" /></td>
+            <td><input type="text" name="furc_max4_r" /></td>
+            <td><input type="text" name="furc_max5_r" /></td>
+            <td><input type="text" name="furc_max6_r" /></td>
+            <td><input type="text" name="furc_max7_r" /></td>
+            <td><input type="text" name="furc_max8_r" /></td>
+          </tr>
+        </tbody>
+        <thead>
+          <tr><th colspan="16">MAND</th></tr>
+          <tr>
+            <td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Mandibular Furcation Inputs -->
+            <td><input type="text" name="furc_mand8" /></td>
+            <td><input type="text" name="furc_mand7" /></td>
+            <td><input type="text" name="furc_mand6" /></td>
+            <td><input type="text" name="furc_mand5" /></td>
+            <td><input type="text" name="furc_mand4" /></td>
+            <td><input type="text" name="furc_mand3" /></td>
+            <td><input type="text" name="furc_mand2" /></td>
+            <td><input type="text" name="furc_mand1" /></td>
+            <td><input type="text" name="furc_mand1_r" /></td>
+            <td><input type="text" name="furc_mand2_r" /></td>
+            <td><input type="text" name="furc_mand3_r" /></td>
+            <td><input type="text" name="furc_mand4_r" /></td>
+            <td><input type="text" name="furc_mand5_r" /></td>
+            <td><input type="text" name="furc_mand6_r" /></td>
+            <td><input type="text" name="furc_mand7_r" /></td>
+            <td><input type="text" name="furc_mand8_r" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label>Recession (Miller’s Classification)</label>
+      <table>
+        <thead>
+          <tr><th colspan="16">MAX</th></tr>
+          <tr>
+            <td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Maxillary Recession Inputs -->
+            <td><input type="text" name="rec_max8" /></td>
+            <td><input type="text" name="rec_max7" /></td>
+            <td><input type="text" name="rec_max6" /></td>
+            <td><input type="text" name="rec_max5" /></td>
+            <td><input type="text" name="rec_max4" /></td>
+            <td><input type="text" name="rec_max3" /></td>
+            <td><input type="text" name="rec_max2" /></td>
+            <td><input type="text" name="rec_max1" /></td>
+            <td><input type="text" name="rec_max1_r" /></td>
+            <td><input type="text" name="rec_max2_r" /></td>
+            <td><input type="text" name="rec_max3_r" /></td>
+            <td><input type="text" name="rec_max4_r" /></td>
+            <td><input type="text" name="rec_max5_r" /></td>
+            <td><input type="text" name="rec_max6_r" /></td>
+            <td><input type="text" name="rec_max7_r" /></td>
+            <td><input type="text" name="rec_max8_r" /></td>
+          </tr>
+        </tbody>
+        <thead>
+          <tr><th colspan="16">MAND</th></tr>
+          <tr>
+            <td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Mandibular Recession Inputs -->
+            <td><input type="text" name="rec_mand8" /></td>
+            <td><input type="text" name="rec_mand7" /></td>
+            <td><input type="text" name="rec_mand6" /></td>
+            <td><input type="text" name="rec_mand5" /></td>
+            <td><input type="text" name="rec_mand4" /></td>
+            <td><input type="text" name="rec_mand3" /></td>
+            <td><input type="text" name="rec_mand2" /></td>
+            <td><input type="text" name="rec_mand1" /></td>
+            <td><input type="text" name="rec_mand1_r" /></td>
+            <td><input type="text" name="rec_mand2_r" /></td>
+            <td><input type="text" name="rec_mand3_r" /></td>
+            <td><input type="text" name="rec_mand4_r" /></td>
+            <td><input type="text" name="rec_mand5_r" /></td>
+            <td><input type="text" name="rec_mand6_r" /></td>
+            <td><input type="text" name="rec_mand7_r" /></td>
+            <td><input type="text" name="rec_mand8_r" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label>Periodontal Pockets (in mm)</label>
+      <table>
+        <thead>
+          <tr><th colspan="16">MAX</th></tr>
+          <tr>
+            <td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Maxillary Pockets Inputs -->
+            <td><input type="text" name="pock_max8" /></td>
+            <td><input type="text" name="pock_max7" /></td>
+            <td><input type="text" name="pock_max6" /></td>
+            <td><input type="text" name="pock_max5" /></td>
+            <td><input type="text" name="pock_max4" /></td>
+            <td><input type="text" name="pock_max3" /></td>
+            <td><input type="text" name="pock_max2" /></td>
+            <td><input type="text" name="pock_max1" /></td>
+            <td><input type="text" name="pock_max1_r" /></td>
+            <td><input type="text" name="pock_max2_r" /></td>
+            <td><input type="text" name="pock_max3_r" /></td>
+            <td><input type="text" name="pock_max4_r" /></td>
+            <td><input type="text" name="pock_max5_r" /></td>
+            <td><input type="text" name="pock_max6_r" /></td>
+            <td><input type="text" name="pock_max7_r" /></td>
+            <td><input type="text" name="pock_max8_r" /></td>
+          </tr>
+        </tbody>
+        <thead>
+          <tr><th colspan="16">MAND</th></tr>
+          <tr>
+            <td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Mandibular Pockets Inputs -->
+            <td><input type="text" name="pock_mand8" /></td>
+            <td><input type="text" name="pock_mand7" /></td>
+            <td><input type="text" name="pock_mand6" /></td>
+            <td><input type="text" name="pock_mand5" /></td>
+            <td><input type="text" name="pock_mand4" /></td>
+            <td><input type="text" name="pock_mand3" /></td>
+            <td><input type="text" name="pock_mand2" /></td>
+            <td><input type="text" name="pock_mand1" /></td>
+            <td><input type="text" name="pock_mand1_r" /></td>
+            <td><input type="text" name="pock_mand2_r" /></td>
+            <td><input type="text" name="pock_mand3_r" /></td>
+            <td><input type="text" name="pock_mand4_r" /></td>
+            <td><input type="text" name="pock_mand5_r" /></td>
+            <td><input type="text" name="pock_mand6_r" /></td>
+            <td><input type="text" name="pock_mand7_r" /></td>
+            <td><input type="text" name="pock_mand8_r" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label>Other Periodontal Findings</label>
+      <textarea rows="3" placeholder="Describe other findings..." name="other_periodontal_findings"></textarea>
+
+      <!-- Section 7: Tooth Structure & Ridge Status (from case sheet 7.html) -->
+      <h2 id="tooth-structure-ridge">Loss of Tooth Structure & Occlusion</h2>
+
+      <h3>k) Loss of Tooth Structure:</h3>
+      <label for="abrasion">Abrasion</label>
+      <input type="text" id="abrasion" name="abrasion">
+
+      <label for="attrition">Occlusal Wear / Attrition</label>
+      <input type="text" id="attrition" name="attrition">
+
+      <label for="erosion">Erosion</label>
+      <input type="text" id="erosion" name="erosion">
+
+      <label for="abfraction">Abfraction</label>
+      <input type="text" id="abfraction" name="abfraction">
+
+      <h3>l) Anatomic and Functional Status of Edentulous Ridge:</h3>
+      <label for="mucosa_color">Mucosa</label>
+      <label>1. Colour</label>
+      <input type="text" id="mucosa_color" name="mucosa_color">
+      <label for="mucosa_consistency">2. Consistency</label>
+      <input type="text" id="mucosa_consistency" name="mucosa_consistency">
+      <label for="mucosa_thickness">3. Thickness</label>
+      <input type="text" id="mucosa_thickness" name="mucosa_thickness">
+
+      <label>Ridge Classification (Siebert's Classification)</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="ridgeClass" value="Class I"> Class I</label>
+        <label><input type="checkbox" name="ridgeClass" value="Class II"> Class II</label>
+        <label><input type="checkbox" name="ridgeClass" value="Class III"> Class III</label>
+      </div>
+
+      <label for="ridgeHeight">Height of the Ridge</label>
+      <input type="text" id="ridgeHeight" name="ridgeHeight">
+
+      <label for="ridgeLength">Length (mesio-distal)</label>
+      <input type="text" id="ridgeLength" name="ridgeLength">
+
+      <label for="ridgeWidth">Width (bucco-lingual)</label>
+      <input type="text" id="ridgeWidth" name="ridgeWidth">
+
+      <h3>m) Occlusion:</h3>
+      <label for="molarRelation">Molar Relation (Angle's Classification)</label>
+      <input type="text" id="molarRelation" name="molarRelation">
+
+      <label for="occlusalPlane">Occlusal Plane Discrepancies</label>
+      <input type="text" id="occlusalPlane" name="occlusalPlane">
+
+      <label for="drifting">Drifting of Teeth</label>
+      <input type="text" id="drifting" name="drifting">
+
+      <label for="supraEruption">Supra-eruption / Intrusion</label>
+      <input type="text" id="supraEruption" name="supraEruption">
+
+      <label for="rotation">Rotation</label>
+      <input type="text" id="rotation" name="rotation">
+
+      <label for="overjet">Overjet</label>
+      <input type="text" id="overjet" name="overjet">
+
+      <label for="overbite">Overbite</label>
+      <input type="text" id="overbite" name="overbite">
+
+      <label>Existing Occlusal Scheme</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="scheme" value="Group function"> Group function</label>
+        <label><input type="checkbox" name="scheme" value="Canine guided"> Canine guided</label>
+        <label><input type="checkbox" name="scheme" value="Bilateral balanced"> Bilateral balanced</label>
+      </div>
+      <label for="occlusionOthers">Others</label>
+      <textarea id="occlusionOthers" name="occlusionOthers" rows="3" placeholder="Describe other occlusal scheme if any..."></textarea>
+
+      <!-- Section 8: Abutment Evaluation & Other Investigations (from case sheet 8.html) -->
+      <h2 id="abutment-evaluation"> Abutment Evaluation & Other Investigations</h2>
+
+      <h3>11. Abutment Evaluation</h3>
+
+      <h4>a) Clinical Evaluation</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Findings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Clinical crown height</td><td><input type="text" name="clinical_crown_height"></td></tr>
+          <tr><td>Crown morphology</td><td><input type="text" name="crown_morphology"></td></tr>
+          <tr><td>Vitality</td><td><input type="text" name="vitality"></td></tr>
+          <tr><td>Mobility</td><td><input type="text" name="mobility_abutment"></td></tr>
+          <tr><td>Probing depth</td><td><input type="text" name="probing_depth"></td></tr>
+          <tr><td>Bleeding on probing</td><td><input type="text" name="bleeding_on_probing"></td></tr>
+          <tr><td>Recession</td><td><input type="text" name="recession_abutment"></td></tr>
+          <tr><td>Furcation involvement</td><td><input type="text" name="furcation_involvement"></td></tr>
+          <tr><td>Axial inclination</td><td><input type="text" name="axial_inclination"></td></tr>
+          <tr><td>Rotations</td><td><input type="text" name="rotations_abutment"></td></tr>
+          <tr><td>Pain on percussion</td><td><input type="text" name="pain_on_percussion"></td></tr>
+          <tr><td>Presence of restorations</td><td><input type="text" name="restorations"></td></tr>
+          <tr><td>Caries</td><td><input type="text" name="caries"></td></tr>
+          <tr><td>Supra eruption / intrusion</td><td><input type="text" name="supra_eruption_intrusion"></td></tr>
+        </tbody>
+      </table>
+
+      <h4>b) Radiographic Evaluation</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Findings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Periapical status</td><td><input type="text" name="periapical_status"></td></tr>
+          <tr><td>Lamina dura</td><td><input type="text" name="lamina_dura"></td></tr>
+          <tr><td>Crown height</td><td><input type="text" name="crown_height_radio"></td></tr>
+          <tr><td>Root length</td><td><input type="text" name="root_length"></td></tr>
+          <tr><td>Bone</td><td><input type="text" name="bone_radio"></td></tr>
+          <tr><td>Crown root ratio</td><td><input type="text" name="crown_root_ratio"></td></tr>
+          <tr><td>Coronal/proximal radiolucency</td><td><input type="text" name="coronal_proximal_radiolucency"></td></tr>
+        </tbody>
+      </table>
+
+      <h3>12. Other Investigations</h3>
+      <textarea rows="4" placeholder="OPG, others..." name="other_investigations"></textarea>
+
+      <!-- Section 9: Edentulous Arch Classification & Treatment Planning (from case sheet 9.html) -->
+      <h2 id="edentulous-classification">Edentulous Arch Classification & Treatment Planning</h2>
+
+      <h3>13. Classification of Edentulous Arch (Kennedy's Classification)</h3>
+      <textarea rows="3" placeholder="Enter classification notes here..." name="kennedy_classification"></textarea>
+
+      <h3>14. Treatment Planning</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Treatment Type</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Surgery</td><td><input type="text" name="treatment_surgery"></td></tr>
+          <tr><td>Endodontic Treatment / Restorations</td><td><input type="text" name="treatment_endodontic"></td></tr>
+          <tr><td>Periodontal Treatment</td><td><input type="text" name="treatment_periodontal"></td></tr>
+          <tr><td>Orthodontic Treatment</td><td><input type="text" name="treatment_orthodontic"></td></tr>
+        </tbody>
+      </table>
+
+      <h4>Prosthodontic Treatment</h4>
+      <div class="image-upload">
+        <label><strong>Diagrammatic Design Illustration - MAXILLARY ARCH:</strong></label>
+        <input type="file" accept="image/*" name="maxillary_arch_design">
+      </div>
+      <div class="image-upload">
+        <label><strong>Diagrammatic Design Illustration - MANDIBULAR ARCH:</strong></label>
+        <input type="file" accept="image/*" name="mandibular_arch_design">
+      </div>
+
+      <!-- Section 10: Treatment Procedure (from case sheet 10.html) -->
+      <h2 id="treatment-procedure">Treatment Procedure</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Treatment Procedure</th>
+            <th>Date</th>
+            <th>Grade</th>
+            <th>Staff In Charge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Diagnostic impression</td><td><input type="text" name="proc_date_1"></td><td><input type="text" name="proc_grade_1"></td><td><input type="text" name="proc_staff_1"></td></tr>
+          <tr><td>2</td><td>Preparation of diagnostic cast</td><td><input type="text" name="proc_date_2"></td><td><input type="text" name="proc_grade_2"></td><td><input type="text" name="proc_staff_2"></td></tr>
+          <tr><td>3</td><td>Surveying and designing of diagnostic cast</td><td><input type="text" name="proc_date_3"></td><td><input type="text" name="proc_grade_3"></td><td><input type="text" name="proc_staff_3"></td></tr>
+          <tr><td>4</td><td>Mouth preparation</td><td><input type="text" name="proc_date_4"></td><td><input type="text" name="proc_grade_4"></td><td><input type="text" name="proc_staff_4"></td></tr>
+          <tr><td>5</td><td>Definitive impression Material used</td><td><input type="text" name="proc_date_5"></td><td><input type="text" name="proc_grade_5"></td><td><input type="text" name="proc_staff_5"></td></tr>
+          <tr><td>6</td><td>Preparation of master cast</td><td><input type="text" name="proc_date_6"></td><td><input type="text" name="proc_grade_6"></td><td><input type="text" name="proc_staff_6"></td></tr>
+          <tr><td>7</td><td>Surveying and designing of master cast</td><td><input type="text" name="proc_date_7"></td><td><input type="text" name="proc_grade_7"></td><td><input type="text" name="proc_staff_7"></td></tr>
+          <tr><td>8</td><td>Block out procedure</td><td><input type="text" name="proc_date_8"></td><td><input type="text" name="proc_grade_8"></td><td><input type="text" name="proc_staff_8"></td></tr>
+          <tr><td>9</td><td>Duplication and refractory casts</td><td><input type="text" name="proc_date_9"></td><td><input type="text" name="proc_grade_9"></td><td><input type="text" name="proc_staff_9"></td></tr>
+          <tr><td>10</td><td>Preparation of refractory cast</td><td><input type="text" name="proc_date_10"></td><td><input type="text" name="proc_grade_10"></td><td><input type="text" name="proc_staff_10"></td></tr>
+          <tr><td>11</td><td>Wax pattern for frame work</td><td><input type="text" name="proc_date_11"></td><td><input type="text" name="proc_grade_11"></td><td><input type="text" name="proc_staff_11"></td></tr>
+          <tr><td>12</td><td>Casting of frame work</td><td><input type="text" name="proc_date_12"></td><td><input type="text" name="proc_grade_12"></td><td><input type="text" name="proc_staff_12"></td></tr>
+          <tr><td>13</td><td>Finishing and polishing of frame work</td><td><input type="text" name="proc_date_13"></td><td><input type="text" name="proc_grade_13"></td><td><input type="text" name="proc_staff_13"></td></tr>
+          <tr><td>14</td><td>Metal try in</td><td><input type="text" name="proc_date_14"></td><td><input type="text" name="proc_grade_14"></td><td><input type="text" name="proc_staff_14"></td></tr>
+          <tr><td>15</td><td>Altered cast impression</td><td><input type="text" name="proc_date_15"></td><td><input type="text" name="proc_grade_15"></td><td><input type="text" name="proc_staff_15"></td></tr>
+          <tr><td>16</td><td>Occlusal rim preparation</td><td><input type="text" name="proc_date_16"></td><td><input type="text" name="proc_grade_16"></td><td><input type="text" name="proc_staff_16"></td></tr>
+          <tr><td>17</td><td>Tentative jaw relation</td><td><input type="text" name="proc_date_17"></td><td><input type="text" name="proc_grade_17"></td><td><input type="text" name="proc_staff_17"></td></tr>
+          <tr><td>18</td><td>Facebow transfer</td><td><input type="text" name="proc_date_18"></td><td><input type="text" name="proc_grade_18"></td><td><input type="text" name="proc_staff_18"></td></tr>
+          <tr><td>19</td><td>Jaw relation recording</td><td><input type="text" name="proc_date_19"></td><td><input type="text" name="proc_grade_19"></td><td><input type="text" name="proc_staff_19"></td></tr>
+          <tr><td>20</td><td>Articulation of casts</td><td><input type="text" name="proc_date_20"></td><td><input type="text" name="proc_grade_20"></td><td><input type="text" name="proc_staff_20"></td></tr>
+          <tr><td>21</td><td>Teeth arrangement</td><td><input type="text" name="proc_date_21"></td><td><input type="text" name="proc_grade_21"></td><td><input type="text" name="proc_staff_21"></td></tr>
+          <tr><td>22</td><td>Wax try in</td><td><input type="text" name="proc_date_22"></td><td><input type="text" name="proc_grade_22"></td><td><input type="text" name="proc_staff_22"></td></tr>
+          <tr><td>23</td><td>Acrylization</td><td><input type="text" name="proc_date_23"></td><td><input type="text" name="proc_grade_23"></td><td><input type="text" name="proc_staff_23"></td></tr>
+          <tr><td>24</td><td>Finishing and polishing</td><td><input type="text" name="proc_date_24"></td><td><input type="text" name="proc_grade_24"></td><td><input type="text" name="proc_staff_24"></td></tr>
+          <tr><td>25</td><td>Denture delivery</td><td><input type="text" name="proc_date_25"></td><td><input type="text" name="proc_grade_25"></td><td><input type="text" name="proc_staff_25"></td></tr>
+          <tr><td>26</td><td>Post insertion follow up-1</td><td><input type="text" name="proc_date_26"></td><td><input type="text" name="proc_grade_26"></td><td><input type="text" name="proc_staff_26"></td></tr>
+          <tr><td>27</td><td>Post insertion follow up-2</td><td><input type="text" name="proc_date_27"></td><td><input type="text" name="proc_grade_27"></td><td><input type="text" name="proc_staff_27"></td></tr>
+        </tbody>
+      </table>
+
+      
+      <!-- <h2 id="consent-form"> சம்மதப் படிவம் (Consent Form)</h2>
+      <div class="form-section">
+        <label for="consent-text">_____________________________________ஆகிய நான், இராமாபுரம்.</label>
+        <textarea id="consent-text" name="consent_patient_name" rows="3" placeholder="உங்கள் பெயரை இங்கு குறிப்பிடவும்..."></textarea>
+
+        <p>
+          எஸ்.ஆர்.எம். பல் மருத்துவ கல்லூரியில் செயற்கை பல் கட்டும் பிரிவு மருத்துவர்களுக்கு முழு மனதுடன் எழுதிக்கொடுக்கும் சம்மதப்படிவம்.
+        </p>
+        <p>
+          செயற்கை பல் கட்டும் மருத்துவதுறையின் சிகிச்சைப் பற்றி அனைத்து விவரங்களையும் அதற்கான சிகிச்சைக் காலம், எத்தனை முறை சிகிச்சைக்கு வரவேண்டும். அதற்குண்டான கட்டணம், தேவையான இதர பல் சிகிச்சைகள் மற்றும் முன்காப்பு, பின் விளைவுகள் பற்றி விவரமாக என்னிடம் தெரிவிக்கப்பட்டது.
+        </p>
+        <p>
+          சிகிச்சை காலத்தில் ஏற்படக்கூடிய சிகிச்சை மாற்றங்களை தெளியாக விளக்கப்பட்டது. செயற்கைப் பல் சிகிச்சைக்கான காலம் மற்றும் சிகிச்சைக் கட்டணம் தோராயமாகக் கூறப்பட்டது. சிகிச்சை காலம் மற்றும் சிகிச்சைக் கட்டணம் சிகிச்சை முறையை பொறுத்து மாறுபடலாம் என்பதை எனக்கு தெளிவாக விளக்கப் பட்டது.
+        </p>
+        <p>
+          இந்த பல் சிகிச்சையால் எனக்கு ஏற்படக்கூடிய தவிர்க்க முடியாத பின் விளைவுகளுக்கு செயற்கை பல் கட்டும் மருத்துவக் குழுவை காரணமாக சொல்ல மாட்டேன் என்று உறுதியாகக் கூறுகிறேன்.
+        </p>
+
+        <label for="patient-signature-consent">சிகிச்சை பெறுவோரின் பெயர் மற்றும் கையெப்பன்:</label>
+        <textarea id="patient-signature-consent" name="patient_signature_consent" rows="2" placeholder="பெயர் மற்றும் கையெப்பத்தை உள்ளிடவும்..."></textarea>
+
+        <label for="consent-date">தேதி:</label>
+        <input type="date" id="consent-date" name="consent_date">
+      </div> --> -->
+
+      <!-- Section 12: Patient Feedback Form (English) (from case sheet 12.html) -->
+      <!-- <h2 id="feedback-english">PATIENT FEEDBACK FORM (English)</h2>
+      <div class="form-section">
+        <div class="feedback-header">
+            <h2>SRM DENTAL COLLEGE</h2>
+            <h3>Bharathi Salai, Ramapuram, Chennai 89<br>
+            Phone: 044-2249 0526, Fax: 044-2249 2429</h3>
+        </div>
+
+        <div class="question">
+          <label>1. How did you come to know about the services in the Dental Hospital?</label><br>
+          <label><input type="radio" name="q1_eng" value="Friends and relatives"> Friends and relatives</label>
+          <label><input type="radio" name="q1_eng" value="Referred by another doctor"> Referred by another doctor</label>
+          <label><input type="radio" name="q1_eng" value="Campus conducted by the Hospital"> Campus conducted by the Hospital</label>
+        </div>
+
+        <div class="question">
+          <label>2. Was the hospital easily accessible?</label><br>
+          <label><input type="radio" name="q2_eng" value="Easy"> Easy</label>
+          <label><input type="radio" name="q2_eng" value="Manageable"> Manageable</label>
+          <label><input type="radio" name="q2_eng" value="Very difficult"> Very difficult</label>
+        </div>
+
+        <div class="question">
+          <label>3. Were you attended to by a responsible person or doctor?</label><br>
+          <label><input type="radio" name="q3_eng" value="Immediately"> Immediately</label>
+          <label><input type="radio" name="q3_eng" value="Shortly after"> Shortly after</label>
+          <label><input type="radio" name="q3_eng" value="Took a very long time"> Took a very long time</label>
+          <label><input type="radio" name="q3_eng" value="Very difficult"> Very difficult</label>
+        </div>
+
+        <div class="question">
+          <label>4. Was the attending doctor polite and courteous?</label><br>
+          <label><input type="radio" name="q4_eng" value="Yes"> Yes</label>
+          <label><input type="radio" name="q4_eng" value="No"> No</label>
+        </div>
+
+        <div class="question">
+          <label>5. Were you happy with the approach and explanation by the doctor?</label><br>
+          <label><input type="radio" name="q5_eng" value="Very Satisfied"> Very Satisfied</label>
+          <label><input type="radio" name="q5_eng" value="Satisfied"> Satisfied</label>
+          <label><input type="radio" name="q5_eng" value="Not Satisfied"> Not Satisfied</label>
+        </div>
+
+        <div class="question">
+          <label>6. Were you satisfactorily guided on treatment plan and alternatives?</label><br>
+          <label><input type="radio" name="q6_eng" value="Yes"> Yes</label>
+          <label><input type="radio" name="q6_eng" value="No"> No</label>
+        </div>
+
+        <div class="question">
+          <label>7. Were you happy with the appointment schedule?</label><br>
+          <label><input type="radio" name="q7_eng" value="Yes"> Yes</label>
+          <label><input type="radio" name="q7_eng" value="No"> No</label>
+        </div>
+
+        <div class="question">
+          <label>8. Do you think the treatment charges are?</label><br>
+          <label><input type="radio" name="q8_eng" value="Cheap"> Cheap</label>
+          <label><input type="radio" name="q8_eng" value="Expensive"> Expensive</label>
+        </div>
+
+        <div class="question">
+          <label>9. Rate general hygiene and cleanliness of the department:</label><br>
+          <label><input type="radio" name="q9_eng" value="Poor"> Poor</label>
+          <label><input type="radio" name="q9_eng" value="Good"> Good</label>
+          <label><input type="radio" name="q9_eng" value="Excellent"> Excellent</label>
+        </div>
+
+        <div class="question">
+          <label>10. If treatment was done, was the procedure satisfactory?</label><br>
+          <label><input type="radio" name="q10_eng" value="Poor"> Poor</label>
+          <label><input type="radio" name="q10_eng" value="Good"> Good</label>
+          <label><input type="radio" name="q10_eng" value="Excellent"> Excellent</label>
+        </div>
+
+        <div class="question">
+          <label>11. How do you rate the general hygiene and cleanliness of the department?</label><br>
+          <label><input type="radio" name="q11_eng" value="Poor"> Poor</label>
+          <label><input type="radio" name="q11_eng" value="Good"> Good</label>
+          <label><input type="radio" name="q11_eng" value="Excellent"> Excellent</label>
+        </div>
+
+        <div class="question">
+          <label>12. Will you recommend others to use the hospital services?</label><br>
+          <label><input type="radio" name="q12_eng" value="Yes"> Yes</label>
+          <label><input type="radio" name="q12_eng" value="No"> No</label>
+        </div>
+
+        <label for="feedback-date-eng">Date:</label><br>
+        <input type="date" id="feedback-date-eng" name="feedback_date_eng"><br><br>
+
+        <label for="feedback-signature-eng">Consent Form upload</label><br>
+        <input type="file" id="feedback-signature-eng" name="feedback_signature_eng" accept="image/*">
+         <label for="feedback-signature-eng">Doctor's signature</label><br>
+        <input type="file" id="feedback-signature-eng" name="feedback_signature_eng" accept="image/*">
+      </div> -->
+
+      <!-- Section 13: Patient Feedback Form (Tamil) (from case sheet 13.html)
+      <h2 id="feedback-tamil">பல் சிகிச்சை குறித்து சிகிச்சை பெறுபரின் கருத்து படிவம் (Patient Feedback Form - Tamil)</h2>
+      <div class="form-section">
+        <div class="feedback-header">
+            <h2>SRM DENTAL COLLEGE</h2>
+            <h3>பல் சிகிச்சை குறித்து சிகிச்சை பெறுபரின் கருத்து படிவம்</h3>
+        </div>
+
+        <div class="question">
+          <label>1. எஸ்.ஆர்.எம். பல் மருத்துவ கல்லூரி சேவைகளைப் பற்றி தாங்கள் எவ்வாறு அறிந்து கொண்டீர்கள்</label>
+          <div class="options">
+            <label><input type="radio" name="q1_tam" value="நண்பர்கள் மற்றும் உறவினர்கள் மூலமாக"> நண்பர்கள் மற்றும் உறவினர்கள் மூலமாக</label>
+            <label><input type="radio" name="q1_tam" value="மருத்துவமனை நடத்திய முகாம் மூலமாக"> மருத்துவமனை நடத்திய முகாம் மூலமாக</label>
+            <label><input type="radio" name="q1_tam" value="மற்றொரு மருத்துவரால் பரிந்துரைக்கப்பட்டு"> மற்றொரு மருத்துவரால் பரிந்துரைக்கப்பட்டு</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>2. தங்கள் மருத்துவமனையை எளிதில் அணுக முடிந்ததா?</label>
+          <div class="options">
+            <label><input type="radio" name="q2_tam" value="எளிதாக"> எளிதாக</label>
+            <label><input type="radio" name="q2_tam" value="சிறிது கடினம்"> சிறிது கடினம்</label>
+            <label><input type="radio" name="q2_tam" value="மிக சுடினம்"> மிக சுடினம்</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>3. தாங்கள் ஒரு முதுநிலை மருத்துவரால் கவனிக்கப்பட்டீர்களா?</label>
+          <div class="options">
+            <label><input type="radio" name="q3_tam" value="உடனடியாக"> உடனடியாக</label>
+            <label><input type="radio" name="q3_tam" value="சிறிது தாமதமாக"> சிறிது தாமதமாக</label>
+            <label><input type="radio" name="q3_tam" value="மிகவும் தாமதமாக"> மிகவும் தாமதமாக</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>4. மருத்துவரின் அணுகுமுறை மற்றும் அவரர் அளித்த விளக்கம் உங்களுக்கு திருப்தியாக இருந்ததா?</label>
+          <div class="options">
+            <label><input type="radio" name="q4_tam" value="முழுத் திருப்தி"> முழுத் திருப்தி</label>
+            <label><input type="radio" name="q4_tam" value="பரவாயில்லை"> பரவாயில்லை</label>
+            <label><input type="radio" name="q4_tam" value="திருப்தியில்லை"> திருப்தியில்லை</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>5. சிகிச்சை முறை மற்றும் மாற்று சிகிச்சை முறைகள் குறித்து உரிய விளக்கமாக அளிக்கப்பட்டதா?</label>
+          <div class="options">
+            <label><input type="radio" name="q5_tam" value="ஆம்"> ஆம்</label>
+            <label><input type="radio" name="q5_tam" value="இல்லை"> இல்லை</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>6. தங்களை ஒருவரை சந்திக்க ஒதுக்கப்பட்ட நேரம் தங்களுக்கு வசதியாக இருந்ததா?</label>
+          <div class="options">
+            <label><input type="radio" name="q6_tam" value="ஆம்"> ஆம்</label>
+            <label><input type="radio" name="q6_tam" value="இல்லை"> இல்லை</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>7. சிகிச்சை கட்டணம்</label>
+          <div class="options">
+            <label><input type="radio" name="q7_tam" value="குறைந்த கட்டணம்"> குறைந்த கட்டணம்</label>
+            <label><input type="radio" name="q7_tam" value="சரியான கட்டணம்"> சரியான கட்டணம்</label>
+            <label><input type="radio" name="q7_tam" value="அதிக கட்டணம்"> அதிக கட்டணம்</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>8. மருத்துவ மனையின் சுத்தம் மற்றும் சுகாதாரம்</label>
+          <div class="options">
+            <label><input type="radio" name="q8_tam" value="குறைவு"> குறைவு</label>
+            <label><input type="radio" name="q8_tam" value="நன்று"> நன்று</label>
+            <label><input type="radio" name="q8_tam" value="மிகவும் மிக நன்று"> மிகவும் மிக நன்று</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>9. தாங்கள் இந்த முறை சிகிச்சைக்கு வந்த போது மருத்துவர் அளித்த சிகிச்சை எப்படி இருந்தது</label>
+          <div class="options">
+            <label><input type="radio" name="q9_tam" value="சுமாராக இருந்தது"> சுமாராக இருந்தது</label>
+            <label><input type="radio" name="q9_tam" value="நன்றாக இருந்தது"> நன்றாக இருந்தது</label>
+            <label><input type="radio" name="q9_tam" value="மிகவும் நன்றாக இருந்தது"> மிகவும் நன்றாக இருந்தது</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>10. பொதுவாக மருத்துவமனையின் சேவைகள் குறித்த தங்கள் மதிப்பீடு?</label>
+          <div class="options">
+            <label><input type="radio" name="q10_tam" value="குறைவு"> குறைவு</label>
+            <label><input type="radio" name="q10_tam" value="நன்று"> நன்று</label>
+            <label><input type="radio" name="q10_tam" value="மிகவும் மிக நன்று"> மிகவும் மிக நன்று</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label>11. தங்கள் நண்பர்கள் மற்றும் உறவினர்களுக்கு எங்கள் மருத்துவமனையை பரிந்துரைப்பீர்களா?</label>
+          <div class="options">
+            <label><input type="radio" name="q11_tam" value="ஆம்"> ஆம்</label>
+            <label><input type="radio" name="q11_tam" value="இல்லை"> இல்லை</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label for="feedback-date-tam">நாள்</label>
+          <input type="date" id="feedback-date-tam" name="feedback_date_tam">
+        </div>
+
+        <div class="question">
+          <label for="feedback-signature-tam">நோய்லியின் கையொப்பம்</label>
+          <input type="file" id="feedback-signature-tam" name="feedback_signature_tam">
+        </div> -->
+      </div>
+      <button type="submit">Submit All Data</button>
+      <!-- New button to navigate to prescription.html -->
+      <button type="button" onclick="window.location.href='prescription.html'" style="margin-top: 20px; background-color: #5cb85c;">Go to Prescription</button>
+    </form>
+  </div>
+
+  <script>
+    // Function to calculate average for Gingival Index, Debris Score, Calculus Score
+    function calculateAverage(inputs) {
+      let sum = 0;
+      let count = 0;
+      inputs.forEach(id => {
+        const val = parseFloat(document.getElementById(id).value);
+        if (!isNaN(val)) {
+          sum += val;
+          count++;
+        }
+      });
+      return count > 0 ? (sum / count).toFixed(2) : '';
+    }
+
+    // Function to calculate all scores (Gingival, Debris, Calculus)
+    function calculateScores() {
+      // Gingival index (average of all values)
+      const gingivalIds = [
+        "buccal-upper-distal", "buccal-upper-mesial",
+        "palatal-upper-distal", "palatal-upper-mesial",
+        "buccal-lower-distal", "buccal-lower-mesial",
+        "lingual-lower-distal", "lingual-lower-mesial"
+      ];
+      document.getElementById("gingival-index").value = calculateAverage(gingivalIds);
+
+      // Debris score
+      const debrisIds = ["debris-16", "debris-11", "debris-26", "debris-46", "debris-31", "debris-36"];
+      document.getElementById("debris-score").value = calculateAverage(debrisIds);
+
+      // Calculus score
+      const calcIds = ["calc-16", "calc-11", "calc-26", "calc-46", "calc-31", "calc-36"];
+      document.getElementById("calculus-score").value = calculateAverage(calcIds);
+    }
+
+    // Function to update OHI-S
+    function updateOHI() {
+      const debris = document.getElementById("debrisTotal");
+      const calculus = document.getElementById("calculusTotal");
+      const ohis = document.getElementById("ohis");
+
+      const d = parseFloat(debris.value) || 0;
+      const c = parseFloat(calculus.value) || 0;
+      const result = (d + c).toFixed(2);
+      ohis.value = result;
+    }
+
+    // Event listeners for OHI-S calculation
+    document.addEventListener('DOMContentLoaded', function() {
+        const debrisTotalInput = document.getElementById("debrisTotal");
+        const calculusTotalInput = document.getElementById("calculusTotal");
+
+        if (debrisTotalInput) {
+            debrisTotalInput.addEventListener("input", updateOHI);
+        }
+        if (calculusTotalInput) {
+            calculusTotalInput.addEventListener("input", updateOHI);
+        }
+
+        // Main form submission handler
+        document.getElementById('main-case-sheet-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Comprehensive form submitted!');
+            // Here you would collect all form data and send it to a backend or process it.
+            // Example:
+            const formData = new FormData(e.target);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            console.log(data); // Log all collected data to console
+            alert('Form data logged to console. In a real app, this would be saved!');
+        });
+    });
+  </script>
+</body>
+</html>

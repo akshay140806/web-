@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Oral &amp; Maxillofacial Surgery - Cleft Form</title>
+<link href="logo.png" rel="icon" type="image/x-icon"/>
+<style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('campus.png') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      padding: 40px 20px;
+    }
+    .case-sheet {
+      background-color: rgba(38, 40, 107, 0.85);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    h2 {
+      border-bottom: 1px solid white;
+      padding-bottom: 5px;
+      margin-top: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"], input[type="date"] {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+    }
+    .checkbox-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+    }
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #26286b;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+<div class="case-sheet">
+<div style="text-align: center; margin-bottom: 20px;">
+<img alt="SRM Dental College Logo" src="logo.png" style="max-width: 120px; height: auto; margin-bottom: 10px;"/>
+<h2 style="margin: 0;">SRM Dental College, Ramapuram</h2>
+<p>Department of Oral and Maxillofacial Surgery - Cleft Evaluation Form</p>
+</div>
+<form>
+<!-- Page 1 -->
+<div class="page active">
+<h2>1. Maternal History</h2>
+<div class="form-group"><label>Length of Pregnancy:</label><input id="input1" name="input1" type="text"/></div>
+<div class="form-group"><label>Complications During Pregnancy:</label><input id="input2" name="input2" type="text"/></div>
+<div class="form-group"><label>Complications During Birth:</label><input id="input3" name="input3" type="text"/></div>
+<div class="form-group"><label>Mother Smoked During Pregnancy:</label><input id="input4" name="input4" type="text"/></div>
+<div class="form-group"><label>Mother Consumed Alcohol During Pregnancy:</label><input id="input5" name="input5" type="text"/></div>
+</div>
+<!-- Page 2 -->
+<div class="page">
+<h2>2. Family &amp; General Info</h2>
+<div class="form-group"><label>Parents/Siblings with Cleft:</label><input id="input6" name="input6" type="text"/></div>
+<div class="form-group"><label>Other Relatives with Cleft:</label><input id="input7" name="input7" type="text"/></div>
+<div class="form-group"><label>Patient Height:</label><input id="input8" name="input8" type="text"/></div>
+<div class="form-group"><label>Patient Weight:</label><input id="input9" name="input9" type="text"/></div>
+<div class="form-group"><label>Previous Lip/Palate Surgery:</label><input id="input10" name="input10" type="text"/></div>
+<div class="form-group"><label>If Yes, When:</label><input id="input11" name="input11" type="text"/></div>
+<h2>3. Abnormalities</h2>
+<div class="form-group checkbox-group">
+<label><input id="input12" name="input12" type="checkbox"/> Heart</label>
+<label><input id="input13" name="input13" type="checkbox"/> Nose</label>
+<label><input id="input14" name="input14" type="checkbox"/> Fingers/Toes</label>
+<label><input id="input15" name="input15" type="checkbox"/> Skull</label>
+<label><input id="input16" name="input16" type="checkbox"/> Retarded Growth</label>
+<label><input id="input17" name="input17" type="checkbox"/> Urinary System</label>
+<label><input id="input18" name="input18" type="checkbox"/> Ears</label>
+<label><input id="input19" name="input19" type="checkbox"/> Skin</label>
+<label><input id="input20" name="input20" type="checkbox"/> Mandible</label>
+<label><input id="input21" name="input21" type="checkbox"/> Mental Retardation</label>
+<label><input id="input22" name="input22" type="checkbox"/> Tongue</label>
+<label><input id="input23" name="input23" type="checkbox"/> Speech</label>
+<label><input id="otherAbnormalityCheck" type="checkbox"/> Others</label>
+<div id="otherAbnormalityInput" style="margin-top: 10px; display: none;">
+<input id="input24" name="input24" placeholder="Please specify..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Page 3 -->
+<div class="page">
+<h2>4. Health Info &amp; Diagnosis</h2>
+<div class="form-group"><label>Allergies:</label><input id="input25" name="input25" type="text"/></div>
+<div class="form-group"><label>Other Health Problems:</label><input id="input26" name="input26" type="text"/></div>
+<div class="form-group"><label>Name of Evaluator:</label><input id="input27" name="input27" type="text"/></div>
+<div class="form-group"><label>Date of Evaluation:</label><input id="input28" name="input28" type="date"/></div>
+<div class="form-group"><label>Velopharyngeal Insufficiency:</label><input id="input29" name="input29" type="text"/></div>
+<h2>5. Diagnosis</h2>
+<div class="form-group"><label>Lip (Left &amp; Right):</label><input id="input30" name="input30" type="text"/></div>
+<div class="form-group"><label>Alveolus (Left &amp; Right):</label><input id="input31" name="input31" type="text"/></div>
+<div class="form-group"><label>Hard Palate:</label><input id="input32" name="input32" type="text"/></div>
+<div class="form-group"><label>Soft Palate:</label><input id="input33" name="input33" type="text"/></div>
+</div>
+<!-- Page 4 -->
+<div class="page">
+<h2>6. Treatment Plan</h2>
+<div class="form-group"><label>Treatment Plan:</label><input id="input34" name="input34" type="text"/></div>
+<div class="form-group"><label>Date of Admission:</label><input id="input35" name="input35" type="date"/></div>
+<div class="form-group"><label>Date of Surgery:</label><input id="input36" name="input36" type="date"/></div>
+<div class="form-group"><label>Surgeon Name:</label><input id="input37" name="input37" type="text"/></div>
+<div class="form-group"><label>Anaesthetist Name:</label><input id="input38" name="input38" type="text"/></div>
+<div class="form-group"><label>Anaesthesia Method (GA/LA):</label><input id="input39" name="input39" type="text"/></div>
+<div class="form-group"><label>Surgery Notes:</label><input id="input40" name="input40" type="text"/></div>
+<div class="form-group"><label>Surgery Time (Start - Finish):</label><input id="input41" name="input41" type="text"/></div>
+</div>
+<!-- Navigation Buttons -->
+<div class="navigation">
+<button id="prevBtn" type="button">Back</button>
+<button id="nextBtn" type="button">Next</button>
+</div>
+</form>
+</div>
+<script>
+    const pages = document.querySelectorAll('.page');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentPage = 0;
+
+    function showPage(index) {
+      window.scrollTo(0, 0);
+      pages.forEach((page, i) => {
+        page.classList.toggle('active', i === index);
+      });
+      prevBtn.disabled = index === 0;
+      nextBtn.textContent = index === pages.length - 1 ? 'Submit' : 'Next';
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      } else {
+        alert("Form submitted!");
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+
+    document.getElementById("otherAbnormalityCheck").addEventListener("change", function() {
+      const inputBox = document.getElementById("otherAbnormalityInput");
+      inputBox.style.display = this.checked ? "block" : "none";
+    });
+
+    showPage(currentPage);
+  </script>
+<script>
+function collectFormData() {
+  const form = document.querySelector('form');
+  const formData = new FormData(form);
+  const data = {};
+  for (const [key, value] of formData.entries()) {
+    if (data[key]) {
+      if (!Array.isArray(data[key])) data[key] = [data[key]];
+      data[key].push(value);
+    } else {
+      data[key] = value;
+    }
+  }
+  console.log("Collected Data:", data);
+  return data;
+}
+document.getElementById('nextBtn').addEventListener('click', () => {
+  if (document.getElementById('nextBtn').textContent === 'Submit') {
+    collectFormData(); // Simulate submission
+  }
+});
+</script></body>
+</html>

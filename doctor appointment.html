@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Appointment Management - SRM Dental College</title>
+  <style>
+    /* Inherited styles from index.html for body, html, overlay, and container */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('campus.png') no-repeat center center fixed; /* Ensure 'campus.png' is in the same directory or provide a valid path */
+      background-size: cover;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 800px; /* Increased max-width for more content */
+      margin: 5% auto 20px;
+      background: rgba(36, 40, 107, 0.875);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Added subtle shadow */
+    }
+
+    .logo {
+      width: 80px; /* Slightly smaller logo for internal pages */
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px; /* Larger heading for clarity */
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 25px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 10px;
+    }
+
+    .appointment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px; /* Space between appointment cards */
+      text-align: left; /* Align text within cards to the left */
+    }
+
+    .appointment-card {
+      background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white for cards */
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .appointment-card:hover {
+      transform: translateY(-5px); /* Lift effect on hover */
+    }
+
+    .appointment-card p {
+      margin: 0;
+      font-size: 16px;
+      color: #eee;
+    }
+
+    .appointment-card p strong {
+      color: #f0f0f0;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: flex-end; /* Align buttons to the right */
+        gap: 10px; /* Space between buttons */
+        margin-top: 10px; /* Space above buttons */
+    }
+
+    .confirm-btn, .decline-btn {
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 25px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .confirm-btn {
+      background-color: #4CAF50; /* Green for confirm */
+    }
+
+    .confirm-btn:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+
+    .decline-btn {
+      background-color: #f44336; /* Red for decline */
+    }
+
+    .decline-btn:hover {
+      background-color: #da190b;
+      transform: scale(1.05);
+    }
+
+    .no-appointments {
+      font-size: 18px;
+      color: #ccc;
+      margin-top: 30px;
+    }
+
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      visibility: hidden; /* Hidden by default */
+      opacity: 0;
+      transition: visibility 0s, opacity 0.3s ease-in-out;
+    }
+
+    .modal-overlay.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: rgba(36, 40, 107, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      max-width: 400px;
+      width: 90%;
+      transform: translateY(-20px);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .modal-overlay.show .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .modal-content label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+      text-align: left;
+      color: #f0f0f0;
+    }
+
+    .modal-content input[type="date"],
+    .modal-content input[type="time"] {
+      width: calc(100% - 20px); /* Adjust for padding */
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #555;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      appearance: none; /* Remove default styling for date/time inputs */
+    }
+
+    /* Style for date/time input placeholder text */
+    .modal-content input[type="date"]::-webkit-datetime-edit,
+    .modal-content input[type="time"]::-webkit-datetime-edit {
+      color: white;
+    }
+    .modal-content input[type="date"]::-webkit-calendar-picker-indicator,
+    .modal-content input[type="time"]::-webkit-calendar-picker-indicator {
+      filter: invert(1); /* Make calendar icon white */
+    }
+
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .modal-buttons button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-buttons .reschedule-btn {
+      background-color: #007bff; /* Blue for reschedule */
+      color: white;
+    }
+
+    .modal-buttons .reschedule-btn:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .modal-buttons .cancel-btn {
+      background-color: #6c757d; /* Grey for cancel */
+      color: white;
+    }
+
+    .modal-buttons .cancel-btn:hover {
+      background-color: #5a6268;
+      transform: scale(1.05);
+    }
+
+    /* Responsive adjustments for modal */
+    @media screen and (max-width: 480px) {
+      .modal-content {
+        padding: 20px;
+      }
+      .modal-content h3 {
+        font-size: 20px;
+      }
+      .modal-content input[type="date"],
+      .modal-content input[type="time"] {
+        font-size: 14px;
+        padding: 8px;
+      }
+      .modal-buttons button {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <div class="container">
+    <img src="logo.png" alt="SRM Logo" class="logo"> <h1>SRM DENTAL COLLEGE</h1>
+    <h2>Appointment Confirmation</h2>
+
+    <div id="appointmentList" class="appointment-list">
+      </div>
+
+    <p id="noAppointmentsMessage" class="no-appointments" style="display: none;">No pending appointments.</p>
+  </div>
+
+  <div id="rescheduleModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Reschedule Appointment</h3>
+      <label for="newDate">New Date:</label>
+      <input type="date" id="newDate">
+      <label for="newTime">New Time:</label>
+      <input type="time" id="newTime">
+      <div class="modal-buttons">
+        <button class="cancel-btn" onclick="cancelReschedule()">Cancel</button>
+        <button class="reschedule-btn" onclick="rescheduleAppointment()">Reschedule</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // *** START MODIFICATION ***
+    // Load appointments from localStorage, or use a default if none exist
+    let appointments = JSON.parse(localStorage.getItem('pendingAppointments')) || [
+      // You can keep some default appointments here if you want them to always show up
+      // { id: 'app001', patientName: 'Alice Johnson', date: '2025-07-10', time: '10:00 AM', reason: 'Routine Check-up' },
+      // { id: 'app002', patientName: 'Bob Williams', date: '2025-07-10', time: '11:30 AM', reason: 'Toothache Consultation' },
+    ];
+    // *** END MODIFICATION ***
+
+    let currentAppointmentIdToReschedule = null; // To store the ID of the appointment being rescheduled
+
+    /**
+     * Renders the list of appointments on the page.
+     */
+    function renderAppointments() {
+      const appointmentListDiv = document.getElementById('appointmentList');
+      const noAppointmentsMessage = document.getElementById('noAppointmentsMessage');
+      appointmentListDiv.innerHTML = ''; // Clear existing appointments
+
+      if (appointments.length === 0) {
+        noAppointmentsMessage.style.display = 'block'; // Show "No pending appointments" message
+      } else {
+        noAppointmentsMessage.style.display = 'none'; // Hide the message
+        appointments.forEach(appointment => {
+          const appointmentCard = document.createElement('div');
+          appointmentCard.className = 'appointment-card';
+          appointmentCard.setAttribute('data-id', appointment.id); // Store ID for easy access
+
+          appointmentCard.innerHTML = `
+            <p><strong>Patient:</strong> ${appointment.patientName}</p>
+            <p><strong>Date:</strong> ${appointment.date}</p>
+            <p><strong>Time:</strong> ${appointment.time}</p>
+            <p><strong>Reason:</strong> ${appointment.reason}</p>
+            <div class="button-group">
+                <button class="decline-btn" onclick="declineAppointment('${appointment.id}')">Decline</button>
+                <button class="confirm-btn" onclick="confirmAppointment('${appointment.id}')">Confirm</button>
+            </div>
+          `;
+          appointmentListDiv.appendChild(appointmentCard);
+        });
+      }
+    }
+
+    /**
+     * Handles the confirmation of an appointment.
+     * @param {string} id - The ID of the appointment to confirm.
+     */
+    function confirmAppointment(id) {
+      const initialLength = appointments.length;
+      appointments = appointments.filter(app => app.id !== id);
+
+      // *** START MODIFICATION ***
+      // Save updated appointments to localStorage after confirmation
+      localStorage.setItem('pendingAppointments', JSON.stringify(appointments));
+      // *** END MODIFICATION ***
+
+      if (appointments.length < initialLength) {
+        // Only show message if an appointment was actually removed
+        showMessage('Appointment confirmed', 'success');
+      } else {
+        showMessage('Error: Appointment not found.', 'error');
+      }
+
+      renderAppointments(); // Re-render the list after confirmation
+    }
+
+    /**
+     * Shows the reschedule modal when an appointment is declined.
+     * @param {string} id - The ID of the appointment to decline/reschedule.
+     */
+    function declineAppointment(id) {
+      currentAppointmentIdToReschedule = id; // Store the ID
+      const modal = document.getElementById('rescheduleModal');
+      modal.classList.add('show'); // Show the modal
+      // Optionally pre-fill with current date/time if available, or clear for new input
+      document.getElementById('newDate').value = '';
+      document.getElementById('newTime').value = '';
+    }
+
+    /**
+     * Handles the rescheduling of an appointment.
+     */
+    function rescheduleAppointment() {
+      const newDate = document.getElementById('newDate').value;
+      const newTime = document.getElementById('newTime').value;
+
+      if (!newDate || !newTime) {
+        showMessage('Please select both a new date and time.', 'error');
+        return;
+      }
+
+      // Find the appointment and update its details
+      const appointmentIndex = appointments.findIndex(app => app.id === currentAppointmentIdToReschedule);
+
+      if (appointmentIndex !== -1) {
+        appointments[appointmentIndex].date = newDate;
+        appointments[appointmentIndex].time = newTime;
+        // *** START MODIFICATION ***
+        // Save updated appointments to localStorage after rescheduling
+        localStorage.setItem('pendingAppointments', JSON.stringify(appointments));
+        // *** END MODIFICATION ***
+        // Display message that the patient has been notified
+        showMessage('Message sent to patient!', 'success');
+      } else {
+        showMessage('Error: Original appointment not found for rescheduling.', 'error');
+      }
+
+      // Hide the modal and re-render appointments
+      cancelReschedule(); // Hide modal
+      renderAppointments();
+    }
+
+    /**
+     * Hides the reschedule modal.
+     */
+    function cancelReschedule() {
+      const modal = document.getElementById('rescheduleModal');
+      modal.classList.remove('show'); // Hide the modal
+      currentAppointmentIdToReschedule = null; // Clear the stored ID
+    }
+
+    /**
+     * Displays a temporary message box.
+     * @param {string} message - The message to display.
+     * @param {string} type - 'success' or 'error' for styling.
+     */
+    function showMessage(message, type) {
+      let messageBox = document.getElementById('messageBox');
+      if (!messageBox) {
+        messageBox = document.createElement('div');
+        messageBox.id = 'messageBox';
+        messageBox.style.cssText = `
+          position: fixed;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 15px 30px;
+          border-radius: 10px;
+          font-size: 18px;
+          color: white;
+          z-index: 1000;
+          opacity: 0;
+          transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        `;
+        document.body.appendChild(messageBox);
+      }
+
+      messageBox.textContent = message;
+      if (type === 'success') {
+        messageBox.style.backgroundColor = '#4CAF50'; /* Green */
+      } else if (type === 'error') {
+        messageBox.style.backgroundColor = '#f44336'; /* Red */
+      }
+
+      messageBox.style.opacity = '1';
+      messageBox.style.transform = 'translateX(-50%) translateY(0)';
+
+      setTimeout(() => {
+        messageBox.style.opacity = '0';
+        messageBox.style.transform = 'translateX(-50%) translateY(-20px)';
+      }, 3000); // Message disappears after 3 seconds
+    }
+
+    // Initial render when the page loads
+    document.addEventListener('DOMContentLoaded', renderAppointments);
+  </script>
+</body>
+</html>

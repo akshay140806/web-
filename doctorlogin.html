@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('campus.png') no-repeat center center fixed; /* Placeholder for campus.png */
+      background-size: cover;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      max-width: 600px;
+      min-width: 500px;
+      width: 90%;
+      background: rgba(38, 40, 107, 0.9);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* fixed shadow */
+    }
+
+    .logo-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+    }
+
+    h1 {
+      margin: 0 0 25px 0;
+      font-size: 40px;
+      color: #ffffff;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #e0e0e0;
+    }
+
+    .input-field {
+      width: calc(100% - 20px);
+      padding: 12px;
+      border: 1px solid #5a5d99;
+      border-radius: 8px;
+      background-color: #f0f0f0;
+      color: #333;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #3C8DFF;
+      box-shadow: 0 0 0 3px rgba(60, 141, 255, 0.5);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background-color: #3C8DFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+      background-color: #2e7ae6;
+      transform: translateY(-2px);
+    }
+
+    .forgot-password,
+    .signup-link {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .forgot-password a,
+    .signup-link a {
+      color: #d0eaff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .forgot-password a:hover,
+    .signup-link a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Message box for alerts */
+    .message-box-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s ease;
+    }
+
+    .message-box-container.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .message-box {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        color: #333;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        max-width: 400px;
+        width: 90%;
+    }
+
+    .message-box h2 {
+        margin-top: 0;
+        color: #d32f2f; /* Red for error */
+    }
+
+    .message-box p {
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .message-box button {
+        background-color: #3C8DFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .message-box button:hover {
+        background-color: #2e7ae6;
+    }
+
+    @media screen and (max-width: 540px) {
+      .login-container {
+        min-width: auto;
+        width: 95%;
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      .input-field {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .submit-btn {
+        padding: 12px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo-wrapper">
+      <img src="logo.png" alt="Company Logo" class="logo" /> <!-- Placeholder for logo.png -->
+    </div>
+    <h1>Doctor Login</h1>
+
+    <div class="input-group">
+      <label for="userIdInput">User ID <span style="color: rgb(218, 14, 14);">*</span></label>
+      <input type="text" id="userIdInput" class="input-field" placeholder="Enter your User ID" required />
+    </div>
+
+    <div class="input-group">
+      <label for="passwordInput">Password <span style="color: rgb(218, 16, 16);">*</span></label>
+      <input type="password" id="passwordInput" class="input-field" placeholder="Enter your password" required />
+    </div>
+
+    <button class="submit-btn" onclick="
+      const userId = document.getElementById('userIdInput').value.trim();
+      const password = document.getElementById('passwordInput').value.trim();
+
+      // Function to show custom message box
+      function showMessageBox(title, message) {
+          const msgBoxContainer = document.getElementById('messageBoxContainer');
+          document.getElementById('messageBoxTitle').innerText = title;
+          document.getElementById('messageBoxMessage').innerText = message;
+          msgBoxContainer.classList.add('show');
+      }
+
+      // Function to hide custom message box
+      function hideMessageBox() {
+          document.getElementById('messageBoxContainer').classList.remove('show');
+      }
+
+      if (!userId || !password) {
+        showMessageBox('Error', 'Please enter both User ID and Password.');
+      } else if (userId === 'doc' && password === '123') {
+        window.location.href = 'run.html';
+      } else if (userId === 'cdoc' && password === '123') {
+        window.location.href = 'chief.html'; // Navigating to YouTube
+      } else {
+        showMessageBox('Login Failed', 'Invalid User ID or Password.');
+      }
+    ">Login</button>
+
+    <div class="forgot-password">
+      <a href="#">Forgot Password?</a>
+    </div>
+
+    <div class="signup-link">
+      Don’t have an account? <a href="doctor.html">Sign Up</a>
+    </div>
+  </div>
+
+  <!-- Custom Message Box HTML -->
+  <div id="messageBoxContainer" class="message-box-container">
+      <div class="message-box">
+          <h2 id="messageBoxTitle"></h2>
+          <p id="messageBoxMessage"></p>
+          <button onclick="hideMessageBox()">OK</button>
+      </div>
+  </div>
+</body>
+</html>

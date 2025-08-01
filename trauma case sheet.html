@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SRM Dental College - Trauma Case Sheet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('campus.png') no-repeat center center fixed; /* cite: campus.png */
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      padding: 40px 20px;
+    }
+    .case-sheet {
+      background-color: rgba(38, 40, 107, 0.85);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 900px;
+      color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    h2, h3, h4 {
+      border-bottom: 1px solid rgba(255,255,255,0.7);
+      padding-bottom: 5px;
+      margin-top: 20px;
+      color: white;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"], input[type="number"], textarea, select {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      box-sizing: border-box;
+      color: black;
+      resize: none;
+      min-height: 50px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .checkbox-group, .radio-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .checkbox-group label, .radio-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+    .checkbox-group input[type="checkbox"], .radio-group input[type="radio"] {
+      margin-right: 5px;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #26286b;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      color: white;
+    }
+    table, th, td {
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: rgba(0,0,0,0.2);
+    }
+    .radio-row, .checkbox-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .radio-row label, .checkbox-row label {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+      font-weight: normal;
+    }
+    .radio-row input, .checkbox-row input {
+      margin-right: 5px;
+    }
+    .small-input {
+      width: auto;
+      min-width: 50px;
+      max-width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="case-sheet">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <img src="logo.png" alt="SRM Dental College Logo" style="max-width: 120px; height: auto; margin-bottom: 10px;" />
+      <h2 style="margin: 0;">SRM Dental College, Ramapuram, Chennai-89</h2>
+      <h3 style="margin: 5px 0;">Department of Oral & Maxillofacial Surgery</h3>
+      <h4 style="margin: 5px 0;">TRAUMA CASE SHEET</h4>
+    </div>
+    <form>
+      <div class="page active">
+
+        <h2>Extra-oral Examination - Inspection</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Site</th>
+              <th>Description/Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Swelling</td>
+                         <td><input type="text" id="inspection_swelling_site" name="inspection_swelling_site" /></td>
+            <td><input type="text" id="inspection_swelling_desc" name="inspection_swelling_desc" /></td>
+            </tr>
+            <tr>
+              <td>Scar</td>
+                 <td><input type="text" id="inspection_scar_site" name="inspection_scar_site" /></td>
+            <td><input type="text" id="inspection_scar_desc" name="inspection_scar_desc" /></td>
+        </tr>
+            <tr>
+              <td>Sinus</td>
+            <td><input type="text" id="inspection_sinus_site" name="inspection_sinus_site" /></td>
+            <td><input type="text" id="inspection_sinus_desc" name="inspection_sinus_desc" /></td>
+            </tr>
+           <tr>
+    <td>Discolouration - Sub conjunctival hemorrhage</td>
+    <td><input type="text" id="discoloration_subconj_site" name="discoloration_subconj_site" /></td>
+    <td><input type="text" id="discoloration_subconj_desc" name="discoloration_subconj_desc" /></td>
+</tr>
+<tr>
+    <td>Discolouration - Circum orbital ecchymosis</td>
+    <td><input type="text" id="discoloration_circumorbital_site" name="discoloration_circumorbital_site" /></td>
+    <td><input type="text" id="discoloration_circumorbital_desc" name="discoloration_circumorbital_desc" /></td>
+</tr>
+<tr>
+    <td>Oedema - Peri orbital</td>
+    <td><input type="text" id="oedema_periorbital_site" name="oedema_periorbital_site" /></td>
+    <td><input type="text" id="oedema_periorbital_desc" name="oedema_periorbital_desc" /></td>
+</tr>
+           <tr>
+    <td>Ptosis</td>
+    <td><input type="text" id="inspection_ptosis_site" name="inspection_ptosis_site" /></td>
+    <td><input type="text" id="inspection_ptosis_desc" name="inspection_ptosis_desc" /></td>
+</tr>
+<tr>
+    <td>Soft tissue injury - Vertical</td>
+    <td><input type="text" id="inspection_soft_tissue_vertical_site" name="inspection_soft_tissue_vertical_site" /></td>
+    <td><input type="text" id="inspection_soft_tissue_vertical_desc" name="inspection_soft_tissue_vertical_desc" placeholder="Concussion/contusion/Abrasion/laceration" /></td>
+</tr>
+<tr>
+    <td>Soft tissue injury - Horizontal</td>
+    <td><input type="text" id="inspection_soft_tissue_horizontal_site" name="inspection_soft_tissue_horizontal_site" /></td>
+    <td><input type="text" id="inspection_soft_tissue_horizontal_desc" name="inspection_soft_tissue_horizontal_desc" /></td>
+</tr>
+<tr>
+    <td>Symmetry - Intercanthal distance</td>
+    <td><input type="text" id="inspection_intercanthal_site" name="inspection_intercanthal_site" /></td>
+    <td><input type="text" id="inspection_intercanthal_desc" name="inspection_intercanthal_desc" /></td>
+</tr>
+           <tr>
+    <td>Position of globe - Interpupillary distance</td>
+    <td><input type="text" id="inspection_interpupillary_site" name="inspection_interpupillary_site" /></td>
+    <td><input type="text" id="inspection_interpupillary_desc" name="inspection_interpupillary_desc" /></td>
+</tr>
+<tr>
+    <td>Dystopia - Exophthalmos/Enophthalmos</td>
+    <td><input type="text" id="inspection_dystopia_site" name="inspection_dystopia_site" /></td>
+    <td><input type="text" id="inspection_dystopia_desc" name="inspection_dystopia_desc" /></td>
+</tr>
+<tr>
+    <td>Sutures - Nasal septum</td>
+    <td><input type="text" id="inspection_nasal_septum_site" name="inspection_nasal_septum_site" /></td>
+    <td><input type="text" id="inspection_nasal_septum_desc" name="inspection_nasal_septum_desc" /></td>
+</tr>
+<tr>
+    <td>Bleeding - Nose</td>
+    <td><input type="text" id="inspection_bleeding_nose_site" name="inspection_bleeding_nose_site" /></td>
+    <td><input type="text" id="inspection_bleeding_nose_desc" name="inspection_bleeding_nose_desc" /></td>
+</tr>
+<tr>
+    <td>Bleeding - Ear (Intra-aural, Battle's sign)</td>
+    <td><input type="text" id="inspection_bleeding_ear_site" name="inspection_bleeding_ear_site" /></td>
+    <td><input type="text" id="inspection_bleeding_ear_desc" name="inspection_bleeding_ear_desc" /></td>
+</tr>
+<tr>
+    <td>Bleeding - Mouth</td>
+    <td><input type="text" id="inspection_bleeding_mouth_site" name="inspection_bleeding_mouth_site" /></td>
+    <td><input type="text" id="inspection_bleeding_mouth_desc" name="inspection_bleeding_mouth_desc" /></td>
+</tr>
+       <tr>
+    <td>CSF leak - Nose</td>
+    <td><input type="text" id="inspection_csf_nose_site" name="inspection_csf_nose_site" /></td>
+    <td><input type="text" id="inspection_csf_nose_desc" name="inspection_csf_nose_desc" /></td>
+</tr>
+<tr>
+    <td>CSF leak - Ear</td>
+    <td><input type="text" id="inspection_csf_ear_site" name="inspection_csf_ear_site" /></td>
+    <td><input type="text" id="inspection_csf_ear_desc" name="inspection_csf_ear_desc" /></td>
+</tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="page">
+        <h2>Extra-oral Examination - Palpation</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>FEATURES</th>
+              <th>Site-R/L side/ bilateral</th>
+              <th>Description/type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Warmth</td>
+<td><input type="text" id="palpation_warmth_site" name="palpation_warmth_site" /></td>
+            <td><input type="text" id="palpation_warmth_desc" name="palpation_warmth_desc" /></td>
+            </tr>
+            <tr>
+    <td>Tenderness</td>
+    <td><input type="text" id="palpation_tenderness_site" name="palpation_tenderness_site" /></td>
+    <td><input type="text" id="palpation_tenderness_desc" name="palpation_tenderness_desc" /></td>
+</tr>
+<tr>
+    <td>Consistency</td>
+    <td><input type="text" id="palpation_consistency_site" name="palpation_consistency_site" /></td>
+    <td><input type="text" id="palpation_consistency_desc" name="palpation_consistency_desc" /></td>
+</tr>
+<tr>
+    <td>Step deformity/separation - Supra orbital rim</td>
+    <td><input type="text" id="palpation_supraorbital_rim_site" name="palpation_supraorbital_rim_site" /></td>
+    <td><input type="text" id="palpation_supraorbital_rim_desc" name="palpation_supraorbital_rim_desc" /></td>
+</tr>
+          <tr>
+    <td>Step deformity/separation - FZ suture</td>
+    <td><input type="text" id="palpation_fz_suture_site" name="palpation_fz_suture_site" /></td>
+    <td><input type="text" id="palpation_fz_suture_desc" name="palpation_fz_suture_desc" /></td>
+</tr>
+<tr>
+    <td>Step deformity/separation - Infra-orbital margin</td>
+    <td><input type="text" id="palpation_infraorbital_margin_site" name="palpation_infraorbital_margin_site" /></td>
+    <td><input type="text" id="palpation_infraorbital_margin_desc" name="palpation_infraorbital_margin_desc" /></td>
+</tr>
+<tr>
+    <td>Step deformity/separation - Fronto nasal suture</td>
+    <td><input type="text" id="palpation_frontonasal_suture_site" name="palpation_frontonasal_suture_site" /></td>
+    <td><input type="text" id="palpation_frontonasal_suture_desc" name="palpation_frontonasal_suture_desc" /></td>
+</tr>
+<tr>
+    <td>Step deformity/separation - Zygomatic arch</td>
+    <td><input type="text" id="palpation_zygomatic_arch_site" name="palpation_zygomatic_arch_site" /></td>
+    <td><input type="text" id="palpation_zygomatic_arch_desc" name="palpation_zygomatic_arch_desc" /></td>
+</tr>
+           <tr>
+    <td>Step deformity/separation - Maxilla</td>
+    <td><input type="text" id="palpation_maxilla_deformity_site" name="palpation_maxilla_deformity_site" /></td>
+    <td><input type="text" id="palpation_maxilla_deformity_desc" name="palpation_maxilla_deformity_desc" /></td>
+</tr>
+<tr>
+    <td>Step deformity/separation - Mandible</td>
+    <td><input type="text" id="palpation_mandible_deformity_site" name="palpation_mandible_deformity_site" /></td>
+    <td><input type="text" id="palpation_mandible_deformity_desc" name="palpation_mandible_deformity_desc" /></td>
+</tr>
+<tr>
+    <td>Crepitus - Condylar movements</td>
+    <td><input type="text" id="palpation_crepitus_condylar_site" name="palpation_crepitus_condylar_site" /></td>
+    <td><input type="text" id="palpation_crepitus_condylar_desc" name="palpation_crepitus_condylar_desc" /></td>
+</tr>
+          <tr>
+    <td>Mobility</td>
+    <td><input type="text" id="palpation_mobility_site" name="palpation_mobility_site" /></td>
+    <td><input type="text" id="palpation_mobility_desc" name="palpation_mobility_desc" /></td>
+</tr>
+<tr>
+    <td>Paresthesia</td>
+    <td><input type="text" id="palpation_paresthesia_site" name="palpation_paresthesia_site" /></td>
+    <td><input type="text" id="palpation_paresthesia_desc" name="palpation_paresthesia_desc" /></td>
+</tr>
+          </tbody>
+        </table>
+
+        <h2>Cranial Nerves Examination</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nerves</th>
+              <th>Assessing Ethos</th>
+              <th>Status (Normal/Abnormal)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+    <td>CN I (Olfactory)</td>
+    <td><input type="text" id="cn_i_olfactory_site" name="cn_i_olfactory_site" /></td>
+    <td><input type="text" id="cn_i_olfactory_desc" name="cn_i_olfactory_desc" /></td>
+</tr>
+<tr>
+    <td>CN II (Optic)</td>
+    <td><input type="text" id="cn_ii_optic_site" name="cn_ii_optic_site" /></td>
+    <td><input type="text" id="cn_ii_optic_desc" name="cn_ii_optic_desc" /></td>
+</tr>
+<tr>
+    <td>CN III (Oculomotor)</td>
+    <td><input type="text" id="cn_iii_oculomotor_site" name="cn_iii_oculomotor_site" /></td>
+    <td><input type="text" id="cn_iii_oculomotor_desc" name="cn_iii_oculomotor_desc" /></td>
+</tr>
+         <tr>
+    <td>CN IV (Trochlear)</td>
+    <td><input type="text" id="cn_iv_trochlear_site" name="cn_iv_trochlear_site" /></td>
+    <td><input type="text" id="cn_iv_trochlear_desc" name="cn_iv_trochlear_desc" /></td>
+</tr>
+<tr>
+    <td>CN V (Trigeminal)</td>
+    <td><input type="text" id="cn_v_trigeminal_site" name="cn_v_trigeminal_site" /></td>
+    <td><input type="text" id="cn_v_trigeminal_desc" name="cn_v_trigeminal_desc" /></td>
+</tr>
+<tr>
+    <td>CN VI (Abducens)</td>
+    <td><input type="text" id="cn_vi_abducens_site" name="cn_vi_abducens_site" /></td>
+    <td><input type="text" id="cn_vi_abducens_desc" name="cn_vi_abducens_desc" /></td>
+</tr>
+<tr>
+    <td>CN VII (Facial)</td>
+    <td><input type="text" id="cn_vii_facial_site" name="cn_vii_facial_site" /></td>
+    <td><input type="text" id="cn_vii_facial_desc" name="cn_vii_facial_desc" /></td>
+</tr> 
+            <tr>
+    <td>CN VIII (Vestibulocochlear)</td>
+    <td><input type="text" id="cn_viii_vestibulocochlear_site" name="cn_viii_vestibulocochlear_site" /></td>
+    <td><input type="text" id="cn_viii_vestibulocochlear_desc" name="cn_viii_vestibulocochlear_desc" /></td>
+</tr>
+<tr>
+    <td>CN IX (Glossopharyngeal)</td>
+    <td><input type="text" id="cn_ix_glossopharyngeal_site" name="cn_ix_glossopharyngeal_site" /></td>
+    <td><input type="text" id="cn_ix_glossopharyngeal_desc" name="cn_ix_glossopharyngeal_desc" /></td>
+</tr>
+<tr>
+    <td>CN X (Vagus)</td>
+    <td><input type="text" id="cn_x_vagus_site" name="cn_x_vagus_site" /></td>
+    <td><input type="text" id="cn_x_vagus_desc" name="cn_x_vagus_desc" /></td>
+</tr>
+<tr>
+    <td>CN XI (Accessory)</td>
+    <td><input type="text" id="cn_xi_accessory_site" name="cn_xi_accessory_site" /></td>
+    <td><input type="text" id="cn_xi_accessory_desc" name="cn_xi_accessory_desc" /></td>
+</tr>
+<tr>
+    <td>CN XII (Hypoglossal)</td>
+    <td><input type="text" id="cn_xii_hypoglossal_site" name="cn_xii_hypoglossal_site" /></td>
+    <td><input type="text" id="cn_xii_hypoglossal_desc" name="cn_xii_hypoglossal_desc" /></td>
+</tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="page">
+        <h2>Intra-oral Examination</h2>
+        <h3>Inspection</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Site-R/L side/Bilateral</th>
+              <th>Description/type</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr>
+    <td>Mouth opening</td>
+    <td><input type="text" id="mouth_opening_site" name="mouth_opening_site" /></td>
+    <td><input type="text" id="mouth_opening_desc" name="mouth_opening_desc" /></td>
+</tr>
+<tr>
+    <td>Deviation</td>
+    <td><input type="text" id="deviation_site" name="deviation_site" /></td>
+    <td><input type="text" id="deviation_desc" name="deviation_desc" /></td>
+</tr>
+<tr>
+    <td>Ecchymosis (Guerin sign/coleman's sign)</td>
+    <td><input type="text" id="ecchymosis_site" name="ecchymosis_site" /></td>
+    <td><input type="text" id="ecchymosis_desc" name="ecchymosis_desc" /></td>
+</tr>
+           <tr>
+    <td>Presence of sinus</td>
+    <td><input type="text" id="oral_sinus_site" name="oral_sinus_site" /></td>
+    <td><input type="text" id="oral_sinus_desc" name="oral_sinus_desc" /></td>
+</tr>
+          </tbody>
+        </table>
+
+        <h3>Dental Evaluation</h3>
+<div class="form-group">
+    <label for="teeth_number_present">Teeth (Number present):</label>
+    <input type="text" id="teeth_number_present" name="teeth_number_present" />
+</div>
+<div class="form-group">
+    <label for="fractured_teeth">Fractured teeth:</label>
+    <input type="text" id="fractured_teeth" name="fractured_teeth" />
+</div>
+<div class="form-group">
+    <label for="tooth_mobility">Mobility:</label>
+    <input type="text" id="tooth_mobility" name="tooth_mobility" />
+</div>
+        <h3>Palpation</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Status (Normal/Deranged)</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+    <td>Tenderness</td>
+    <td><input type="text" id="palpation_intraoral_tenderness_site" name="palpation_intraoral_tenderness_site" /></td>
+    <td><input type="text" id="palpation_intraoral_tenderness_desc" name="palpation_intraoral_tenderness_desc" /></td>
+</tr>
+<tr>
+    <td>Mobility of teeth</td>
+    <td><input type="text" id="palpation_tooth_mobility_site" name="palpation_tooth_mobility_site" /></td>
+    <td><input type="text" id="palpation_tooth_mobility_desc" name="palpation_tooth_mobility_desc" /></td>
+</tr>
+<tr>
+    <td>Mobility of maxilla</td>
+    <td><input type="text" id="palpation_maxilla_mobility_site" name="palpation_maxilla_mobility_site" /></td>
+    <td><input type="text" id="palpation_maxilla_mobility_desc" name="palpation_maxilla_mobility_desc" /></td>
+</tr>
+<tr>
+    <td>Mobility of mandible</td>
+    <td><input type="text" id="palpation_mandible_mobility_site" name="palpation_mandible_mobility_site" /></td>
+    <td><input type="text" id="palpation_mandible_mobility_desc" name="palpation_mandible_mobility_desc" /></td>
+</tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="page">
+        <h2>Radiographs</h2>
+        <table>
+          <thead>
+           <thead>
+    <tr>
+        <th>Type of Imaging</th>
+        <th>Findings</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>Conventional Radiographs</td>
+        <td><input type="text" id="imaging_conventional_findings" name="imaging_conventional_findings" /></td>
+    </tr>
+    <tr>
+        <td>OPG</td>
+        <td><input type="text" id="imaging_opg_findings" name="imaging_opg_findings" /></td>
+    </tr>
+    <tr>
+        <td>Occlusal</td>
+        <td><input type="text" id="imaging_occlusal_findings" name="imaging_occlusal_findings" /></td>
+    </tr>
+</tbody>
+            <tr>
+    <td>PA Skull</td>
+    <td><input type="text" id="imaging_pa_skull_findings" name="imaging_pa_skull_findings" /></td>
+</tr>
+<tr>
+    <td>PA Mandible</td>
+    <td><input type="text" id="imaging_pa_mandible_findings" name="imaging_pa_mandible_findings" /></td>
+</tr>
+<tr>
+    <td>PNS</td>
+    <td><input type="text" id="imaging_pns_findings" name="imaging_pns_findings" /></td>
+</tr>
+<tr>
+    <td>Submento Vertex</td>
+    <td><input type="text" id="imaging_submento_vertex_findings" name="imaging_submento_vertex_findings" /></td>
+</tr>
+<tr>
+    <td>CT</td>
+    <td><input type="text" id="imaging_ct_findings" name="imaging_ct_findings" /></td>
+</tr>
+<tr>
+    <td>MRI</td>
+    <td><input type="text" id="imaging_mri_findings" name="imaging_mri_findings" /></td>
+</tr>
+<tr>
+    <td>OTHERS</td>
+    <td><input type="text" id="imaging_others_findings" name="imaging_others_findings" /></td>
+</tr>
+          </tbody>
+        </table>
+
+<h2>Diagnosis</h2>
+<div class="form-group">
+    <textarea id="diagnosis_text" name="diagnosis_text" rows="5"></textarea>
+</div>
+<h2>Surgical Notes</h2>
+<div class="form-group">
+    <label for="surgical_doa">DOA:</label><input type="text" id="surgical_doa" name="surgical_doa" />
+</div>
+<div class="form-group">
+    <label for="surgical_dos">DOS:</label><input type="text" id="surgical_dos" name="surgical_dos" />
+</div>
+<div class="form-group">
+    <label for="surgical_dod">DOD:</label><input type="text" id="surgical_dod" name="surgical_dod" />
+</div>
+<div class="form-group">
+    <label for="surgical_procedure">PROCEDURE:</label><textarea id="surgical_procedure" name="surgical_procedure" rows="5"></textarea>
+</div>
+<div class="form-group">
+    <label for="surgical_anaesthesia">Anaesthesia:</label><input type="text" id="surgical_anaesthesia" name="surgical_anaesthesia" />
+</div>
+<div class="form-group">
+    <label>Intubation:</label>
+    <div class="radio-group">
+        <label><input type="radio" name="intubation_type" id="intubation_nasal" value="Nasal" /> Nasal</label>
+        <label><input type="radio" name="intubation_type" id="intubation_oral" value="Oral" /> Oral</label>
+        <label><input type="radio" name="intubation_type" id="intubation_fibro_optic" value="fibro-optic" /> Fibro-optic</label>
+        <label><input type="radio" name="intubation_type" id="intubation_sub_mental" value="sub-mental" /> Sub-mental</label>
+    </div>
+</div>
+<div class="form-group">
+    <label for="surgical_incision_approach">Incision & Approach:</label><input type="text" id="surgical_incision_approach" name="surgical_incision_approach" />
+</div>
+<div class="form-group">
+    <label for="surgical_treatment_done">Treatment done:</label><textarea id="surgical_treatment_done" name="surgical_treatment_done" rows="5"></textarea>
+</div>
+        <h3>Fixation</h3>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>site</th>
+              <th>size</th>
+              <th>number</th>
+            </tr>
+          </thead>
+          <tbody>
+           <tr>
+    <td>Plates (SS/Titanium)</td>
+    <td><input type="text" id="fixation_plates_site" name="fixation_plates_site" /></td>
+    <td><input type="text" id="fixation_plates_size" name="fixation_plates_size" /></td>
+    <td><input type="text" id="fixation_plates_number" name="fixation_plates_number" /></td>
+</tr>
+<tr>
+    <td>screws</td>
+    <td><input type="text" id="fixation_screws_site" name="fixation_screws_site" /></td>
+    <td><input type="text" id="fixation_screws_size" name="fixation_screws_size" /></td>
+    <td><input type="text" id="fixation_screws_number" name="fixation_screws_number" /></td>
+</tr>
+          </tbody>
+        </table>
+<div class="form-group"><label for="wound_closure">Wound closure:</label><input type="text" id="wound_closure" name="wound_closure" /></div>
+<div class="form-group"><label for="suture_material">Suture material:</label><input type="text" id="suture_material" name="suture_material" /></div>
+<div class="form-group"><label for="type_of_suturing">Type of suturing:</label><input type="text" id="type_of_suturing" name="type_of_suturing" /></div>
+      </div>
+      <div class="page">
+        <h2>Treatment Plan and Post-Operative Care</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Medical</th>
+              <th>Action/Status</th>
+              <th>Instructions</th>
+            </tr>
+          </thead>
+          <tbody>
+   <tr>
+    <td>Debridement</td>
+    <td><input type="text" id="debridement_site" name="debridement_site" /></td>
+    <td><input type="text" id="debridement_desc" name="debridement_desc" /></td>
+</tr>
+<tr>
+    <td>Dressing</td>
+    <td><input type="text" id="dressing_site" name="dressing_site" /></td>
+    <td><input type="text" id="dressing_desc" name="dressing_desc" /></td>
+</tr>
+<tr>
+    <td>Suturing/splinting</td>
+    <td><input type="text" id="suturing_splinting_site" name="suturing_splinting_site" /></td>
+    <td><input type="text" id="suturing_splinting_desc" name="suturing_splinting_desc" /></td>
+</tr>
+           <tr>
+    <td>Antibiotics & analgesics</td>
+    <td><input type="text" id="meds_antibiotics_analgesics_site" name="meds_antibiotics_analgesics_site" /></td>
+    <td><input type="text" id="meds_antibiotics_analgesics_desc" name="meds_antibiotics_analgesics_desc" /></td>
+</tr>
+<tr>
+    <td>TT</td>
+    <td><input type="text" id="meds_tt_site" name="meds_tt_site" /></td>
+    <td><input type="text" id="meds_tt_desc" name="meds_tt_desc" /></td>
+</tr>
+<tr>
+    <td>Rehydration</td>
+    <td><input type="text" id="meds_rehydration_site" name="meds_rehydration_site" /></td>
+    <td><input type="text" id="meds_rehydration_desc" name="meds_rehydration_desc" /></td>
+</tr>
+           <tr>
+    <td>Surgical procedure</td>
+    <td><input type="text" id="surgical_procedure_type" name="surgical_procedure_type" /></td>
+    <td><input type="text" id="surgical_procedure_desc" name="surgical_procedure_desc" /></td>
+</tr>
+<tr>
+    <td>Model surgery</td>
+    <td>
+        <div class="radio-group">
+            <label><input type="radio" name="model_surgery_status" id="model_surgery_needed" value="Needed" /> Needed</label>
+            <label><input type="radio" name="model_surgery_status" id="model_surgery_not_needed" value="Not needed" /> Not needed</label>
+        </div>
+    </td>
+    <td><input type="text" id="model_surgery_desc" name="model_surgery_desc" /></td>
+</tr>
+          <tr>
+    <td>Anaesthesia</td>
+    <td>
+        <div class="radio-group">
+            <label><input type="radio" name="anaesthesia_type" id="anaesthesia_la" value="LA" /> LA</label>
+            <label><input type="radio" name="anaesthesia_type" id="anaesthesia_ga" value="GA" /> GA</label>
+        </div>
+    </td>
+    <td><input type="text" id="anaesthesia_desc" name="anaesthesia_desc" /></td>
+</tr>
+<tr>
+    <td>Admission</td>
+    <td>
+        <div class="radio-group">
+            <label><input type="radio" name="admission_status" id="admission_needed" value="Needed" /> Needed</label>
+            <label><input type="radio" name="admission_status" id="admission_not_needed" value="Not needed" /> Not needed</label>
+        </div>
+    </td>
+    <td><input type="text" id="admission_desc" name="admission_desc" /></td>
+</tr>
+<tr>
+    <td>Medical opinion</td>
+    <td>
+        <div class="radio-group">
+            <label><input type="radio" name="medical_opinion_status" id="medical_opinion_needed" value="Needed" /> Needed</label>
+            <label><input type="radio" name="medical_opinion_status" id="medical_opinion_not_needed" value="Not needed" /> Not needed</label>
+        </div>
+    </td>
+    <td><input type="text" id="medical_opinion_desc" name="medical_opinion_desc" /></td>
+</tr>
+<tr>
+    <td>Anaesthetist</td>
+    <td><input type="text" id="consult_anaesthetist_site" name="consult_anaesthetist_site" /></td>
+    <td><input type="text" id="consult_anaesthetist_desc" name="consult_anaesthetist_desc" /></td>
+</tr>
+<tr>
+    <td>Premed:</td>
+    <td><input type="text" id="consult_premed_site" name="consult_premed_site" /></td>
+    <td><input type="text" id="consult_premed_desc" name="consult_premed_desc" /></td>
+</tr>
+<tr>
+    <td>Blood reservation</td>
+    <td><input type="text" id="consult_blood_reservation_site" name="consult_blood_reservation_site" /></td>
+    <td><input type="text" id="consult_blood_reservation_desc" name="consult_blood_reservation_desc" /></td>
+</tr>
+<tr>
+    <td>Ophthalmologist</td>
+    <td><input type="text" id="consult_ophthalmologist_site" name="consult_ophthalmologist_site" /></td>
+    <td><input type="text" id="consult_ophthalmologist_desc" name="consult_ophthalmologist_desc" /></td>
+</tr>
+<tr>
+    <td>Neurosurgeon</td>
+    <td><input type="text" id="consult_neurosurgeon_site" name="consult_neurosurgeon_site" /></td>
+    <td><input type="text" id="consult_neurosurgeon_desc" name="consult_neurosurgeon_desc" /></td>
+</tr>
+<tr>
+    <td>Physician</td>
+    <td><input type="text" id="consult_physician_site" name="consult_physician_site" /></td>
+    <td><input type="text" id="consult_physician_desc" name="consult_physician_desc" /></td>
+</tr>
+<tr>
+    <td>General Surgeon</td>
+    <td><input type="text" id="consult_general_surgeon_site" name="consult_general_surgeon_site" /></td>
+    <td><input type="text" id="consult_general_surgeon_desc" name="consult_general_surgeon_desc" /></td>
+</tr>
+<tr>
+    <td>Gynaecologist</td>
+    <td><input type="text" id="consult_gynaecologist_site" name="consult_gynaecologist_site" /></td>
+    <td><input type="text" id="consult_gynaecologist_desc" name="consult_gynaecologist_desc" /></td>
+</tr>
+<tr>
+    <td>Others</td>
+    <td><input type="text" id="consult_others_site" name="consult_others_site" /></td>
+    <td><input type="text" id="consult_others_desc" name="consult_others_desc" /></td>
+</tr>
+<tr>
+    <td>Surgical site preparation</td>
+    <td><input type="text" id="surgical_site_prep_site" name="surgical_site_prep_site" /></td>
+    <td><input type="text" id="surgical_site_prep_desc" name="surgical_site_prep_desc" /></td>
+</tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="navigation">
+        <button type="button" id="prevBtn" disabled>Back</button>
+        <button type="button" id="nextBtn">Next</button>
+      </div>
+    </form>
+  </div>
+
+<script>
+    const pages = document.querySelectorAll('.page');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentPage = 0;
+
+    function showPage(index) {
+      window.scrollTo(0, 0);
+      pages.forEach((page, i) => {
+        page.classList.toggle('active', i === index);
+      });
+      prevBtn.disabled = index === 0;
+      nextBtn.textContent = index === pages.length - 1 ? 'Submit' : 'Next';
+      if (prescriptionBtn) { // Check if the button exists
+          prescriptionBtn.style.display = index === pages.length - 1 ? 'block' : 'none';
+      }
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      } else {
+        window.location.href = "prescription.html";
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+     if (prescriptionBtn) { // Check if the button exists
+        prescriptionBtn.addEventListener('click', () => {
+            window.location.href = 'prescription.html';
+        });
+    }
+
+    showPage(currentPage); 
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

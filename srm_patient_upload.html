@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SRM Dental College - Patient Form</title>
+  <style>
+    /*
+     * Body styles for overall page layout and background.
+     * Uses 'Segoe UI' as the preferred font, with sans-serif as a fallback.
+     * Background image 'campus.png' is set to cover the entire viewport,
+     * with a fallback background color of black.
+     * Flexbox is used to center the content container vertically and horizontally.
+     */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('campus.png') no-repeat center center fixed;
+      background-size: cover;
+      background-color: #000;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /*
+     * Styles for the main form container.
+     * Semi-transparent dark blue background with white text.
+     * Padding, max-width, width, and border-radius for aesthetic appeal.
+     * Backdrop-filter adds a blur effect to the background visible through the container.
+     */
+    .container {
+      background-color: #26286bd9; /* Dark blue with transparency */
+      color: #fff; /* White text for contrast */
+      padding: 2rem;
+      max-width: 900px;
+      width: 90%; /* Responsive width */
+      border-radius: 1rem; /* Rounded corners */
+      backdrop-filter: blur(8px); /* Glassmorphism effect */
+    }
+
+    /*
+     * Center alignment for main headings within the container.
+     */
+    .container h1, .container h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    /*
+     * Margin for sections within the form.
+     */
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    /*
+     * Styling for section subheadings.
+     * Light blue color for visual separation.
+     */
+    .section h3 {
+      margin-bottom: 1rem;
+      color: #66B2FF; /* Light blue color */
+    }
+
+    /*
+     * Styling for form labels.
+     * Display as block elements for better spacing.
+     */
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    /*
+     * Styles for various input fields (text, select, textarea).
+     * Full width, padding, rounded borders, and dark background with white text.
+     */
+    .input-field, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc; /* Light grey border */
+      border-radius: 0.5rem; /* Rounded corners */
+      font-size: 1rem;
+      background-color: #1A1A1A; /* Dark background */
+      color: #fff; /* White text */
+    }
+
+    /*
+     * Flexbox for creating responsive rows of input fields.
+     * Gap provides spacing between elements.
+     * flex-wrap allows items to wrap to the next line on smaller screens.
+     */
+    .row {
+      display: flex;
+      gap: 1rem; /* Spacing between columns */
+      flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    }
+
+    /*
+     * Each direct child of .row takes up equal space.
+     */
+    .row > div {
+      flex: 1; /* Distributes space equally among children */
+    }
+
+    /*
+     * Flexbox for groups of checkboxes/radio buttons.
+     * Gap provides spacing between individual checkbox labels.
+     * flex-wrap allows labels to wrap on smaller screens.
+     */
+    .checkbox-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /*
+     * Aligns the checkbox/radio input with its label text.
+     */
+    .checkbox-group label {
+      display: flex;
+      align-items: center; /* Vertically align items */
+      gap: 0.25rem; /* Small gap between input and text */
+      font-weight: normal; /* Override bold from general label style */
+    }
+
+    /*
+     * Styling for the submit button.
+     * Blue background, white text, padding, rounded corners, and full width.
+     * Transition for a smooth hover effect.
+     */
+    .submit-button {
+      background-color: #3C8DFF; /* Blue color */
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      border: none;
+      width: 100%; /* Full width button */
+      font-size: 1rem;
+      cursor: pointer; /* Indicates interactivity */
+      transition: background-color 0.2s; /* Smooth color change on hover */
+    }
+
+    /*
+     * Hover effect for the submit button.
+     */
+    .submit-button:hover {
+      background-color: #66B2FF; /* Lighter blue on hover */
+    }
+
+    /*
+     * Styling for the SRM logo image.
+     * Centered horizontally and fixed width.
+     */
+    img.logo {
+      width: 80px; /* Fixed width for the logo */
+      display: block; /* Allows margin: auto for centering */
+      margin: 0 auto 10px; /* Centers horizontally and adds bottom margin */
+    }
+
+    /*
+     * Media query for responsiveness on screens smaller than 600px.
+     * Changes the layout of rows to a single column.
+     */
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column; /* Stacks items vertically */
+      }
+    }
+    /*
+     * Specific style for WebKit browsers to invert the color of the
+     * calendar icon within date input fields, making it white.
+     */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1); /* Inverts colors */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- SRM Dental College logo -->
+    <img src="logo.png" alt="SRM Logo" class="logo">
+    <h1>SRM DENTAL COLLEGE</h1>
+
+    <form id="patientForm">
+      <!-- Section for Personal Information -->
+      <div class="section">
+        <h3>Personal Information</h3>
+        <div class="row">
+          <div>
+            <label for="firstName">First Name *</label>
+            <input type="text" id="firstName" class="input-field" required>
+          </div>
+          <div>
+            <label for="middleName">Middle Name</label>
+            <input type="text" id="middleName" class="input-field">
+          </div>
+          <div>
+            <label for="lastName">Last Name *</label>
+            <input type="text" id="lastName" class="input-field" required>
+          </div>
+        </div>
+
+        <label for="dob">Date of Birth *</label>
+        <input type="date" id="dob" class="input-field" required>
+
+        <label for="age">Age</label>
+        <input type="text" id="age" class="input-field" readonly>
+
+        <label>Gender *</label>
+        <div class="checkbox-group">
+          <label><input type="radio" name="gender" value="Male" required> Male</label>
+          <label><input type="radio" name="gender" value="Female"> Female</label>
+          <label><input type="radio" name="gender" value="Other"> Other</label>
+        </div>
+
+        <label>Marital Status *</label>
+        <div class="checkbox-group">
+          <label><input type="radio" name="marital" value="Single" required> Single</label>
+          <label><input type="radio" name="marital" value="Married"> Married</label>
+          <label><input type="radio" name="marital" value="Other"> Other</label>
+        </div>
+
+        <label for="language">Preferred Language</label>
+        <select id="language" class="input-field">
+          <option value="">Select</option>
+          <option value="English">English</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Tamil">Tamil</option>
+        </select>
+      </div>
+
+      <!-- Section for Patient Case Entry - Chief Complaint & History -->
+      <div class="section">
+        <h3>Patient Case Entry - Chief Complaint & History</h3>
+
+        <label for="chiefComplaint">Chief Complaint</label>
+        <!-- Converted Chief Complaint from text input to a dropdown (select) -->
+        <select id="chiefComplaint" class="input-field">
+            <option value="">Select a primary issue</option>
+            <option value="Pain/Toothache">Pain/Toothache</option>
+            <option value="Dental Caries (Cavities)">Dental Caries (Cavities)</option>
+            <option value="Sensitivity">Sensitivity</option>
+            <option value="Gingivitis and Gum Problems">Gingivitis and Gum Problems</option>
+            <option value="Aesthetic Concerns">Aesthetic Concerns</option>
+            <option value="Post-filling Complaints">Post-filling Complaints</option>
+            <option value="Missing Teeth/Tooth Replacement">Missing Teeth/Tooth Replacement</option>
+            <option value="Routine Check-up/Cleaning">Routine Check-up/Cleaning</option>
+            <option value="Oral Ulcers">Oral Ulcers</option>
+            <option value="Facial/Intra-oral Swelling">Facial/Intra-oral Swelling</option>
+            <option value="Loose Teeth">Loose Teeth</option>
+            <option value="Bad Breath (Halitosis)">Bad Breath (Halitosis)</option>
+            <option value="Temporomandibular Joint (TMJ) Pain/Disorder">Temporomandibular Joint (TMJ) Pain/Disorder</option>
+            <option value="Fractured Tooth">Fractured Tooth</option>
+            <option value="Food Impaction">Food Impaction</option>
+        </select>
+
+        <h4>History of Present Illness</h4>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="hpi" value="Diabetes"> Diabetes</label>
+          <label><input type="checkbox" name="hpi" value="Hypertension"> Hypertension</label>
+          <label><input type="checkbox" name="hpi" value="Asthma"> Asthma</label>
+          <label><input type="checkbox" name="hpi" value="Mypertansion"> Mypertansion</label>
+          <label><input type="checkbox" name="hpi" value="Hyperlipidemia"> Hyperlipidemia</label>
+          <label><input type="checkbox" name="hpi" value="Thyroid pois"> Thyroid pois</label>
+        </div>
+
+        <h4>Past Medical History</h4>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="pmh" value="Diabetes"> Diabetes</label>
+          <label><input type="checkbox" name="pmh" value="Hypertension"> Hypertension</label>
+          <label><input type="checkbox" name="pmh" value="Osteoporosis"> Osteoporosis</label>
+        </div>
+
+        <h4>Personal Habits</h4>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="personalHabits" value="Smoking"> Smoking</label>
+          <label><input type="checkbox" name="personalHabits" value="Alcohol"> Alcohol</label>
+          <label><input type="checkbox" name="personalHabits" value="Betel Nut"> Betel Nut</label>
+        </div>
+      </div>
+      <!-- Section for Medical History -->
+      <div class="section">
+        <h3>Medical History</h3>
+        <label for="medications">Current Medications</label>
+        <textarea id="medications" class="input-field" rows="3"></textarea>
+
+        <label for="allergies">Known Allergies (e.g., latex, medications, anesthetics)</label>
+        <textarea id="allergies" class="input-field" rows="3"></textarea>
+
+        <label for="conditions">Chronic Medical Conditions (e.g., diabetes, heart disease)</label>
+        <textarea id="conditions" class="input-field" rows="3"></textarea>
+
+        <label for="surgeries">Past Surgeries or Hospitalizations</label>
+        <textarea id="surgeries" class="input-field" rows="3"></textarea>
+
+        <label>Pregnancy Status</label>
+        <div class="checkbox-group">
+          <label><input type="radio" name="pregnancyStatus" value="Yes"> Yes</label>
+          <label><input type="radio" name="pregnancyStatus" value="No"> No</label>
+        </div>
+      </div>
+
+      <!-- Section for Dental History -->
+      <div class="section">
+        <h3>Dental History</h3>
+        <label for="dentalConcerns">Primary Dental Concerns (e.g., pain, sensitivity, bleeding gums)</label>
+        <textarea id="dentalConcerns" class="input-field" rows="3"></textarea>
+
+        <label for="lastVisit">Date of Last Dental Visit</label>
+        <input type="date" id="lastVisit" class="input-field">
+      </div>
+
+      <button type="submit" class="submit-button">Upload Details</button>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript for auto-calculating age based on Date of Birth.
+    // Adds an event listener to the 'dob' (Date of Birth) input field.
+    document.getElementById('dob').addEventListener('change', function () {
+      const dob = new Date(this.value); // Gets the selected Date of Birth
+      const today = new Date(); // Gets the current date
+      let age = today.getFullYear() - dob.getFullYear(); // Calculates initial age
+      const m = today.getMonth() - dob.getMonth(); // Calculates month difference
+      // Adjusts age if the birth month/day hasn't occurred yet in the current year
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+
+      // Updates the 'age' input field if the calculated age is a valid non-negative number.
+      if (!isNaN(age) && age >= 0) {
+        document.getElementById('age').value = age;
+      } else {
+        document.getElementById('age').value = ''; // Clears if invalid date/age
+      }
+    });
+
+    // JavaScript for form submission handling and validation.
+    // Adds an event listener to the patient form for 'submit' event.
+    document.getElementById('patientForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevents the default form submission (page reload).
+
+      // Retrieves values from mandatory input fields and trims whitespace.
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const dob = document.getElementById('dob').value;
+      // Checks if a gender radio button is selected.
+      const gender = document.querySelector('input[name="gender"]:checked');
+      // Checks if a marital status radio button is selected.
+      const marital = document.querySelector('input[name="marital"]:checked');
+
+      // Basic validation: Checks if mandatory fields are empty.
+      if (!firstName || !lastName || !dob || !gender || !marital) {
+        // Displays an alert if any mandatory field is missing.
+        // NOTE: In a production environment, consider using a custom modal
+        // or inline error messages instead of alert() for better UX.
+        alert('Please fill all mandatory fields.');
+        return; // Stops the function execution if validation fails.
+      }
+
+      // If all validations pass, displays a success message.
+      alert('Details uploaded successfully!');
+      // Redirects the user to Google.com after successful submission.
+      // In a real application, this would typically lead to a confirmation page
+      // or a dashboard, or trigger an AJAX call to send data to a server.
+      window.location.href = 'https://www.google.com';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1099 @@
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif; /* Using Inter font */
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('campus.png') no-repeat center center fixed; /* Placeholder for campus.png */
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      padding: 40px 20px;
+      min-height: 100vh; /* Ensure body takes full viewport height */
+    }
+    .case-sheet {
+      background-color: rgba(38, 40, 107, 0.85);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      margin-top: 20px; /* Add some top margin */
+      margin-bottom: 20px; /* Add some bottom margin */
+    }
+    h2 {
+      border-bottom: 1px solid white;
+      padding-bottom: 5px;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      font-size: 1.8em; /* Larger heading */
+    }
+    h3 {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 1.4em;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 1.1em; /* Slightly larger labels */
+    }
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: calc(100% - 16px); /* Account for padding */
+      padding: 8px;
+      border: none;
+      border-radius: 6px; /* Slightly more rounded corners */
+      background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+      color: #26286b; /* Dark text for inputs */
+      font-size: 1em;
+       resize: none;
+      min-height: 50px; /* Minimum height for the textarea */
+      max-height: 200px; /* Maximum height for the textarea */
+      overflow-y: auto; /* Adds scrollbar when content exceeds max-height */
+    
+    }
+   
+    .checkbox-group {
+      display: flex;
+      gap: 20px; /* Increased gap */
+      flex-wrap: wrap;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      font-size: 1em;
+    }
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 8px; /* More space for checkbox */
+      transform: scale(1.2); /* Slightly larger checkboxes */
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    button {
+      padding: 12px 25px; /* Larger buttons */
+      background-color: #fff;
+      color: #26286b;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px; /* More rounded buttons */
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* Add shadow to buttons */
+    }
+    button:hover:not(:disabled) {
+      background-color: #e0e0e0; /* Lighter on hover */
+      transform: translateY(-2px); /* Slight lift on hover */
+    }
+    button:active:not(:disabled) {
+      transform: translateY(0); /* Press effect */
+    }
+    button:disabled {
+      opacity: 0.6; /* Slightly more opaque when disabled */
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Table specific styles */
+    .table-container {
+        overflow-x: auto; /* Enable horizontal scrolling for tables on small screens */
+        margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent table background */
+      border-radius: 8px;
+      overflow: hidden; /* Ensures rounded corners apply to content */
+    }
+    th, td {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 5px; /* Reduced padding for more cells */
+      text-align: center;
+      vertical-align: middle;
+      font-size: 0.9em; /* Slightly smaller font for more cells */
+      white-space: nowrap; /* Prevent wrapping of tooth numbers */
+    }
+    th {
+      background-color: rgba(255, 255, 255, 0.2);
+      font-weight: bold;
+    }
+    td input[type="text"], td input[type="number"] {
+        width: 100%;
+        box-sizing: border-box; /* Include padding and border in the element's total width */
+        padding: 4px; /* Smaller padding for inputs */
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.95);
+        color: #26286b;
+        border-radius: 4px;
+        border: none; /* No border for inputs inside table cells */
+    }
+    td textarea {
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 40px;
+        padding: 6px;
+        background-color: rgba(255, 255, 255, 0.95);
+        color: #26286b;
+        border-radius: 4px;
+        resize: vertical;
+    }
+    .table-label {
+        font-weight: bold;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .case-sheet {
+        padding: 20px;
+        width: 95%;
+      }
+      h2 {
+        font-size: 1.5em;
+      }
+      label {
+        font-size: 1em;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+      }
+      th, td {
+          font-size: 0.8em;
+          padding: 5px 3px;
+      }
+      td input[type="text"], td input[type="number"], td textarea {
+          padding: 3px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="case-sheet">
+     <div style="text-align: center; margin-bottom: 20px;">
+    <img src="logo.png" alt="SRM Dental College Logo" style="max-width: 120px; height: auto; margin-bottom: 10px; border-radius: 50%;" /> <!-- Placeholder for logo.png -->
+    <h1 class="text-3xl md:text-4xl font-bold text-white mb-6" style="margin: 0;">SRM Dental College</h1>
+    <p style="margin-top: 5px; font-size: 1.1em;">DEPARTMENT OF PERIODONTICS</p>
+  </div>
+    <form>
+      <!-- Page 1: Demographic and Chief Complaint -->
+      <div class="page active">
+        <h2>1. Extra – Oral Examination</h2>
+        <div class="form-group"><label for="facialSymmetry">Facial Symmetry:</label><input type="text" id="facialSymmetry" name="facialSymmetry" /></div>
+        <div class="form-group"><label for="tmjExamination">TMJ examination:</label><input type="text" id="tmjExamination" name="tmjExamination" /></div>
+        <div class="form-group"><label for="mouthOpening">Mouth opening:</label><input type="text" id="mouthOpening" name="mouthOpening" /></div>
+        <div class="form-group"><label for="lymphNode">Lymph node examination:</label><input type="text" id="lymphNode" name="lymphNode" /></div>
+        <div class="form-group"><label for="lipCompetence">Lip competence:</label><input type="text" id="lipCompetence" name="lipCompetence" /></div>
+    
+<h2>2. Intra – Oral Examination (Soft Tissues)</h2>
+        <div class="form-group"><label for="buccalMucosa">Buccal mucosa:</label><input type="text" id="buccalMucosa" name="buccalMucosa" /></div>
+        <div class="form-group"><label for="labialMucosa">Labial mucosa:</label><input type="text" id="labialMucosa" name="labialMucosa" /></div>
+        <div class="form-group"><label for="palatalLingualMucosa">Palatal/lingual mucosa:</label><input type="text" id="palatalLingualMucosa" name="palatalLingualMucosa" /></div>
+        <div class="form-group"><label for="tongue">Tongue:</label><input type="text" id="tongue" name="tongue" /></div>
+        <div class="form-group"><label for="palate">Palate:</label><input type="text" id="palate" name="palate" /></div>
+        <div class="form-group"><label for="floorOfMouth">Floor of mouth:</label><input type="text" id="floorOfMouth" name="floorOfMouth" /></div>
+        <div class="form-group"><label for="vestibuleSoftTissue">Vestibule:</label><input type="text" id="vestibuleSoftTissue" name="vestibuleSoftTissue"></div>
+        <div class="form-group"><label for="tonsils">Tonsils:</label><input type="text" id="tonsils" name="tonsils" /></div>
+</div>
+      <!-- Page 2: Intra-Oral Examination (Soft Tissues) and Periodontal Examination (Gingiva) -->
+      <div class="page">
+
+        <h2>3. Periodontal Examination - Gingiva</h2>
+        <p>Please describe the characteristics for Maxilla and Mandible.</p>
+
+        <h3>Maxilla</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2"></th>
+                        <th colspan="2"></th>
+                        <th colspan="4">Tooth Numbers</th>
+                    </tr>
+                    <tr>
+                        <th>Buccal</th>
+                        <th>Palatal</th>
+                        <th>18,17,16,15,14</th>
+                        <th>13,12,11</th>
+                        <th>21,22,23</th>
+                        <th>24,25,26,27,28</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Colour -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Colour</td>
+                        <td><input type="text" id="maxillaColourB1" name="maxillaColourB_1" /></td>
+                        <td><input type="text" id="maxillaColourP1" name="maxillaColourP_1" /></td>
+                        <td><input type="text" id="maxillaColour18_1" name="maxillaColour18_1" /></td>
+                        <td><input type="text" id="maxillaColour13_1" name="maxillaColour13_1" /></td>
+                        <td><input type="text" id="maxillaColour21_1" name="maxillaColour21_1" /></td>
+                        <td><input type="text" id="maxillaColour24_1" name="maxillaColour24_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaColourB2" name="maxillaColourB_2" /></td>
+                        <td><input type="text" id="maxillaColourP2" name="maxillaColourP_2" /></td>
+                        <td><input type="text" id="maxillaColour18_2" name="maxillaColour18_2" /></td>
+                        <td><input type="text" id="maxillaColour13_2" name="maxillaColour13_2" /></td>
+                        <td><input type="text" id="maxillaColour21_2" name="maxillaColour21_2" /></td>
+                        <td><input type="text" id="maxillaColour24_2" name="maxillaColour24_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaColourB3" name="maxillaColourB_3" /></td>
+                        <td><input type="text" id="maxillaColourP3" name="maxillaColourP_3" /></td>
+                        <td><input type="text" id="maxillaColour18_3" name="maxillaColour18_3" /></td>
+                        <td><input type="text" id="maxillaColour13_3" name="maxillaColour13_3" /></td>
+                        <td><input type="text" id="maxillaColour21_3" name="maxillaColour21_3" /></td>
+                        <td><input type="text" id="maxillaColour24_3" name="maxillaColour24_3" /></td>
+                    </tr>
+                
+                    <!-- Contour -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Contour</td>
+                        <td><input type="text" id="maxillaContourB1" name="maxillaContourB_1" /></td>
+                        <td><input type="text" id="maxillaContourP1" name="maxillaContourP_1" /></td>
+                        <td><input type="text" id="maxillaContour18_1" name="maxillaContour18_1" /></td>
+                        <td><input type="text" id="maxillaContour13_1" name="maxillaContour13_1" /></td>
+                        <td><input type="text" id="maxillaContour21_1" name="maxillaContour21_1" /></td>
+                        <td><input type="text" id="maxillaContour24_1" name="maxillaContour24_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaContourB2" name="maxillaContourB_2" /></td>
+                        <td><input type="text" id="maxillaContourP2" name="maxillaContourP_2" /></td>
+                        <td><input type="text" id="maxillaContour18_2" name="maxillaContour18_2" /></td>
+                        <td><input type="text" id="maxillaContour13_2" name="maxillaContour13_2" /></td>
+                        <td><input type="text" id="maxillaContour21_2" name="maxillaContour21_2" /></td>
+                        <td><input type="text" id="maxillaContour24_2" name="maxillaContour24_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"  id="maxillaContourB3" name="maxillaContourB_3" /></td>
+                        <td><input type="text" id="maxillaContourP3" name="maxillaContourP_3" /></td>
+                        <td><input type="text" id="maxillaContour18_3" name="maxillaContour18_3" /></td>
+                        <td><input type="text" id="maxillaContour13_3" name="maxillaContour13_3" /></td>
+                        <td><input type="text" id="maxillaContour21_3" name="maxillaContour21_3" /></td>
+                        <td><input type="text" id="maxillaContour24_3" name="maxillaContour24_3" /></td>
+                    </tr>
+                    
+                    <!-- Consistency -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Consistency</td>
+                        <td><input type="text" id="maxillaConsistencyB1" name="maxillaConsistencyB_1" /></td>
+                        <td><input type="text" id="maxillaConsistencyP1" name="maxillaConsistencyP_1" /></td>
+                        <td><input type="text" id="maxillaConsistency18_1" name="maxillaConsistency18_1" /></td>
+                        <td><input type="text" id="maxillaConsistency13_1" name="maxillaConsistency13_1" /></td>
+                        <td><input type="text" id="maxillaConsistency21_1" name="maxillaConsistency21_1" /></td>
+                        <td><input type="text" id="maxillaConsistency24_1" name="maxillaConsistency24_1" /></td>
+    
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaConsistencyB2" name="maxillaConsistencyB_2" /></td>
+                        <td><input type="text" id="maxillaConsistencyP2" name="maxillaConsistencyP_2" /></td>
+                        <td><input type="text" id="maxillaConsistency18_2" name="maxillaConsistency18_2" /></td>
+                        <td><input type="text" id="maxillaConsistency13_2" name="maxillaConsistency13_2" /></td>
+                        <td><input type="text" id="maxillaConsistency21_2" name="maxillaConsistency21_2" /></td>
+                        <td><input type="text" id="maxillaConsistency24_2" name="maxillaConsistency24_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaConsistencyB3" name="maxillaConsistencyB_3" /></td>
+                        <td><input type="text" id="maxillaConsistencyP3" name="maxillaConsistencyP_3" /></td>
+                        <td><input type="text" id="maxillaConsistency18_3" name="maxillaConsistency18_3" /></td>
+                        <td><input type="text" id="maxillaConsistency13_3" name="maxillaConsistency13_3" /></td>
+                        <td><input type="text" id="maxillaConsistency21_3" name="maxillaConsistency21_3" /></td>
+                        <td><input type="text" id="maxillaConsistency24_3" name="maxillaConsistency24_3" /></td>
+                    </tr>
+                    <!-- Surface Texture -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Surface Texture</td>
+                        <td><input type="text" id="maxillaSurfaceTextureB1" name="maxillaSurfaceTextureB_1" /></td>
+                        <td><input type="text" id="maxillaSurfaceTextureP1" name="maxillaSurfaceTextureP_1" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture18_1" name="maxillaSurfaceTexture18_1" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture13_1" name="maxillaSurfaceTexture13_1" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture21_1" name="maxillaSurfaceTexture21_1" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture24_1" name="maxillaSurfaceTexture24_1" /></td>
+                    </tr>
+            
+                    <tr>
+                        <td><input type="text" id="maxillaSurfaceTextureB2" name="maxillaSurfaceTextureB_2" /></td>
+                        <td><input type="text" id="maxillaSurfaceTextureP2" name="maxillaSurfaceTextureP_2" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture18_2" name="maxillaSurfaceTexture18_2" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture13_2" name="maxillaSurfaceTexture13_2" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture21_2" name="maxillaSurfaceTexture21_2" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture24_2" name="maxillaSurfaceTexture24_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaSurfaceTextureB3" name="maxillaSurfaceTextureB_3" /></td>
+                        <td><input type="text" id="maxillaSurfaceTextureP3" name="maxillaSurfaceTextureP_3" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture18_3" name="maxillaSurfaceTexture18_3" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture13_3" name="maxillaSurfaceTexture13_3" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture21_3" name="maxillaSurfaceTexture21_3" /></td>
+                        <td><input type="text" id="maxillaSurfaceTexture24_3" name="maxillaSurfaceTexture24_3" /></td>
+                    </tr>
+                    <!-- Size -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Size</td>
+                        <td><input type="text" id="maxillaSizeB1" name="maxillaSizeB_1" /></td>
+                        <td><input type="text" id="maxillaSizeP1" name="maxillaSizeP_1" /></td>
+                        <td><input type="text" id="maxillaSize18_1" name="maxillaSize18_1" /></td>
+                        <td><input type="text" id="maxillaSize13_1" name="maxillaSize13_1" /></td>
+                        <td><input type="text" id="maxillaSize21_1" name="maxillaSize21_1" /></td>
+                        <td><input type="text" id="maxillaSize24_1" name="maxillaSize24_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaSizeB2" name="maxillaSizeB_2" /></td>
+                        <td><input type="text" id="maxillaSizeP2" name="maxillaSizeP_2" /></td>
+                        <td><input type="text" id="maxillaSize18_2" name="maxillaSize18_2" /></td>
+                        <td><input type="text" id="maxillaSize13_2" name="maxillaSize13_2" /></td>
+                        <td><input type="text" id="maxillaSize21_2" name="maxillaSize21_2" /></td>
+                        <td><input type="text" id="maxillaSize24_2" name="maxillaSize24_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaSizeB3" name="maxillaSizeB_3" /></td>
+                        <td><input type="text" id="maxillaSizeP3" name="maxillaSizeP_3" /></td>
+                        <td><input type="text" id="maxillaSize18_3" name="maxillaSize18_3" /></td>
+                        <td><input type="text" id="maxillaSize13_3" name="maxillaSize13_3" /></td>
+                        <td><input type="text" id="maxillaSize21_3" name="maxillaSize21_3" /></td>
+                        <td><input type="text" id="maxillaSize24_3" name="maxillaSize24_3" /></td>
+                    </tr>
+                    <!-- Exudates -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Exudates</td>
+                        <td><input type="text" id="maxillaExudatesB1" name="maxillaExudatesB_1" /></td>
+                        <td><input type="text" id="maxillaExudatesP1" name="maxillaExudatesP_1" /></td>
+                        <td><input type="text" id="maxillaExudates18_1" name="maxillaExudates18_1" /></td>
+                        <td><input type="text" id="maxillaExudates13_1" name="maxillaExudates13_1" /></td>
+                        <td><input type="text" id="maxillaExudates21_1" name="maxillaExudates21_1" /></td>
+                        <td><input type="text" id="maxillaExudates24_1" name="maxillaExudates24_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaExudatesB2" name="maxillaExudatesB_2" /></td>
+                        <td><input type="text" id="maxillaExudatesP2" name="maxillaExudatesP_2" /></td>
+                        <td><input type="text" id="maxillaExudates18_2" name="maxillaExudates18_2" /></td>
+                        <td><input type="text" id="maxillaExudates13_2" name="maxillaExudates13_2" /></td>
+                        <td><input type="text" id="maxillaExudates21_2" name="maxillaExudates21_2" /></td>
+                        <td><input type="text" id="maxillaExudates24_2" name="maxillaExudates24_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaExudatesB3" name="maxillaExudatesB_3" /></td>
+                        <td><input type="text" id="maxillaExudatesP3" name="maxillaExudatesP_3" /></td>
+                        <td><input type="text" id="maxillaExudates18_3" name="maxillaExudates18_3" /></td>
+                        <td><input type="text" id="maxillaExudates13_3" name="maxillaExudates13_3" /></td>
+                        <td><input type="text" id="maxillaExudates21_3" name="maxillaExudates21_3" /></td>
+                        <td><input type="text" id="maxillaExudates24_3" name="maxillaExudates24_3" /></td>
+                    </tr>
+                    <!-- Position -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Position</td>
+                        <td><input type="text" id="maxillaPositionB1" name="maxillaPositionB_1" /></td>
+                        <td><input type="text" id="maxillaPositionP1" name="maxillaPositionP_1" /></td>
+                        <td><input type="text" id="maxillaPosition18_1" name="maxillaPosition18_1" /></td>
+                        <td><input type="text" id="maxillaPosition13_1" name="maxillaPosition13_1" /></td>
+                        <td><input type="text" id="maxillaPosition21_1" name="maxillaPosition21_1" /></td>
+                        <td><input type="text" id="maxillaPosition24_1" name="maxillaPosition24_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"  id="maxillaPositionB2" name="maxillaPositionB_2" /></td>
+                        <td><input type="text" id="maxillaPositionP2" name="maxillaPositionP_2" /></td>
+                        <td><input type="text" id="maxillaPosition18_2" name="maxillaPosition18_2" /></td>
+                        <td><input type="text" id="maxillaPosition13_2" name="maxillaPosition13_2" /></td>
+                        <td><input type="text" id="maxillaPosition21_2" name="maxillaPosition21_2" /></td>
+                        <td><input type="text" id="maxillaPosition24_2" name="maxillaPosition24_2" /></td>
+                    </tr>
+            
+                    <tr>
+                        <td><input type="text" id="maxillaPositionB3" name="maxillaPositionB_3" /></td>
+                        <td><input type="text" id="maxillaPositionP3" name="maxillaPositionP_3" /></td>
+                        <td><input type="text" id="maxillaPosition18_3" name="maxillaPosition18_3" /></td>
+                        <td><input type="text" id="maxillaPosition13_3" name="maxillaPosition13_3" /></td>
+                        <td><input type="text" id="maxillaPosition21_3" name="maxillaPosition21_3" /></td>
+                        <td><input type="text" id="maxillaPosition24_3" name="maxillaPosition24_3" /></td>
+                    </tr>
+        
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Mandible</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2"></th>
+                        <th colspan="2"></th>
+                        <th colspan="4">Tooth Numbers</th>
+                    </tr>
+                    <tr>
+                        <th>Buccal</th>
+                        <th>Lingual</th>
+                        <th>48,47,46,45</th>
+                        <th>43,42,41</th>
+                        <th>31,32,33</th>
+                        <th>34,35,36,37,38</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Colour -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Colour</td>
+                        <td><input type="text" id="mandibleColourB1" name="mandibleColourB_1" /></td>
+                        <td><input type="text" id="mandibleColourL1" name="mandibleColourL_1" /></td>
+                        <td><input type="text" id="mandibleColour48_1" name="mandibleColour48_1" /></td>
+                        <td><input type="text" id="mandibleColour43_1" name="mandibleColour43_1" /></td>
+                        <td><input type="text" id="mandibleColour31_1" name="mandibleColour31_1" /></td>
+                        <td><input type="text" id="mandibleColour34_1" name="mandibleColour34_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="mandibleColourB2" name="mandibleColourB_2" /></td>
+                        <td><input type="text" id="mandibleColourL2" name="mandibleColourL_2" /></td>
+                        <td><input type="text" id="mandibleColour48_2" name="mandibleColour48_2" /></td>
+                        <td><input type="text" id="mandibleColour43_2" name="mandibleColour43_2" /></td>
+                        <td><input type="text" id="mandibleColour31_2" name="mandibleColour31_2" /></td>
+                        <td><input type="text" id="mandibleColour34_2" name="mandibleColour34_2" /></td>
+                    </tr>
+            
+                    <tr>
+                        <td><input type="text"  id="mandibleColourB3" name="mandibleColourB_3" /></td>
+                        <td><input type="text" id="mandibleColourL3" name="mandibleColourL_3" /></td>
+                        <td><input type="text" id="mandibleColour48_3" name="mandibleColour48_3" /></td>
+                        <td><input type="text" id="mandibleColour43_3" name="mandibleColour43_3" /></td>
+                        <td><input type="text" id="mandibleColour31_3" name="mandibleColour31_3" /></td>
+                        <td><input type="text" id="mandibleColour34_3" name="mandibleColour34_3" /></td>
+                    
+                    </tr>
+                    <!-- Contour -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Contour</td>
+                        <td><input type="text" id="mandibleContourB1" name="mandibleContourB_1" /></td>
+                        <td><input type="text" id="mandibleContourL1" name="mandibleContourL_1" /></td>
+                        <td><input type="text" id="mandibleContour48_1" name="mandibleContour48_1" /></td>
+                        <td><input type="text" id="mandibleContour43_1" name="mandibleContour43_1" /></td>
+                        <td><input type="text" id="mandibleContour31_1" name="mandibleContour31_1" /></td>
+                        <td><input type="text" id="mandibleContour34_1" name="mandibleContour34_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="mandibleContourB2" name="mandibleContourB_2" /></td>
+                        <td><input type="text" id="mandibleContourL2" name="mandibleContourL_2" /></td>
+                        <td><input type="text" id="mandibleContour48_2" name="mandibleContour48_2" /></td>
+                        <td><input type="text" id="mandibleContour43_2" name="mandibleContour43_2" /></td>
+                        <td><input type="text" id="mandibleContour31_2" name="mandibleContour31_2" /></td>
+                        <td><input type="text" id="mandibleContour34_2" name="mandibleContour34_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="mandibleContourB3" name="mandibleContourB_3" /></td>
+                        <td><input type="text" id="mandibleContourL3" name="mandibleContourL_3" /></td>
+                        <td><input type="text" id="mandibleContour48_3" name="mandibleContour48_3" /></td>
+                        <td><input type="text" id="mandibleContour43_3" name="mandibleContour43_3" /></td>
+                        <td><input type="text" id="mandibleContour31_3" name="mandibleContour31_3" /></td>
+                        <td><input type="text" id="mandibleContour34_3" name="mandibleContour34_3" /></td>
+                    </tr>
+                
+                    <!-- Consistency -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Consistency</td>
+                        <td><input type="text" id="mandibleConsistencyB1" name="mandibleConsistencyB_1" /></td>
+                        <td><input type="text" id="mandibleConsistencyL1" name="mandibleConsistencyL_1" /></td>
+                        <td><input type="text" id="mandibleConsistency48_1" name="mandibleConsistency48_1" /></td>
+                        <td><input type="text" id="mandibleConsistency43_1" name="mandibleConsistency43_1" /></td>
+                        <td><input type="text" id="mandibleConsistency31_1" name="mandibleConsistency31_1" /></td>
+                        <td><input type="text" id="mandibleConsistency34_1" name="mandibleConsistency34_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="mandibleConsistencyB2" name="mandibleConsistencyB_2" /></td>
+                        <td><input type="text" id="mandibleConsistencyL2" name="mandibleConsistencyL_2" /></td>
+                        <td><input type="text" id="mandibleConsistency48_2" name="mandibleConsistency48_2" /></td>
+                        <td><input type="text" id="mandibleConsistency43_2" name="mandibleConsistency43_2" /></td>
+                        <td><input type="text" id="mandibleConsistency31_2" name="mandibleConsistency31_2" /></td>
+                        <td><input type="text" id="mandibleConsistency34_2" name="mandibleConsistency34_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="mandibleConsistencyB3" name="mandibleConsistencyB_3" /></td>
+                        <td><input type="text" id="mandibleConsistencyL3" name="mandibleConsistencyL_3" /></td>
+                        <td><input type="text" id="mandibleConsistency48_3" name="mandibleConsistency48_3" /></td>
+                        <td><input type="text" id="mandibleConsistency43_3" name="mandibleConsistency43_3" /></td>
+                        <td><input type="text" id="mandibleConsistency31_3" name="mandibleConsistency31_3" /></td>
+                        <td><input type="text" id="mandibleConsistency34_3" name="mandibleConsistency34_3" /></td>
+                
+                    </tr>
+                    <!-- Surface Texture -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Surface Texture</td>
+                        <td><input type="text" id="mandibleSurfaceTextureB1" name="mandibleSurfaceTextureB_1" /></td>
+                        <td><input type="text" id="mandibleSurfaceTextureL1" name="mandibleSurfaceTextureL_1" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture48_1" name="mandibleSurfaceTexture48_1" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture43_1" name="mandibleSurfaceTexture43_1" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture31_1" name="mandibleSurfaceTexture31_1" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture34_1" name="mandibleSurfaceTexture34_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="mandibleSurfaceTextureB2" name="mandibleSurfaceTextureB_2" /></td>
+                        <td><input type="text" id="mandibleSurfaceTextureL2" name="mandibleSurfaceTextureL_2" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture48_2" name="mandibleSurfaceTexture48_2" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture43_2" name="mandibleSurfaceTexture43_2" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture31_2" name="mandibleSurfaceTexture31_2" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture34_2" name="mandibleSurfaceTexture34_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="mandibleSurfaceTextureB3" name="mandibleSurfaceTextureB_3" /></td>
+                        <td><input type="text" id="mandibleSurfaceTextureL3" name="mandibleSurfaceTextureL_3" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture48_3" name="mandibleSurfaceTexture48_3" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture43_3" name="mandibleSurfaceTexture43_3" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture31_3" name="mandibleSurfaceTexture31_3" /></td>
+                        <td><input type="text" id="mandibleSurfaceTexture34_3" name="mandibleSurfaceTexture34_3" /></td>
+                    </tr>
+                
+                    <!-- Size -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Size</td>
+                        <td><input type="text"  id="mandibleSizeB1" name="mandibleSizeB_1" /></td>
+                        <td><input type="text" id="mandibleSizeL1" name="mandibleSizeL_1" /></td>
+                        <td><input type="text" id="mandibleSize48_1" name="mandibleSize48_1" /></td>
+                        <td><input type="text" id="mandibleSize43_1" name="mandibleSize43_1" /></td>
+                        <td><input type="text" id="mandibleSize31_1" name="mandibleSize31_1" /></td>
+                        <td><input type="text" id="mandibleSize34_1" name="mandibleSize34_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="mandibleSizeB2" name="mandibleSizeB_2" /></td>
+                        <td><input type="text" id="mandibleSizeL2" name="mandibleSizeL_2" /></td>
+                        <td><input type="text" id="mandibleSize48_2" name="mandibleSize48_2" /></td>
+                        <td><input type="text" id="mandibleSize43_2" name="mandibleSize43_2" /></td>
+                        <td><input type="text" id="mandibleSize31_2" name="mandibleSize31_2" /></td>
+                        <td><input type="text" id="mandibleSize34_2" name="mandibleSize34_2" /></td>
+                    </tr>
+                      <tr>
+                        <td><input type="text" id="mandibleSizeB3" name="mandibleSizeB_3" /></td>
+                        <td><input type="text" id="mandibleSizeL3" name="mandibleSizeL_3" /></td>
+                        <td><input type="text" id="mandibleSize48_3" name="mandibleSize48_3" /></td>
+                        <td><input type="text" id="mandibleSize43_3" name="mandibleSize43_3" /></td>
+                        <td><input type="text" id="mandibleSize31_3" name="mandibleSize31_3" /></td>
+                        <td><input type="text" id="mandibleSize34_3" name="mandibleSize34_3" /></td>
+                    </tr>
+                    <!-- Exudates -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Exudates</td>
+                        <td><input type="text" id="mandibleExudatesB1" name="mandibleExudatesB_1" /></td>
+                        <td><input type="text" id="mandibleExudatesL1" name="mandibleExudatesL_1" /></td>
+                        <td><input type="text" id="mandibleExudates48_1" name="mandibleExudates48_1" /></td>
+                        <td><input type="text" id="mandibleExudates43_1" name="mandibleExudates43_1" /></td>
+                        <td><input type="text" id="mandibleExudates31_1" name="mandibleExudates31_1" /></td>
+                        <td><input type="text" id="mandibleExudates34_1" name="mandibleExudates34_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="mandibleExudatesB2" name="mandibleExudatesB_2" /></td>
+                        <td><input type="text" id="mandibleExudatesL2" name="mandibleExudatesL_2" /></td>
+                        <td><input type="text" id="mandibleExudates48_2" name="mandibleExudates48_2" /></td>
+                        <td><input type="text" id="mandibleExudates43_2" name="mandibleExudates43_2" /></td>
+                        <td><input type="text" id="mandibleExudates31_2" name="mandibleExudates31_2" /></td>
+                        <td><input type="text" id="mandibleExudates34_2" name="mandibleExudates34_2" /></td>
+                    </tr>
+                    <tr>                   
+                        <td><input type="text" id="mandibleExudatesB3" name="mandibleExudatesB_3" /></td>
+                        <td><input type="text" id="mandibleExudatesL3" name="mandibleExudatesL_3" /></td>
+                        <td><input type="text" id="mandibleExudates48_3" name="mandibleExudates48_3" /></td>
+                        <td><input type="text" id="mandibleExudates43_3" name="mandibleExudates43_3" /></td>
+                        <td><input type="text" id="mandibleExudates31_3" name="mandibleExudates31_3" /></td>
+                        <td><input type="text" id="mandibleExudates34_3" name="mandibleExudates34_3" /></td>
+                    </tr>
+                     
+                    <!-- Position -->
+                    <tr>
+                        <td class="table-label" rowspan="3">Position</td>
+                        <td><input type="text" id="maxillaPositionB1" name="maxillaPositionB_1" /></td>
+                        <td><input type="text" id="maxillaPositionP1" name="maxillaPositionP_1" /></td>
+                        <td><input type="text" id="maxillaPosition18_1" name="maxillaPosition18_1" /></td>
+                        <td><input type="text" id="maxillaPosition13_1" name="maxillaPosition13_1" /></td>
+                        <td><input type="text" id="maxillaPosition21_1" name="maxillaPosition21_1" /></td>
+                        <td><input type="text" id="maxillaPosition24_1" name="maxillaPosition24_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaPositionB2" name="maxillaPositionB_2" /></td>
+                        <td><input type="text" id="maxillaPositionP2" name="maxillaPositionP_2" /></td>
+                        <td><input type="text" id="maxillaPosition18_2" name="maxillaPosition18_2" /></td>
+                        <td><input type="text" id="maxillaPosition13_2" name="maxillaPosition13_2" /></td>
+                        <td><input type="text" id="maxillaPosition21_2" name="maxillaPosition21_2" /></td>
+                        <td><input type="text" id="maxillaPosition24_2" name="maxillaPosition24_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="maxillaPositionB3" name="maxillaPositionB_3" /></td>
+                        <td><input type="text" id="maxillaPositionP3" name="maxillaPositionP_3" /></td>
+                        <td><input type="text" id="maxillaPosition18_3" name="maxillaPosition18_3" /></td>
+                        <td><input type="text" id="maxillaPosition13_3" name="maxillaPosition13_3" /></td>
+                        <td><input type="text" id="maxillaPosition21_3" name="maxillaPosition21_3" /></td>
+                        <td><input type="text" id="maxillaPosition24_3" name="maxillaPosition24_3" /></td>
+            
+                       
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+
+      <!-- Page 3: Mucogingival Unit, Probing Depth, Clinical Attachment Level -->
+      <div class="page">
+        <h2>Mucogingival Unit</h2>
+        <div class="form-group"><label for="mucogingivalJunction">Mucogingival Junction:</label><input type="text" id="mucogingivalJunction" name="mucogingivalJunction" /></div>
+        <div class="form-group"><label for="widthOfAttachedGingiva">Width of Attached Gingiva (mm):</label><input type="text" id="widthOfAttachedGingiva" name="widthOfAttachedGingiva" /></div>
+        <div class="form-group"><label for="frenalAttachment_mucogingival">Frenal Attachment:</label><input type="text" id="frenalAttachment_mucogingival" name="frenalAttachment" /></div>
+        <div class="form-group"><label for="vestibularDepth">Vestibular Depth (mm):</label><input type="text" id="vestibularDepth" name="vestibularDepth" /></div>
+        <div class="form-group"><label for="otherFindings">Other Findings:</label><textarea id="otherFindings" name="otherFindings"></textarea></div>
+
+        <h2>Probing depth:</h2>
+       
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>18</th><th>17</th><th>16</th><th>15</th><th>14</th><th>13</th><th>12</th><th>11</th>
+                        <th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Buccal (B) rows -->
+                    <tr>
+                        <td class="table-label" rowspan="3">B</td>
+                        <td><input type="text" id="pd_18_b_1" name="pd_18_b_1" /></td><td><input type="text" id="pd_17_b_1" name="pd_17_b_1" /></td><td><input type="text" id="pd_16_b_1" name="pd_16_b_1" /></td><td><input type="text"id="pd_15_b_1"name="pd_15_b_1" /></td><td><input type="text" id="pd_14_b_1" name="pd_14_b_1" /></td><td><input type="text" id=" pd_13_b_1" name="pd_13_b_1" /></td><td><input type="text" id="pd_12_b_1 "name="pd_12_b_1" /></td><td><input type="text" id="pd_11_b_1" name="pd_11_b_1" /></td>
+                        <td><input type="text" id="pd_21_b_1" name="pd_21_b_1" /></td><td><input type="text" id="pd_22_b_1" name="pd_22_b_1" /></td><td><input type="text" id="pd_23_b_1" name="pd_23_b_1" /></td><td><input type="text" id="pd_24_b_1" name="pd_24_b_1" /></td><td><input type="text" id="pd_25_b_1" name="pd_25_b_1" /></td><td><input type="text" id="pd_26_b_1" name="pd_26_b_1" /></td><td><input type="text" id="pd_27_b_1" name="pd_27_b_1" /></td><td><input type="text" id="pd_28_b_1" name="pd_28_b_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="pd_18_b_2" name="pd_18_b_2" /></td><td><input type="text" id="pd_17_b_2"name="pd_17_b_2" /></td><td><input type="text" id="pd_16_b_2" name="pd_16_b_2" /></td><td><input type="text" id="pd_15_b_2" name="pd_15_b_2" /></td><td><input type="text" id="pd_14_b_2" name="pd_14_b_2" /></td><td><input type="text" id="pd_13_b_2" name="pd_13_b_2" /></td><td><input type="text" id="pd_12_b_2" name="pd_12_b_2" /></td><td><input type="text" id="pd_11_b_2" name="pd_11_b_2" /></td>
+                        <td><input type="text" id="pd_21_b_2" name="pd_21_b_2" /></td><td><input type="text" id="pd_22_b_2" name="pd_22_b_2" /></td><td><input type="text" id="pd_23_b_2" name="pd_23_b_2" /></td><td><input type="text" id="pd_24_b_2" name="pd_24_b_2" /></td><td><input type="text" id="pd_25_b_2" name="pd_25_b_2" /></td><td><input type="text"id="pd_26_b_2" name="pd_26_b_2" /></td><td><input type="text" id="pd_27_b_2" name="pd_27_b_2" /></td><td><input type="text" id="pd_28_b_2 " name="pd_28_b_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="pd_18_b_3"name="pd_18_b_3" /></td><td><input type="text" id="pd_17_b_3" name="pd_17_b_3" /></td><td><input type="text" id="pd_16_b_3" name="pd_16_b_3" /></td><td><input type="text"id="pd_15_b_3" name="pd_15_b_3" /></td><td><input type="text" id="pd_14_b_3" name="pd_14_b_3" /></td><td><input type="text" id="pd_13_b_3" name="pd_13_b_3" /></td><td><input type="text" id="pd_12_b_3" name="pd_12_b_3" /></td><td><input type="text" id="pd_11_b_3" name="pd_11_b_3" /></td>
+                        <td><input type="text" id="pd_21_b_3" name="pd_21_b_3" /></td><td><input type="text" id="pd_22_b_3" name="pd_22_b_3" /></td><td><input type="text" id="pd_23_b_3" name="pd_23_b_3" /></td><td><input type="text"id="pd_24_b_3" name="pd_24_b_3" /></td><td><input type="text"id="pd_25_b_3" name="pd_25_b_3" /></td><td><input type="text"id="pd_26_b_3" name="pd_26_b_3" /></td><td><input type="text" id="pd_27_b_3" name="pd_27_b_3" /></td><td><input type="text" id="pd_28_b_3" name="pd_28_b_3" /></td>
+                    </tr>
+                    <!-- Palatal (P) rows -->
+                    <tr>
+                        <td class="table-label" rowspan="3">P</td>
+                        <td><input type="text"  id="pd_18_p_1" name="pd_18_p_1" /></td><td><input type="text"  id="pd_17_p_1" name="pd_17_p_1" /></td><td><input type="text"  id="pd_16_p_1" name="pd_16_p_1" /></td><td><input type="text"  id="pd_15_p_1" name="pd_15_p_1" /></td><td><input type="text"  id="pd_14_p_1" name="pd_14_p_1" /></td><td><input type="text"  id="pd_13_p_1" name="pd_13_p_1" /></td><td><input type="text"  id="pd_12_p_1" name="pd_12_p_1" /></td><td><input type="text" id="pd_11_p_1" name="pd_11_p_1" /></td>
+                        <td><input type="text"  id="pd_21_p_1" name="pd_21_p_1" /></td><td><input type="text"  id="pd_22_p_1" name="pd_22_p_1" /></td><td><input type="text"  id="pd_23_p_1" name="pd_23_p_1" /></td><td><input type="text"  id="pd_24_p_1" name="pd_24_p_1" /></td><td><input type="text"  id="pd_25_p_1" name="pd_25_p_1" /></td><td><input type="text"  id="pd_26_p_1" name="pd_26_p_1" /></td><td><input type="text"  id="pd_27_p_1" name="pd_27_p_1" /></td><td><input type="text"  id="pd_28_p_1"name="pd_28_p_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"  id="pd_18_p_2" name="pd_18_p_2" /></td><td><input type="text"  id="pd_17_p_2" name="pd_17_p_2" /></td><td><input type="text"  id="pd_16_p_2" name="pd_16_p_2" /></td><td><input type="text"  id="pd_15_p_2" name="pd_15_p_2" /></td><td><input type="text"  id="pd_14_p_2" name="pd_14_p_2" /></td><td><input type="text"  id="pd_11_p_2" name="pd_13_p_2" /></td><td><input type="text" id="pd_12_p_2" name="pd_12_p_2" /></td><td><input type="text"  id="pd_11_p_2"name="pd_11_p_2" /></td>
+                        <td><input type="text"  id="pd_21_p_2" name="pd_21_p_2" /></td><td><input type="text"  id="pd_22_p_2" name="pd_22_p_2" /></td><td><input type="text"  id="pd_23_p_2" name="pd_23_p_2" /></td><td><input type="text"  id="pd_24_p_2" name="pd_24_p_2" /></td><td><input type="text"  id="pd_25_p_2" name="pd_25_p_2" /></td><td><input type="text"  id="pd_26_p_2" name="pd_26_p_2" /></td><td><input type="text"  id="pd_27_p_2" name="pd_27_p_2" /></td><td><input type="text"  id="pd_28_p_2" name="pd_28_p_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"  id="pd_18_p_3" name="pd_18_p_3" /></td><td><input type="text"  id="pd_17_p_3" name="pd_17_p_3" /></td><td><input type="text"  id="pd_16_p_3"name="pd_16_p_3" /></td><td><input type="text"  id="pd_15_p_3" name="pd_15_p_3" /></td><td><input type="text"  id="pd_14_p_3" name="pd_14_p_3" /></td><td><input type="text"  id="pd_13_p_3" name="pd_13_p_3" /></td><td><input type="text"  id="pd_12_p_3" name="pd_12_p_3" /></td><td><input type="text"  id="pd_11_p_3" name="pd_11_p_3" /></td>
+                        <td><input type="text" id="pd_21_p_3" name="pd_21_p_3" /></td><td><input type="text" id="pd_22_p_3" name="pd_22_p_3" /></td><td><input type="text"  id="pd_23_p_3" name="pd_23_p_3" /></td><td><input type="text"  id="pd_24_p_3" name="pd_24_p_3" /></td><td><input type="text"  id="pd_25_p_3" name="pd_25_p_3" /></td><td><input type="text"  id="pd_26_p_3" name="pd_26_p_3" /></td><td><input type="text"  id="pd_27_p_3" name="pd_27_p_3" /></td><td><input type="text"  id="pd_28_p_3" name="pd_28_p_3" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>48</th><th>47</th><th>46</th><th>45</th><th>44</th><th>43</th><th>42</th><th>41</th>
+                        <th>31</th><th>32</th><th>33</th><th>34</th><th>35</th><th>36</th><th>37</th><th>38</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Buccal (B) rows -->
+                    <tr>
+                        <td class="table-label" rowspan="3">B</td>
+                        <td><input type="text" id=" pd_48_b_1" name="pd_48_b_1" /></td><td><input type="text" id=" pd_47_b_1" name="pd_47_b_1" /></td><td><input type="text" id=" pd_46_b_1" name="pd_46_b_1" /></td><td><input type="text" id=" pd_45_b_1" name="pd_45_b_1" /></td><td><input type="text" id=" pd_44_b_1" name="pd_44_b_1" /></td><td><input type="text" id=" pd_43_b_1" name="pd_43_b_1" /></td><td><input type="text" id=" pd_42_b_1" name="pd_42_b_1" /></td><td><input type="text" id=" pd_41_b_1" name="pd_41_b_1" /></td>
+                        <td><input type="text"id=" pd_31_b_1" name="pd_31_b_1" /></td><td><input type="text" id=" pd_32_b_1" name="pd_32_b_1" /></td><td><input type="text" id=" pd_33_b_1" name="pd_33_b_1" /></td><td><input type="text" id=" pd_34_b_1" name="pd_34_b_1" /></td><td><input type="text" id=" pd_35_b_1" name="pd_35_b_1" /></td><td><input type="text" id=" pd_36_b_1" name="pd_36_b_1" /></td><td><input type="text" id=" pd_37_b_1" name="pd_37_b_1" /></td><td><input type="text" id=" pd_38_b_1" name="pd_38_b_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"id=" pd_48_b_2" name="pd_48_b_2" /></td><td><input type="text" id=" pd_47_b_2" name="pd_47_b_2" /></td><td><input type="text"id=" pd_46_b_2" name="pd_46_b_2" /></td><td><input type="text"  id=" pd_45_b_2"name="pd_45_b_2" /></td><td><input type="text" id=" pd_44_b_2" name="pd_44_b_2" /></td><td><input type="text" id=" pd_43_b_2" name="pd_43_b_2" /></td><td><input type="text" id=" pd_42_b_2"name="pd_42_b_2" /></td><td><input type="text" id=" pd_41_b_2" name="pd_41_b_2" /></td>
+                        <td><input type="text"id=" pd_31_b_2" name="pd_31_b_2" /></td><td><input type="text" id=" pd_32_b_2" name="pd_32_b_2" /></td><td><input type="text"id=" pd_33_b_2" name="pd_33_b_2" /></td><td><input type="text"id=" pd_34_b_2" name="pd_34_b_2" /></td><td><input type="text" id=" pd_35_b_2" name="pd_35_b_2" /></td><td><input type="text" id=" pd_36_b_2" name="pd_36_b_2" /></td><td><input type="text" id=" pd_37_b_2" name="pd_37_b_2" /></td><td><input type="text"id=" pd_38_b_2" name="pd_38_b_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="pd_48_b_3" name="pd_48_b_3" /></td><td><input type="text" id="pd_47_b_3" name="pd_47_b_3" /></td><td><input type="text" id="pd_46_b_3" name="pd_46_b_3" /></td><td><input type="text" id="pd_45_b_3" name="pd_45_b_3" /></td><td><input type="text" id="pd_44_b_3" name="pd_44_b_3" /></td><td><input type="text" id="pd_43_b_3" name="pd_43_b_3" /></td><td><input type="text" id="pd_42_b_3" name="pd_42_b_3" /></td><td><input type="text" id="pd_41_b_3" name="pd_41_b_3" /></td>
+                        <td><input type="text" id="pd_31_b_3" name="pd_31_b_3" /></td><td><input type="text" id="pd_32_b_3" name="pd_32_b_3" /></td><td><input type="text" id="pd_33_b_3" name="pd_33_b_3" /></td><td><input type="text" id="pd_34_b_3" name="pd_34_b_3" /></td><td><input type="text" id="pd_35_b_3" name="pd_35_b_3" /></td><td><input type="text" id="pd_36_b_3" name="pd_36_b_3" /></td><td><input type="text" id="pd_37_b_3" name="pd_37_b_3" /></td><td><input type="text" id="pd_38_b_3"  name="pd_38_b_3" /></td>
+                    </tr>
+                    <!-- Lingual (L) rows -->
+                    <tr>
+                        <td class="table-label" rowspan="3">L</td>
+                        <td><input type="text" id="pd_48_l_1" name="pd_48_l_1" /></td><td><input type="text"id="pd_47_l_1" name="pd_47_l_1" /></td><td><input type="text"id="pd_46_l_1" name="pd_46_l_1" /></td><td><input type="text"id="pd_45_l_1"name="pd_45_l_1" /></td><td><input type="text" id="pd_44_l_1" name="pd_44_l_1" /></td><td><input type="text" id="pd_43_l_1" name="pd_43_l_1" /></td><td><input type="text"id="pd_42_l_1" name="pd_42_l_1" /></td><td><input type="text"id="pd_41_l_1" name="pd_41_l_1" /></td>
+                        <td><input type="text"id="pd_31_b_1" name="pd_31_l_1" /></td><td><input type="text" id="pd_32_l_1"name="pd_32_l_1" /></td><td><input type="text"id="pd_33_l_1" name="pd_33_l_1" /></td><td><input type="text" id="pd_34_l_1" name="pd_34_l_1" /></td><td><input type="text" id="pd_35_l_1" name="pd_35_l_1" /></td><td><input type="text"id="pd_36_l_1" name="pd_36_l_1" /></td><td><input type="text" id="pd_37_l_1" name="pd_37_l_1" /></td><td><input type="text" id="pd_38_l_1"name="pd_38_l_1" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"id="pd_48_l_2" name="pd_48_l_2" /></td><td><input type="text"id="pd_47_l_2" name="pd_47_l_2" /></td><td><input type="text"id="pd_46_l_2" name="pd_46_l_2" /></td><td><input type="text"id="pd_45_l_2" name="pd_45_l_2" /></td><td><input type="text"id="pd_44_l_2" name="pd_44_l_2" /></td><td><input type="text" id="pd_43_l_2"name="pd_43_l_2" /></td><td><input type="text" id="pd_42_l_2" name="pd_42_l_2" /></td><td><input type="text" id="pd_41_l_2"name="pd_41_l_2" /></td>
+                        <td><input type="text"id="pd_31_l_2" name="pd_31_l_2" /></td><td><input type="text"id="pd_32_l_2" name="pd_32_l_2" /></td><td><input type="text"id="pd_33_l_2" name="pd_33_l_2" /></td><td><input type="text"id="pd_34_l_2" name="pd_34_l_2" /></td><td><input type="text"id="pd_35_l_2" name="pd_35_l_2" /></td><td><input type="text"id="pd_36_l_2" name="pd_36_l_2" /></td><td><input type="text"id="pd_37_l_2" name="pd_37_l_2" /></td><td><input type="text"id="pd_38_l_2" name="pd_38_l_2" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"id="pd_48_l_3" name="pd_48_l_3" /></td><td><input type="text"id="pd_47_l_3" name="pd_47_l_3" /></td><td><input type="text"id="pd_46_l_3"name="pd_46_l_3" /></td><td><input type="text" id="pd_45_l_3" name="pd_45_l_3" /></td><td><input type="text"id="pd_44_l_3" name="pd_44_l_3" /></td><td><input type="text"id="pd_43_l_3" name="pd_43_l_3" /></td><td><input type="text" id="pd_42_l_3" name="pd_42_l_3" /></td><td><input type="text"id="pd_41_l_3" name="pd_41_l_3" /></td>
+                        <td><input type="text" id="pd_34_l_3"name="pd_31_l_3" /></td><td><input type="text"id="pd_32_l_3" name="pd_32_l_3" /></td><td><input type="text"id="pd_33_l_3" name="pd_33_l_3" /></td><td><input type="text" id="pd_34_l_3"name="pd_34_l_3" /></td><td><input type="text"id="pd_35_l_3" name="pd_35_l_3" /></td><td><input type="text" id="pd_36_l_3" name="pd_36_l_3" /></td><td><input type="text" id="pd_37_l_3"name="pd_37_l_3" /></td><td><input type="text" id="pd_38_l_3" name="pd_38_l_3" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Clinical Attachement Level:</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>18</th><th>17</th><th>16</th><th>15</th><th>14</th><th>13</th><th>12</th><th>11</th>
+                        <th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Buccal (B) rows -->
+                    <tr>
+                        <td class="table-label" rowspan="3">B</td>
+                        <td><input type="text" id="cal_18_b_1" name="cal_18_b_1" /></td><td><input type="text" id="cal_17_b_1" name="cal_17_b_1" /></td><td><input type="text" id="cal_16_b_1" name="cal_16_b_1" /></td><td><input type="text" id="cal_15_b_1" name="cal_15_b_1" /></td><td><input type="text" id="cal_14_b_1" name="cal_14_b_1" /></td><td><input type="text" id="cal_13_b_1" name="cal_13_b_1" /></td><td><input type="text" id="cal_12_b_1" name="cal_12_b_1" /></td><td><input type="text" id="cal_11_b_1" name="cal_11_b_1" /></td>
+                    <td><input type="text" id="cal_21_b_1" name="cal_21_b_1" /></td><td><input type="text" id="cal_22_b_1" name="cal_22_b_1" /></td><td><input type="text" id="cal_23_b_1" name="cal_23_b_1" /></td><td><input type="text" id="cal_24_b_1" name="cal_24_b_1" /></td><td><input type="text" id="cal_25_b_1" name="cal_25_b_1" /></td><td><input type="text" id="cal_26_b_1" name="cal_26_b_1" /></td><td><input type="text" id="cal_27_b_1" name="cal_27_b_1" /></td><td><input type="text" id="cal_28_b_1" name="cal_28_b_1" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="cal_18_b_2" name="cal_18_b_2" /></td><td><input type="text" id="cal_17_b_2" name="cal_17_b_2" /></td><td><input type="text" id="cal_16_b_2" name="cal_16_b_2" /></td><td><input type="text" id="cal_15_b_2" name="cal_15_b_2" /></td><td><input type="text" id="cal_14_b_2" name="cal_14_b_2" /></td><td><input type="text" id="cal_13_b_2" name="cal_13_b_2" /></td><td><input type="text" id="cal_12_b_2" name="cal_12_b_2" /></td><td><input type="text" id="cal_11_b_2" name="cal_11_b_2" /></td>
+                    <td><input type="text" id="cal_21_b_2" name="cal_21_b_2" /></td><td><input type="text" id="cal_22_b_2" name="cal_22_b_2" /></td><td><input type="text" id="cal_23_b_2" name="cal_23_b_2" /></td><td><input type="text" id="cal_24_b_2" name="cal_24_b_2" /></td><td><input type="text" id="cal_25_b_2" name="cal_25_b_2" /></td><td><input type="text" id="cal_26_b_2" name="cal_26_b_2" /></td><td><input type="text" id="cal_27_b_2" name="cal_27_b_2" /></td><td><input type="text" id="cal_28_b_2" name="cal_28_b_2" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="cal_18_b_3" name="cal_18_b_3" /></td><td><input type="text" id="cal_17_b_3" name="cal_17_b_3" /></td><td><input type="text" id="cal_16_b_3" name="cal_16_b_3" /></td><td><input type="text" id="cal_15_b_3" name="cal_15_b_3" /></td><td><input type="text" id="cal_14_b_3" name="cal_14_b_3" /></td><td><input type="text" id="cal_13_b_3" name="cal_13_b_3" /></td><td><input type="text" id="cal_12_b_3" name="cal_12_b_3" /></td><td><input type="text" id="cal_11_b_3" name="cal_11_b_3" /></td>
+                    <td><input type="text" id="cal_21_b_3" name="cal_21_b_3" /></td><td><input type="text" id="cal_22_b_3" name="cal_22_b_3" /></td><td><input type="text" id="cal_23_b_3" name="cal_23_b_3" /></td><td><input type="text" id="cal_24_b_3" name="cal_24_b_3" /></td><td><input type="text" id="cal_25_b_3" name="cal_25_b_3" /></td><td><input type="text" id="cal_26_b_3" name="cal_26_b_3" /></td><td><input type="text" id="cal_27_b_3" name="cal_27_b_3" /></td><td><input type="text" id="cal_28_b_3" name="cal_28_b_3" /></td>
+                </tr>
+
+                    <!-- Palatal (P) rows -->
+                    <tr>
+                        <td class="table-label" rowspan="3">P</td>
+                        <td><input type="text"  id="cal_18_p_1" name="cal_18_p_1" /></td><td><input type="text" id="cal_17_p_1" name="cal_17_p_1" /></td><td><input type="text" id="cal_16_p_1" name="cal_16_p_1" /></td><td><input type="text" id="cal_15_p_1" name="cal_15_p_1" /></td><td><input type="text" id="cal_14_p_1" name="cal_14_p_1" /></td><td><input type="text" id="cal_13_p_1" name="cal_13_p_1" /></td><td><input type="text" id="cal_12_p_1" name="cal_12_p_1" /></td><td><input type="text" id="cal_11_p_1" name="cal_11_p_1" /></td>
+                    <td><input type="text" id="cal_21_p_1" name="cal_21_p_1" /></td><td><input type="text" id="cal_22_p_1" name="cal_22_p_1" /></td><td><input type="text" id="cal_23_p_1" name="cal_23_p_1" /></td><td><input type="text" id="cal_24_p_1" name="cal_24_p_1" /></td><td><input type="text" id="cal_25_p_1" name="cal_25_p_1" /></td><td><input type="text" id="cal_26_p_1" name="cal_26_p_1" /></td><td><input type="text" id="cal_27_p_1" name="cal_27_p_1" /></td><td><input type="text" id="cal_28_p_1" name="cal_28_p_1" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="cal_18_p_2" name="cal_18_p_2" /></td><td><input type="text" id="cal_17_p_2" name="cal_17_p_2" /></td><td><input type="text" id="cal_16_p_2" name="cal_16_p_2" /></td><td><input type="text" id="cal_15_p_2" name="cal_15_p_2" /></td><td><input type="text" id="cal_14_p_2" name="cal_14_p_2" /></td><td><input type="text" id="cal_13_p_2" name="cal_13_p_2" /></td><td><input type="text" id="cal_12_p_2" name="cal_12_p_2" /></td><td><input type="text" id="cal_11_p_2" name="cal_11_p_2" /></td>
+                    <td><input type="text" id="cal_21_p_2" name="cal_21_p_2" /></td><td><input type="text" id="cal_22_p_2" name="cal_22_p_2" /></td><td><input type="text" id="cal_23_p_2" name="cal_23_p_2" /></td><td><input type="text" id="cal_24_p_2" name="cal_24_p_2" /></td><td><input type="text" id="cal_25_p_2" name="cal_25_p_2" /></td><td><input type="text" id="cal_26_p_2" name="cal_26_p_2" /></td><td><input type="text" id="cal_27_p_2" name="cal_27_p_2" /></td><td><input type="text" id="cal_28_p_2" name="cal_28_p_2" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="cal_18_p_3" name="cal_18_p_3" /></td><td><input type="text" id="cal_17_p_3" name="cal_17_p_3" /></td><td><input type="text" id="cal_16_p_3" name="cal_16_p_3" /></td><td><input type="text" id="cal_15_p_3" name="cal_15_p_3" /></td><td><input type="text" id="cal_14_p_3" name="cal_14_p_3" /></td><td><input type="text" id="cal_13_p_3" name="cal_13_p_3" /></td><td><input type="text" id="cal_12_p_3" name="cal_12_p_3" /></td><td><input type="text" id="cal_11_p_3" name="cal_11_p_3" /></td>
+                    <td><input type="text" id="cal_21_p_3" name="cal_21_p_3" /></td><td><input type="text" id="cal_22_p_3" name="cal_22_p_3" /></td><td><input type="text" id="cal_23_p_3" name="cal_23_p_3" /></td><td><input type="text" id="cal_24_p_3" name="cal_24_p_3" /></td><td><input type="text" id="cal_25_p_3" name="cal_25_p_3" /></td><td><input type="text" id="cal_26_p_3" name="cal_26_p_3" /></td><td><input type="text" id="cal_27_p_3" name="cal_27_p_3" /></td><td><input type="text" id="cal_28_p_3" name="cal_28_p_3" /></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>48</th><th>47</th><th>46</th><th>45</th><th>44</th><th>43</th><th>42</th><th>41</th>
+                        <th>31</th><th>32</th><th>33</th><th>34</th><th>35</th><th>36</th><th>37</th><th>38</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Buccal (B) rows -->
+                    <tr>
+                        <td class="table-label" rowspan="3">B</td>
+                        <td><input type="text"n id="cal_48_b_1" name="cal_48_b_1" /></td><td><input type="text" id="cal_47_b_1" name="cal_47_b_1" /></td><td><input type="text" id="cal_46_b_1" name="cal_46_b_1" /></td><td><input type="text" id="cal_45_b_1" name="cal_45_b_1" /></td><td><input type="text" id="cal_44_b_1" name="cal_44_b_1" /></td><td><input type="text" id="cal_43_b_1" name="cal_43_b_1" /></td><td><input type="text" id="cal_42_b_1" name="cal_42_b_1" /></td><td><input type="text" id="cal_41_b_1" name="cal_41_b_1" /></td>
+    <td><input type="text" id="cal_31_b_1" name="cal_31_b_1" /></td><td><input type="text" id="cal_32_b_1" name="cal_32_b_1" /></td><td><input type="text" id="cal_33_b_1" name="cal_33_b_1" /></td><td><input type="text" id="cal_34_b_1" name="cal_34_b_1" /></td><td><input type="text" id="cal_35_b_1" name="cal_35_b_1" /></td><td><input type="text" id="cal_36_b_1" name="cal_36_b_1" /></td><td><input type="text" id="cal_37_b_1" name="cal_37_b_1" /></td><td><input type="text" id="cal_38_b_1" name="cal_38_b_1" /></td>
+</tr>
+<tr>
+    <td><input type="text" id="cal_48_b_2" name="cal_48_b_2" /></td><td><input type="text" id="cal_47_b_2" name="cal_47_b_2" /></td><td><input type="text" id="cal_46_b_2" name="cal_46_b_2" /></td><td><input type="text" id="cal_45_b_2" name="cal_45_b_2" /></td><td><input type="text" id="cal_44_b_2" name="cal_44_b_2" /></td><td><input type="text" id="cal_43_b_2" name="cal_43_b_2" /></td><td><input type="text" id="cal_42_b_2" name="cal_42_b_2" /></td><td><input type="text" id="cal_41_b_2" name="cal_41_b_2" /></td>
+    <td><input type="text" id="cal_31_b_2" name="cal_31_b_2" /></td><td><input type="text" id="cal_32_b_2" name="cal_32_b_2" /></td><td><input type="text" id="cal_33_b_2" name="cal_33_b_2" /></td><td><input type="text" id="cal_34_b_2" name="cal_34_b_2" /></td><td><input type="text" id="cal_35_b_2" name="cal_35_b_2" /></td><td><input type="text" id="cal_36_b_2" name="cal_36_b_2" /></td><td><input type="text" id="cal_37_b_2" name="cal_37_b_2" /></td><td><input type="text" id="cal_38_b_2" name="cal_38_b_2" /></td>
+</tr>
+<tr>
+    <td><input type="text" id="cal_48_b_3" name="cal_48_b_3" /></td><td><input type="text" id="cal_47_b_3" name="cal_47_b_3" /></td><td><input type="text" id="cal_46_b_3" name="cal_46_b_3" /></td><td><input type="text" id="cal_45_b_3" name="cal_45_b_3" /></td><td><input type="text" id="cal_44_b_3" name="cal_44_b_3" /></td><td><input type="text" id="cal_43_b_3" name="cal_43_b_3" /></td><td><input type="text" id="cal_42_b_3" name="cal_42_b_3" /></td><td><input type="text" id="cal_41_b_3" name="cal_41_b_3" /></td>
+    <td><input type="text" id="cal_31_b_3" name="cal_31_b_3" /></td><td><input type="text" id="cal_32_b_3" name="cal_32_b_3" /></td><td><input type="text" id="cal_33_b_3" name="cal_33_b_3" /></td><td><input type="text" id="cal_34_b_3" name="cal_34_b_3" /></td><td><input type="text" id="cal_35_b_3" name="cal_35_b_3" /></td><td><input type="text" id="cal_36_b_3" name="cal_36_b_3" /></td><td><input type="text" id="cal_37_b_3" name="cal_37_b_3" /></td><td><input type="text" id="cal_38_b_3" name="cal_38_b_3" /></td>
+</tr>
+                    <!-- Lingual (L) rows -->
+                    <tr>
+                        <td class="table-label" rowspan="3">L</td>
+                        <td><input type="text" id="cal_48_l_1" name="cal_48_l_1" /></td><td><input type="text" id="cal_47_l_1" name="cal_47_l_1" /></td><td><input type="text" id="cal_46_l_1" name="cal_46_l_1" /></td><td><input type="text" id="cal_45_l_1" name="cal_45_l_1" /></td><td><input type="text" id="cal_44_l_1" name="cal_44_l_1" /></td><td><input type="text" id="cal_43_l_1" name="cal_43_l_1" /></td><td><input type="text" id="cal_42_l_1" name="cal_42_l_1" /></td><td><input type="text" id="cal_41_l_1" name="cal_41_l_1" /></td>
+    <td><input type="text" id="cal_31_l_1" name="cal_31_l_1" /></td><td><input type="text" id="cal_32_l_1" name="cal_32_l_1" /></td><td><input type="text" id="cal_33_l_1" name="cal_33_l_1" /></td><td><input type="text" id="cal_34_l_1" name="cal_34_l_1" /></td><td><input type="text" id="cal_35_l_1" name="cal_35_l_1" /></td><td><input type="text" id="cal_36_l_1" name="cal_36_l_1" /></td><td><input type="text" id="cal_37_l_1" name="cal_37_l_1" /></td><td><input type="text" id="cal_38_l_1" name="cal_38_l_1" /></td>
+</tr>
+<tr>
+    <td><input type="text" id="cal_48_l_2" name="cal_48_l_2" /></td><td><input type="text" id="cal_47_l_2" name="cal_47_l_2" /></td><td><input type="text" id="cal_46_l_2" name="cal_46_l_2" /></td><td><input type="text" id="cal_45_l_2" name="cal_45_l_2" /></td><td><input type="text" id="cal_44_l_2" name="cal_44_l_2" /></td><td><input type="text" id="cal_43_l_2" name="cal_43_l_2" /></td><td><input type="text" id="cal_42_l_2" name="cal_42_l_2" /></td><td><input type="text" id="cal_41_l_2" name="cal_41_l_2" /></td>
+    <td><input type="text" id="cal_31_l_2" name="cal_31_l_2" /></td><td><input type="text" id="cal_32_l_2" name="cal_32_l_2" /></td><td><input type="text" id="cal_33_l_2" name="cal_33_l_2" /></td><td><input type="text" id="cal_34_l_2" name="cal_34_l_2" /></td><td><input type="text" id="cal_35_l_2" name="cal_35_l_2" /></td><td><input type="text" id="cal_36_l_2" name="cal_36_l_2" /></td><td><input type="text" id="cal_37_l_2" name="cal_37_l_2" /></td><td><input type="text" id="cal_38_l_2" name="cal_38_l_2" /></td>
+</tr>
+<tr>
+    <td><input type="text" id="cal_48_l_3" name="cal_48_l_3" /></td><td><input type="text" id="cal_47_l_3" name="cal_47_l_3" /></td><td><input type="text" id="cal_46_l_3" name="cal_46_l_3" /></td><td><input type="text" id="cal_45_l_3" name="cal_45_l_3" /></td><td><input type="text" id="cal_44_l_3" name="cal_44_l_3" /></td><td><input type="text" id="cal_43_l_3" name="cal_43_l_3" /></td><td><input type="text" id="cal_42_l_3" name="cal_42_l_3" /></td><td><input type="text" id="cal_41_l_3" name="cal_41_l_3" /></td>
+    <td><input type="text" id="cal_31_l_3" name="cal_31_l_3" /></td><td><input type="text" id="cal_32_l_3" name="cal_32_l_3" /></td><td><input type="text" id="cal_33_l_3" name="cal_33_l_3" /></td><td><input type="text" id="cal_34_l_3" name="cal_34_l_3" /></td><td><input type="text" id="cal_35_l_3" name="cal_35_l_3" /></td><td><input type="text" id="cal_36_l_3" name="cal_36_l_3" /></td><td><input type="text" id="cal_37_l_3" name="cal_37_l_3" /></td><td><input type="text" id="cal_38_l_3" name="cal_38_l_3" /></td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+
+      <!-- Page 4: Recession, Mobility, Furcation, Oral Hygiene Index, Examination of Teeth/Hard Tissue -->
+      <div class="page">
+        <h2>Recession</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>18,17,16,15,14</th>
+                        <th>13,12,11</th>
+                        <th>21,22,23</th>
+                        <th>24,25,26,27,28</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-label">MAXILLA</td>
+                        <td><input type="text" id="recessionMaxilla18" name="recessionMaxilla18" /></td>
+                        <td><input type="text"  id="recessionMaxilla13"name="recessionMaxilla13" /></td>
+                        <td><input type="text"  id="recessionMaxilla21" name="recessionMaxilla21" /></td>
+                        <td><input type="text" id="recessionMaxilla24"name="recessionMaxilla24" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>48,47,46,45,44</th>
+                        <th>43,42,41</th>
+                        <th>31,32,33</th>
+                        <th>34,35,36,37,38</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-label">MAandible</td>
+                        <td><input type="text" id="recessionMandible48" name="recessionMandible48" /></td>
+                        <td><input type="text"id="recessionMandible43"  name="recessionMandible43" /></td>
+                        <td><input type="text"id="recessionMandible31"  name="recessionMandible31" /></td>
+                        <td><input type="text"id="recessionMandible34"  name="recessionMandible34" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Mobility</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>18,17,16,15,14</th>
+                        <th>13,12,11</th>
+                        <th>21,22,23</th>
+                        <th>24,25,26,27,28</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-label">Maxilla</td>
+                        <td><input type="text" id="mobilityMaxilla18"  name="mobilityMaxilla18" /></td>
+                        <td><input type="text" id="mobilityMaxilla13"name="mobilityMaxilla13" /></td>
+                        <td><input type="text"id="mobilityMaxilla21" name="mobilityMaxilla21" /></td>
+                        <td><input type="text"id="mobilityMaxilla24" name="mobilityMaxilla24" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>48,47,46,45,44</th>
+                        <th>43,42,41</th>
+                        <th>31,32,33</th>
+                        <th>34,35,36,37,38</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-label">Mandible</td>
+                        <td><input type="text" id="mobilityMandible48"name="mobilityMandible48" /></td>
+                        <td><input type="text"id="mobilityMandible43" name="mobilityMandible43" /></td>
+                        <td><input type="text"id="mobilityMandible31" name="mobilityMandible31" /></td>
+                        <td><input type="text"id="mobilityMandible34" name="mobilityMandible34" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Furcation</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>18,17,16,15,14</th>
+                        <th>13,12,11</th>
+                        <th>21,22,23</th>
+                        <th>24,25,26,27,28</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-label">Maxilla</td>
+                        <td><input type="text"id="furcationMaxilla18" name="furcationMaxilla18" /></td>
+                        <td><input type="text"id="furcationMaxilla13" name="furcationMaxilla13" /></td>
+                        <td><input type="text"id="furcationMaxilla21" name="furcationMaxilla21" /></td>
+                        <td><input type="text"id="furcationMaxilla24" name="furcationMaxilla24" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>48,47,46,45,44</th>
+                        <th>43,42,41</th>
+                        <th>31,32,33</th>
+                        <th>34,35,36,37,38</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-label">Mandible</td>
+                        <td><input type="text" id="furcationMandible48" name="furcationMandible48" /></td>
+                        <td><input type="text"id="furcationMandible43"  name="furcationMandible43" /></td>
+                        <td><input type="text"id="furcationMandible31"  name="furcationMandible31" /></td>
+                        <td><input type="text"id="furcationMandible34"  name="furcationMandible34" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>12. Oral Hygiene Index – Simplified</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>16</th><th>11</th><th>26</th><th>36</th><th>31</th><th>46</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-label">DI-S</td>
+                        <td><input type="text"id="diS_16"  name="diS_16" /></td>
+                        <td><input type="text"id="diS_11"  name="diS_11" /></td>
+                        <td><input type="text"id="diS_26"  name="diS_26" /></td>
+                        <td><input type="text"id="diS_36"  name="diS_36" /></td>
+                        <td><input type="text"id="diS_31"  name="diS_31" /></td>
+                        <td><input type="text"id="diS_46"  name="diS_46" /></td>
+                    </tr>
+                    <tr>
+                        <td class="table-label">CI-S</td>
+                        <td><input type="text"id="ciS_16"  name="ciS_16" /></td>
+                        <td><input type="text"id="ciS_11"  name="ciS_11" /></td>
+                        <td><input type="text"id="ciS_26"  name="ciS_26" /></td>
+                        <td><input type="text"id="ciS_36"  name="ciS_36" /></td>
+                        <td><input type="text" id="ciS_31" name="ciS_31" /></td>
+                        <td><input type="text"id="ciS_46"  name="ciS_46" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group"><label for="ohiS">OHI-S =</label><input type="text" id="ohiS" name="ohiS" /></div>
+
+        <h2>13. Examination of Teeth / Hard Tissue</h2>
+        <div class="form-group"><label for="numTeeth">No. of teeth:</label><input type="number" id="numTeeth" name="numTeeth" /></div>
+        <div class="form-group"><label for="missingTeeth">Missing teeth:</label><input type="text" id="missingTeeth" name="missingTeeth" /></div>
+      </div>
+
+      <!-- Page 6: Hard Tissue (Continued), Investigations, Case Summary -->
+      <div class="page">
+        <h2>13. Examination of Teeth / Hard Tissue (Continued)</h2>
+        <div class="form-group"><label for="overhangingRestorations">Overhanging restorations:</label><input type="text" id="overhangingRestorations" name="overhangingRestorations" /></div>
+        <div class="form-group"><label for="dentalCaries">Dental caries:</label><input type="text" id="dentalCaries" name="dentalCaries" /></div>
+        <div class="form-group"><label for="restored">Restored:</label><input type="text" id="restored" name="restored" /></div>
+        <div class="form-group"><label for="foodImpaction">Food impaction:</label><input type="text" id="foodImpaction" name="foodImpaction" /></div>
+        <div class="form-group"><label for="pathologicalMigrations">Pathological migrations:</label><input type="text" id="pathologicalMigrations" name="pathologicalMigrations" /></div>
+        <div class="form-group"><label for="openContacts">Open contacts:</label><input type="text" id="openContacts" name="openContacts" /></div>
+        <div class="form-group"><label for="dentalHypersensitivity">Dental hypersensitivity:</label><input type="text" id="dentalHypersensitivity" name="dentalHypersensitivity" /></div>
+        <div class="form-group"><label for="wastingDisease">Wasting disease:</label><input type="text" id="wastingDisease" name="wastingDisease" /></div>
+
+        <h2>14. Investigations</h2>
+        <div class="form-group"><label for="investigations">Investigations:</label><textarea id="investigations" name="investigations"></textarea></div>
+
+        <h2>15. Case Summary</h2>
+        <div class="form-group"><label for="caseSummary">Case Summary:</label><textarea id="caseSummary" name="caseSummary"></textarea></div>
+      </div>
+
+      <!-- Page 7: Diagnosis, Risk Assessment, Treatment Plan -->
+      <div class="page">
+        <h2>16. Diagnosis</h2>
+        <div class="form-group"><label for="diagnosis">Diagnosis:</label><textarea id="diagnosis" name="diagnosis"></textarea></div>
+
+        <h2>17. Risk Assessment</h2>
+        <div class="form-group"><label for="riskFactors">a. Risk factors:</label><textarea id="riskFactors" name="riskFactors"></textarea></div>
+        <div class="form-group"><label for="riskDeterminants">b. Risk determinants:</label><textarea id="riskDeterminants" name="riskDeterminants"></textarea></div>
+        <div class="form-group"><label for="riskIndicators">c. Risk indicators:</label><textarea id="riskIndicators" name="riskIndicators"></textarea></div>
+        <div class="form-group"><label for="riskPredictors">d. Risk predictors / markers:</label><textarea id="riskPredictors" name="riskPredictors"></textarea></div>
+
+        <h2>18. Treatment Plan</h2>
+        <div class="form-group"><label for="treatmentPlan">Treatment Plan:</label><textarea id="treatmentPlan" name="treatmentPlan"></textarea></div>
+
+        <div class="form-group"><label for="staffSignature">Attended Doctor name</label><input type="text" id="attendeddoctor" name="attendeddoctor" /></div>
+      </div>
+
+      <div class="navigation">
+        <button type="button" id="prevBtn">Back</button>
+        <button type="button" id="nextBtn">Next</button>
+      </div>
+    </form>
+  </div>
+
+<script>
+    const pages = document.querySelectorAll('.page');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentPage = 0;
+
+    function showPage(index) {
+      window.scrollTo(0, 0);
+      pages.forEach((page, i) => {
+        page.classList.toggle('active', i === index);
+      });
+      prevBtn.disabled = index === 0;
+      nextBtn.textContent = index === pages.length - 1 ? 'Submit' : 'Next';
+      if (prescriptionBtn) { // Check if the button exists
+          prescriptionBtn.style.display = index === pages.length - 1 ? 'block' : 'none';
+      }
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      } else {
+        window.location.href = "prescription.html";
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+     if (prescriptionBtn) { // Check if the button exists
+        prescriptionBtn.addEventListener('click', () => {
+            window.location.href = 'prescription.html';
+        });
+    }
+
+    showPage(currentPage); 
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

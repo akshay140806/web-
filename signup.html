@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Patient Sign Up - SRM Dental College</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('campus.png') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .signup-box {
+      background: rgba(37, 40, 106, 0.9);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      color: white;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+
+    .college-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .checkbox-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .button {
+      background-color: #3B82F6;
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 0.5rem;
+      width: 100%;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 0.3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .button:hover {
+      background-color: #2563EB;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-box">
+    <img src="logo.png" alt="SRM Logo" class="logo" />
+    <div class="college-name">SRM DENTAL COLLEGE</div>
+    <h2>Patient Sign Up</h2>
+
+    <form id="signupForm">
+      <!-- Full Name -->
+      <div class="input-group">
+        <input type="text" id="name" placeholder="Full Name" required />
+      </div>
+
+      <!-- Email -->
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email ID" />
+      </div>
+
+      <!-- Phone -->
+      <div class="input-group">
+        <input type="tel" id="phone" placeholder="Phone Number" />
+      </div>
+
+      <!-- OTP Choice -->
+      <div class="checkbox-group">
+        <label><input type="radio" name="otpMethod" value="email" checked /> Email</label>
+        <label><input type="radio" name="otpMethod" value="phone" /> Phone</label>
+      </div>
+
+      <!-- Send OTP Button -->
+      <button type="button" class="button" onclick="sendOTP()">Send OTP</button>
+
+      <!-- Enter OTP -->
+      <div class="input-group">
+        <input type="text" id="otpInput" placeholder="Enter OTP" />
+      </div>
+
+      <!-- Verify OTP Button -->
+      <button type="button" class="button" onclick="verifyOTP()">Verify OTP</button>
+
+      <!-- Create Password -->
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Create Password" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('password')">👁️</button>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="input-group">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">👁️</button>
+      </div>
+
+      <!-- Sign Up Button -->
+      <button type="button" class="button" onclick="finalSignup()">Sign Up</button>
+    </form>
+  </div>
+
+  <script>
+    function togglePassword(id) {
+      const field = document.getElementById(id);
+      field.type = field.type === "password" ? "text" : "password";
+    }
+
+    function sendOTP() {
+      const method = document.querySelector('input[name="otpMethod"]:checked').value;
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const value = method === 'email' ? email : phone;
+
+      if (!value) {
+        alert(`Please enter your ${method} to receive OTP.`);
+        return;
+      }
+
+      fetch('http://localhost:3001/api/send-otp', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ method, value })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.message);
+        } else {
+          alert("Failed to send OTP: " + data.error);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Error sending OTP");
+      });
+    }
+
+    function verifyOTP() {
+      const otp = document.getElementById("otpInput").value.trim();
+      if (!otp) {
+        alert("Please enter OTP");
+        return;
+      }
+
+      fetch('http://localhost:3001/api/verify-otp', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.message);
+        } else {
+          alert("OTP verification failed: " + data.error);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Error verifying OTP");
+      });
+    }
+
+    function finalSignup() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (!name || !password || !confirmPassword || (!email && !phone)) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      fetch("http://localhost:3001/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, email, phone, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("✅ Signup successful! Your Patient ID is: " + data.patientId);
+          window.location.href = "appointment login.html";
+        } else {
+          alert("Signup failed: " + data.error);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Signup failed. Please try again.");
+      });
+    }
+  </script>
+</body>
+</html>

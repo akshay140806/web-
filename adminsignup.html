@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Sign Up - SRM Dental College</title> <!-- Changed title -->
+  <style>
+    :root {
+      font-size: 16px;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif; /* Changed font to Inter for consistency */
+      background: url('campus.png') no-repeat center center fixed; /* Placeholder for campus.png */
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .signup-box {
+      background-color: rgba(4, 10, 124, 0.8);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      width: 90%;
+      max-width: 28rem;
+      box-shadow: 0 0 1rem rgba(0,0,0,0.3);
+      color: white;
+      text-align: center;
+    }
+
+    .logo {
+      width: 6rem;
+      height: auto;
+      margin-bottom: 1rem;
+      content: url('logo.png')'); /* Placeholder for logo.png */
+    }
+
+    .college-name {
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .signup-box h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      padding-right: 3rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 1rem;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #333;
+      padding: 0;
+    }
+
+    .checkbox-group {
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    .checkbox-group label {
+      margin-right: 1.5rem;
+      cursor: pointer;
+    }
+
+    .button {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      background-color: white;
+      color: #007bff;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .button:hover {
+      transform: scale(1.03);
+    }
+
+    /* Custom Message Box Styles */
+    .message-box {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1000;
+      display: none; /* Hidden by default */
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .message-box button {
+      background-color: #3B82F6;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .message-box button:hover {
+      background-color: #2563EB;
+    }
+
+    @media (max-width: 600px) {
+      .college-name {
+        font-size: 1.2rem;
+      }
+
+      .signup-box h2 {
+        font-size: 1.2rem;
+      }
+
+      .button {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-box">
+    <img src="logo.png" alt="SRM Logo" class="logo" />
+    <div class="college-name">SRM DENTAL COLLEGE</div>
+    <h2>Admin Sign Up</h2> <!-- Changed heading -->
+
+    <form id="signupForm" onsubmit="return false">
+      <div class="input-group">
+        <input type="text" id="name" placeholder="Full Name" required />
+      </div>
+
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email ID" />
+      </div>
+
+      <div class="input-group">
+        <input type="tel" id="phone" placeholder="Phone Number" />
+      </div>
+
+      <div class="checkbox-group">
+        <label><input type="radio" name="otpMethod" value="email" checked /> Email</label>
+        <label><input type="radio" name="otpMethod" value="phone" /> Phone</label>
+      </div>
+
+      <button type="button" class="button" onclick="sendOTP()">Send OTP</button>
+
+      <div class="input-group">
+        <input type="text" id="otpInput" placeholder="Enter OTP" />
+      </div>
+
+      <button type="button" class="button" onclick="verifyOTP()">Verify</button>
+
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Create Password" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('password')">👁️</button>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">👁️</button>
+      </div>
+
+      <button type="submit" class="button" onclick="finalSignup()">Sign Up</button>
+    </form>
+  </div>
+
+  <!-- Custom Message Box -->
+  <div id="messageBox" class="message-box">
+    <p id="messageText"></p>
+    <button onclick="hideMessageBox()">OK</button>
+  </div>
+
+  <script>
+    let generatedOTP = '';
+    let otpVerified = false;
+
+    // Function to show custom message box
+    function showMessageBox(message) {
+      document.getElementById('messageText').innerText = message;
+      document.getElementById('messageBox').style.display = 'block';
+    }
+
+    // Function to hide custom message box
+    function hideMessageBox() {
+      document.getElementById('messageBox').style.display = 'none';
+    }
+
+    function sendOTP() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const method = document.querySelector('input[name="otpMethod"]:checked').value;
+
+      if (name === '') {
+        showMessageBox('Please enter your name.');
+        return;
+      }
+
+      if (method === 'email' && email === '') {
+        showMessageBox('Please enter your email ID.');
+        return;
+      }
+
+      if (method === 'phone' && phone === '') {
+        showMessageBox('Please enter your phone number.');
+        return;
+      }
+
+      generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+      showMessageBox(`OTP sent via ${method.toUpperCase()}: ${generatedOTP}`);
+      otpVerified = false;
+    }
+
+    function verifyOTP() {
+      const userOTP = document.getElementById('otpInput').value.trim();
+      if (userOTP === generatedOTP && userOTP !== '') {
+        showMessageBox('✅ OTP verified successfully!');
+        otpVerified = true;
+      } else {
+        showMessageBox('❌ Incorrect OTP. Please try again.');
+        otpVerified = false;
+      }
+    }
+
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === "password" ? "text" : "password";
+    }
+
+    // Renamed function and changed prefix for Admin ID
+    function generateAdminID() {
+      const number = Math.floor(1000 + Math.random() * 9000);
+      return "SRMAD" + number; // Changed prefix to SRMAD
+    }
+
+    function finalSignup() {
+      const name = document.getElementById('name').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (name === '' || !otpVerified) {
+        showMessageBox('Please complete all previous steps and verify OTP.');
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessageBox('Password must be at least 6 characters.');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessageBox('Passwords do not match.');
+        return;
+      }
+
+      const adminID = generateAdminID(); // Called the new function
+      showMessageBox(`✅ Registration successful!\nYour admin ID is: ${adminID}`); // Changed message
+      // Redirect to admin login page (assuming adminlogin.html exists)
+      // window.location.href = "adminlogin.html";
+    }
+  </script>
+</body>
+</html>

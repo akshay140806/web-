@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SRM Dental College - Combined Form</title>
+  <style>
+    /* style.css */
+
+    :root {
+      font-size: 16px;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: sans-serif;
+      background: url('campus.png') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    .container {
+      background-color: rgba(37, 40, 107, 0.85); /* Consistent with page 1 color */
+      border-radius: 2rem;
+      padding: 2rem;
+      width: 100%;
+      max-width: 50rem; /* Adjusted for general use */
+      color: white;
+      box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+      overflow-y: auto; /* For pages with more content */
+      max-height: 95vh; /* For pages with more content */
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .logo {
+      width: 6rem;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    h2, h3 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .form-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #333;
+      margin-bottom: 0.5rem; /* Added small gap below text boxes */
+    }
+    textarea {
+      resize: vertical;
+      min-height: 5rem;
+    }
+    .radio-group, .checkbox-group, .inline-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .radio-group label, .checkbox-group label, .inline-options label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: normal;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+    button {
+      padding: 0.8rem 1.5rem;
+      background-color: #004d99; /* Darker blue for buttons */
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #003366;
+    }
+    .page {
+      display: none; /* Hidden by default */
+    }
+    .page.active {
+      display: block; /* Shown when active */
+    }
+    .hidden {
+      display: none;
+    }
+    .item {
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+    .item label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    .item .radio-group {
+      margin-bottom: 0.5rem;
+    }
+    .habit-item {
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+    .habit-item label {
+      font-weight: bold;
+    }
+    /* Style for the hidden input groups */
+    .medical-inputs-group, .habit-inputs-group {
+        margin-top: 0.5rem; /* Add some spacing */
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="formContainer">
+
+    <!-- Removed Page 1: Patient Information Form -->
+
+    <div id="page2" class="page active">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Medical History</h2>
+      </div>
+
+      <form id="medicalForm">
+        <div id="checklist"></div>
+
+        <div class="nav-buttons">
+          <!-- Removed "Previous" button as this is now the first page -->
+          <button type="submit" data-next-page="page3">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page3" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Habits</h2>
+      </div>
+
+      <form id="habitForm">
+        <div class="section">
+          <h2>Personal Habits</h2>
+          <div class="habit-item">
+            <label><input type="checkbox" name="smoking" onchange="toggleHabitInputs(this)" /> Smoking</label>
+            <div class="habit-inputs-group">
+                <input type="text" name="smoking_freq" placeholder="Frequency" disabled />
+                <input type="text" name="smoking_intensity" placeholder="Intensity" disabled />
+                <input type="text" name="smoking_duration" placeholder="Duration" disabled />
+            </div>
+          </div>
+
+          <div class="habit-item">
+            <label><input type="checkbox" name="alcohol" onchange="toggleHabitInputs(this)" /> Alcohol Consumption</label>
+            <div class="habit-inputs-group">
+                <input type="text" name="alcohol_freq" placeholder="Frequency" disabled />
+                <input type="text" name="alcohol_intensity" placeholder="Intensity" disabled />
+                <input type="text" name="alcohol_duration" placeholder="Duration" disabled />
+            </div>
+          </div>
+
+          <div class="habit-item">
+            <label><input type="checkbox" name="tobacco" onchange="toggleHabitInputs(this)" /> Tobacco Chewing</label>
+            <div class="habit-inputs-group">
+                <input type="text" name="tobacco_freq" placeholder="Frequency" disabled />
+                <input type="text" name="tobacco_intensity" placeholder="Intensity" disabled />
+                <input type="text" name="tobacco_duration" placeholder="Duration" disabled />
+            </div>
+          </div>
+
+          <div class="habit-item">
+            <label><input type="checkbox" name="mouth_breathing" onchange="toggleHabitInputs(this)" /> Mouth Breathing</label>
+            <div class="habit-inputs-group">
+                <input type="text" name="mouth_breathing_freq" placeholder="Frequency" disabled />
+                <input type="text" name="mouth_breathing_intensity" placeholder="Intensity" disabled />
+                <input type="text" name="mouth_breathing_duration" placeholder="Duration" disabled />
+            </div>
+          </div>
+
+          <div class="habit-item">
+            <label><input type="checkbox" name="nail_biting" onchange="toggleHabitInputs(this)" /> Nail Biting</label>
+            <div class="habit-inputs-group">
+                <input type="text" name="nail_biting_freq" placeholder="Frequency" disabled />
+                <input type="text" name="nail_biting_intensity" placeholder="Intensity" disabled />
+                <input type="text" name="nail_biting_duration" placeholder="Duration" disabled />
+            </div>
+          </div>
+
+          <div class="habit-item">
+            <label><input type="checkbox" name="bruxism" onchange="toggleHabitInputs(this)" /> Bruxism / Bruxomania</label>
+            <div class="habit-inputs-group">
+                <input type="text" name="bruxism_freq" placeholder="Frequency" disabled />
+                <input type="text" name="bruxism_intensity" placeholder="Intensity" disabled />
+                <input type="text" name="bruxism_duration" placeholder="Duration" disabled />
+            </div>
+          </div>
+
+          <div class="habit-item">
+            <label><input type="checkbox" name="tongue_thrust" onchange="toggleHabitInputs(this)" /> Tongue Thrust</label>
+            <div class="habit-inputs-group">
+                <input type="text" name="tongue_thrust_freq" placeholder="Frequency" disabled />
+                <input type="text" name="tongue_thrust_intensity" placeholder="Intensity" disabled />
+                <input type="text" name="tongue_thrust_duration" placeholder="Duration" disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Occupational Habits</h2>
+          <textarea name="occupational_habits" placeholder="Describe occupational habits if any..."></textarea>
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page2">Previous</button>
+          <button type="submit" data-next-page="page4">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page4" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Vital Signs</h2>
+      </div>
+
+      <form id="vitalsForm">
+        <div class="form-group">
+          <label for="bp">Blood Pressure (mmHg)</label>
+          <input type="text" id="bp" name="bp" placeholder="e.g., 120/80" required />
+        </div>
+
+        <div class="form-group">
+          <label for="pulse">Pulse (bpm)</label>
+          <input type="number" id="pulse" name="pulse" placeholder="e.g., 72" required />
+        </div>
+
+        <div class="form-group">
+          <label for="bleeding_time">Bleeding Time (mins)</label>
+          <input type="text" id="bleeding_time" name="bleeding_time" placeholder="e.g., 2-7" required />
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page3">Previous</button>
+          <button type="submit" data-next-page="page5">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page5" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Oral/Peri-Oral Examination</h2>
+      </div>
+
+      <form id="oralExamForm">
+        <div class="form-group">
+          <label for="faceShape">Shape of Face</label>
+          <input type="text" id="faceShape" name="faceShape" placeholder="e.g., Ovoid, Square, Tapering..." required />
+        </div>
+
+        <div class="form-group">
+          <label for="profile">Profile</label>
+          <input type="text" id="profile" name="profile" placeholder="e.g., Straight, Convex, Concave..." required />
+        </div>
+
+        <div class="form-group">
+          <label for="lipSupport">Lip Support</label>
+          <input type="text" id="lipSupport" name="lipSupport" placeholder="e.g., Adequate, Inadequate..." required />
+        </div>
+
+        <div class="form-group">
+          <label for="philtrum">Philtrum</label>
+          <input type="text" id="philtrum" name="philtrum" placeholder="e.g., Normal, Flattened..." required />
+        </div>
+
+        <div class="form-group">
+          <label for="nasolabialSulcus">Nasolabial Sulcus</label>
+          <input type="text" id="nasolabialSulcus" name="nasolabialSulcus" placeholder="e.g., Prominent, Shallow..." required />
+        </div>
+
+        <div class="form-group">
+          <label for="mouthOpening">Mouth Opening (Upload Image)</label>
+          <input type="file" id="mouthOpening" name="mouthOpening" accept=".png,.jpeg,.jpg,.webp" required />
+        </div>
+
+        <div class="form-group">
+          <label for="edentulism">State of Edentulism</label>
+          <input type="text" id="edentulism" name="edentulism" placeholder="e.g., Partial, Complete..." required />
+        </div>
+
+        <div class="form-group">
+          <label>Kennedy Classification</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="kennedy" value="I" /> Class I</label>
+            <label><input type="checkbox" name="kennedy" value="II" /> Class II</label>
+            <label><input type="checkbox" name="kennedy" value="III" /> Class III</label>
+            <label><input type="checkbox" name="kennedy" value="IV" /> Class IV</label>
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page4">Previous</button>
+          <button type="submit" data-next-page="page6">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page6" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Intraoral and Extraoral Examination</h2>
+      </div>
+
+      <form id="page6Form">
+        <h2>Intraoral Examination</h2>
+        <div class="form-group">
+          <label for="gingiva">Gingiva</label>
+          <textarea name="gingiva" id="gingiva"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="mucosa">Mucosa</label>
+          <textarea name="mucosa" id="mucosa"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="tongue">Tongue</label>
+          <textarea name="tongue" id="tongue"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="floorOfMouth">Floor of the Mouth</label>
+          <textarea name="floorOfMouth" id="floorOfMouth"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="salivaryGlands">Salivary Glands and Ducts</label>
+          <textarea name="salivaryGlands" id="salivaryGlands"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="tonsils">Tonsils</label>
+          <textarea name="tonsils" id="tonsils"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="palate">Palate</label>
+          <textarea name="palate" id="palate"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="lineaAlba" name="lineaAlba" onchange="toggleLineaNotes()" /> Linea Alba
+          </label>
+        </div>
+        <div class="form-group hidden" id="lineaNotesGroup">
+          <label for="lineaNotes">Notes for Linea Alba</label>
+          <textarea name="lineaNotes" id="lineaNotes" disabled></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="restoration">Existing Restoration (Fillings)</label>
+          <select name="restoration" id="restoration" onchange="toggleRestOther(this)">
+            <option value="">-- Select --</option>
+            <option value="amalgam">Amalgam</option>
+            <option value="composite">Composite</option>
+            <option value="ceramic">Ceramic</option>
+            <option value="gold">Gold</option>
+            <option value="none">None</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group hidden" id="restOtherGroup">
+          <label for="restOther">Other Restoration Details</label>
+          <textarea name="restOther" id="restOther" disabled></textarea>
+        </div>
+
+        <h2>Necks and Nodes</h2>
+        <div class="form-group"><label for="inflammation">Inflammation</label><textarea name="inflammation" id="inflammation"></textarea></div>
+        <div class="form-group"><label for="nodeEnlargement">Enlargement of Nodes</label><textarea name="nodeEnlargement" id="nodeEnlargement"></textarea></div>
+        <div class="form-group"><label for="tenderness">Tenderness</label><textarea name="tenderness" id="tenderness"></textarea></div>
+        <div class="form-group"><label for="nodeOther">Other Findings</label><textarea name="nodeOther" id="nodeOther"></textarea></div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page5">Previous</button>
+          <button type="submit" data-next-page="page7">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page7" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Periodontal and Occlusal Assessment</h2>
+      </div>
+
+      <form id="page7Form">
+        <h2>Periodontal Assessment</h2>
+        <div class="form-group">
+          <label for="oralHygiene">Oral Hygiene Status</label>
+          <select name="oralHygiene" id="oralHygiene">
+            <option value="">-- Select --</option>
+            <option>Good</option>
+            <option>Fair</option>
+            <option>Poor</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="calculus">Calculus</label>
+          <textarea name="calculus" id="calculus"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="plaque">Plaque</label>
+          <textarea name="plaque" id="plaque"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="stains">Stains</label>
+          <textarea name="stains" id="stains"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="mobilityTeeth">Mobility of Teeth</label>
+          <textarea name="mobilityTeeth" id="mobilityTeeth"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="mobilityGrade">Mobility Grade</label>
+          <select name="mobilityGrade" id="mobilityGrade">
+            <option value="">-- Select --</option>
+            <option>Grade 0</option>
+            <option>Grade 1</option>
+            <option>Grade 2</option>
+            <option>Grade 3</option>
+          </select>
+        </div>
+
+        <div class="form-group"><label for="pockets">Pockets (mm)</label><input type="number" name="pockets" id="pockets" min="0" /></div>
+        <div class="form-group"><label for="recession">Recession (mm)</label><input type="number" id="recession" name="recession" min="0" /></div>
+        <div class="form-group"><label for="tenderness">Tenderness</label><textarea name="tenderness" id="tenderness"></textarea></div>
+        <div class="form-group"><label for="periodontalOther">Other Findings</label><textarea name="periodontalOther" id="periodontalOther"></textarea></div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page6">Previous</button>
+          <button type="submit" data-next-page="page8">Next</button>
+        </div>
+
+      </form>
+    </div>
+
+    <div id="page8" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Occlusal Assessment</h2>
+      </div>
+
+      <form id="page8Form">
+        <h3>Inter-arch Relationship</h3>
+        <div class="form-group">
+          <label for="archRelationship">Relationship</label>
+          <select id="archRelationship" name="archRelationship">
+            <option value="">-- Select --</option>
+            <option>Class I</option>
+            <option>Class II</option>
+            <option>Class III</option>
+          </select>
+        </div>
+
+        <div class="form-group"><label for="overjet">Overjet (mm)</label><input type="number" id="overjet" name="overjet" min="0" step="0.1" /></div>
+        <div class="form-group"><label for="overbite">Overbite (mm)</label><input type="number" id="overbite" name="overbite" min="0" step="0.1" /></div>
+
+        <div class="form-group">
+          <label for="crossbite">Crossbite</label>
+          <select id="crossbite" name="crossbite">
+            <option value="">-- Select --</option>
+            <option>Anterior</option>
+            <option>Posterior</option>
+            <option>None</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="midlineShift">Midline Shift (mm)</label>
+          <input type="number" id="midlineShift" name="midlineShift" min="0" step="0.1" />
+        </div>
+
+        <div class="form-group">
+          <label>Premucosal</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="premucosal" value="labial" /> Labial</label>
+            <label><input type="checkbox" name="premucosal" value="lingual" /> Lingual</label>
+            <label><input type="checkbox" name="premucosal" value="buccal" /> Buccal</label>
+            <label><input type="checkbox" name="premucosal" value="oncrest" /> On Crest</label>
+          </div>
+        </div>
+
+        <h3>Tissue Support Area</h3>
+        <div class="form-group">
+          <label for="firmness">Firmness</label>
+          <select id="firmness" name="firmness">
+            <option value="">-- Select --</option>
+            <option>Firm</option>
+            <option>Soft</option>
+            <option>Flabby</option>
+          </select>
+        </div>
+
+        <div class="form-group"><label for="supportContour">Contour</label><textarea id="supportContour" name="supportContour"></textarea></div>
+
+        <div class="form-group">
+          <label><input type="checkbox" name="undercuts" id="undercuts" /> Undercuts Present</label>
+        </div>
+
+        <div class="form-group"><label for="supportOther">Other Findings</label><textarea id="supportOther" name="supportOther"></textarea></div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page7">Previous</button>
+          <button type="submit" data-next-page="page9">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page9" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Radiographic Assessment</h2>
+      </div>
+
+      <form id="page9Form">
+        <div class="form-group">
+          <label for="boneLoss">Bone Loss (Type and Extent)</label>
+          <textarea id="boneLoss" name="boneLoss"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="implantSite">Implant Site Assessment</label>
+          <textarea id="implantSite" name="implantSite"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="periapical">Periapical Status</label>
+          <textarea id="periapical" name="periapical"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="pathology">Pathology</label>
+          <textarea id="pathology" name="pathology"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="uneruptedTeeth">Unerupted/Impacted Teeth</label>
+          <textarea id="uneruptedTeeth" name="uneruptedTeeth"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label><input type="checkbox" id="undercutCheckbox" onchange="toggleUndercutDesc()" /> Undercut Present</label>
+        </div>
+
+        <div class="form-group hidden" id="undercutDescGroup">
+          <label for="undercutDesc">Undercut Description</label>
+          <textarea name="undercutDesc" id="undercutDesc" disabled></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="boneWidth">Available Bone Width (mm)</label>
+          <input type="number" id="boneWidth" name="boneWidth" min="0" />
+        </div>
+
+        <div class="form-group">
+          <label for="boneHeight">Available Bone Height (mm)</label>
+          <input type="number" id="boneHeight" name="boneHeight" min="0" />
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page8">Previous</button>
+          <button type="submit" data-next-page="page10">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page10" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Esthetic and Prosthetic Space Analysis</h2>
+      </div>
+
+      <form id="page10Form">
+        <h3 class="section-title">Esthetic Analysis</h3>
+        <div class="form-group">
+          <label>Smile Line</label>
+          <div class="inline-options">
+            <label><input type="checkbox" name="smileLine" value="high" /> High</label>
+            <label><input type="checkbox" name="smileLine" value="average" /> Average</label>
+            <label><input type="checkbox" name="smileLine" value="low" /> Low</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>High Lip Line</label>
+          <div class="inline-options">
+            <label><input type="checkbox" name="highLipLine" value="low" /> Low</label>
+            <label><input type="checkbox" name="highLipLine" value="normal" /> Normal</label>
+            <label><input type="checkbox" name="highLipLine" value="high" /> High</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Low Lip Line</label>
+          <div class="inline-options">
+            <label><input type="checkbox" name="lowLipLine" value="low" /> Low</label>
+            <label><input type="checkbox" name="lowLipLine" value="normal" /> Normal</label>
+            <label><input type="checkbox" name="lowLipLine" value="high" /> High</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Arch Form</label>
+          <div class="inline-options">
+            <label><input type="checkbox" name="archForm" value="square" /> Square</label>
+            <label><input type="checkbox" name="archForm" value="ovoid" /> Ovoid</label>
+            <label><input type="checkbox" name="archForm" value="tapering" /> Tapering</label>
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page9">Previous</button>
+          <button type="submit" data-next-page="page11">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page11" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Prosthetic Space Analysis</h2>
+      </div>
+
+      <form id="page11Form">
+        <div class="form-group">
+          <label for="interArchSpace">Inter-Arch Space (mm)</label>
+          <input type="number" id="interArchSpace" name="interArchSpace" min="0" />
+        </div>
+
+        <div class="form-group">
+          <label for="ridgeRelation">Ridge Relationship</label>
+          <input type="text" id="ridgeRelation" name="ridgeRelation" placeholder="e.g., Class I, Class II, Class III..." />
+        </div>
+
+        <div class="form-group">
+          <label for="occlusalPlane">Occlusal Plane</label>
+          <input type="text" id="occlusalPlane" name="occlusalPlane" placeholder="e.g., Flat, Curved..." />
+        </div>
+
+        <div class="form-group">
+          <label for="forceDirection">Direction of Force</label>
+          <input type="text" id="forceDirection" name="forceDirection" />
+        </div>
+
+        <div class="form-group">
+          <label>Opposing Arch</label>
+          <div class="inline-options">
+            <label><input type="checkbox" name="opposingArch" value="softTissue" /> Soft Tissue Support</label>
+            <label><input type="checkbox" name="opposingArch" value="fixed" /> Fixed Prosthesis</label>
+            <label><input type="checkbox" name="opposingArch" value="natural" /> Natural Dentition</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tongue Size</label>
+          <div class="inline-options">
+            <label><input type="checkbox" name="tongueSize" value="large" /> Large</label>
+            <label><input type="checkbox" name="tongueSize" value="medium" /> Medium</label>
+            <label><input type="checkbox" name="tongueSize" value="small" /> Small</label>
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page10">Previous</button>
+          <button type="submit" data-next-page="page12">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page12" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Dental Status Evaluation</h2>
+      </div>
+
+      <form id="page12Form">
+        <div class="form-group">
+          <label for="cariesStatus">Caries Status</label>
+          <textarea id="cariesStatus" name="cariesStatus"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="restorationStatus">Restoration Status</label>
+          <textarea id="restorationStatus" name="restorationStatus"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="endodontic">Endodontic Status</label>
+          <textarea id="endodontic" name="endodontic"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="periodontal">Periodontal Status</label>
+          <textarea id="periodontal" name="periodontal"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="softTissue">Soft Tissue Evaluation</label>
+          <textarea id="softTissue" name="softTissue"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="rootConfig">Root Configuration</label>
+          <textarea id="rootConfig" name="rootConfig"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="toothPosition">Tooth Position and Parallelism</label>
+          <textarea id="toothPosition" name="toothPosition"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="crownHeight">Crown Height</label>
+          <textarea id="crownHeight" name="crownHeight"></textarea>
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page11">Previous</button>
+          <button type="submit" data-next-page="page13">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page13" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Bone Evaluation & Prognosis Assessment</h2>
+      </div>
+
+      <form id="page13Form">
+        <h3 class="section-title">Bone Evaluation</h3>
+        <div class="form-group"><label for="boneQuality">Bone Quality (D1, D2, D3, D4)</label><textarea id="boneQuality" name="boneQuality"></textarea></div>
+        <div class="form-group"><label for="boneVolume">Bone Volume</label><textarea id="boneVolume" name="boneVolume"></textarea></div>
+        <div class="form-group"><label for="boneDensity">Bone Density</label><textarea id="boneDensity" name="boneDensity"></textarea></div>
+        <div class="form-group"><label for="boneHeight">Bone Height</label><input type="number" id="boneHeight" name="boneHeight" min="0" /></div>
+        <div class="form-group"><label for="boneWidth">Bone Width</label><input type="number" id="boneWidth" name="boneWidth" min="0" /></div>
+        <div class="form-group"><label for="boneCt">CT Scan Findings (if any)</label><textarea id="boneCt" name="boneCt"></textarea></div>
+        <div class="form-group"><label for="boneOthers">Others</label><textarea id="boneOthers" name="boneOthers"></textarea></div>
+
+        <h3 class="section-title">Prognosis Assessment</h3>
+        <div class="form-group"><label for="comfort">Oral Comfort Potential</label><textarea id="comfort" name="comfort"></textarea></div>
+        <div class="form-group"><label for="function">Oral Function Potential</label><textarea id="function" name="function"></textarea></div>
+        <div class="form-group"><label for="esthetic">Oral Esthetic Potential</label><textarea id="esthetic" name="esthetic"></textarea></div>
+        <div class="form-group"><label for="psych">Psychological Status</label><textarea id="psych" name="psych"></textarea></div>
+        <div class="form-group"><label for="expectation">Patient Expectation and Priorities</label><textarea id="expectation" name="expectation"></textarea></div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page12">Previous</button>
+          <button type="submit" data-next-page="page14">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="page14" class="page">
+      <div class="header">
+        <img src="logo.png" alt="SRM Logo" class="logo" />
+        <h1>SRM Dental College</h1>
+        <h2>Treatment Plan & Follow-Up</h2>
+      </div>
+
+      <form id="page14Form">
+        <h3 class="section-title">Treatment Plan</h3>
+        <div class="form-group"><label>Diagnostic Impression</label><textarea name="diagnosticImpression"></textarea></div>
+        <div class="form-group"><label>Study Model Analysis</label><textarea name="studyModelAnalysis"></textarea></div>
+        <div class="form-group"><label>Wax-Up</label><textarea name="waxUp"></textarea></div>
+        <div class="form-group"><label>Surgical Guide</label><textarea name="surgicalGuide"></textarea></div>
+        <div class="form-group"><label>Type of Prosthesis</label><textarea name="prosthesisType"></textarea></div>
+        <div class="form-group"><label>Fixed</label><textarea name="fixed"></textarea></div>
+        <div class="form-group"><label>Removable</label><textarea name="removable"></textarea></div>
+        <div class="form-group"><label>Overdenture</label><textarea name="overdenture"></textarea></div>
+        <div class="form-group"><label>Hybrid</label><textarea name="hybrid"></textarea></div>
+        <div class="form-group">
+          <label>Material Used</label>
+          <div class="inline-options">
+            <label><input type="checkbox" name="material" value="ceramicPFM" /> Ceramic PFM</label>
+            <label><input type="checkbox" name="material" value="allCeramic" /> All Ceramic</label>
+          </div>
+        </div>
+
+        <h3 class="section-title">Follow-Up Plan</h3>
+        <div class="form-group"><label>Sequence of Follow-Up Plan</label><textarea name="followUpSequence"></textarea></div>
+        <div class="form-group"><label>Clinical</label><textarea name="clinical"></textarea></div>
+        <div class="form-group"><label>Radiographic</label><textarea name="radiographic"></textarea></div>
+        <div class="form-group"><label>Status of Osseointegration</label><textarea name="osseointegration"></textarea></div>
+        <div class="form-group"><label>Subjective Analysis</label><textarea name="subjective"></textarea></div>
+        <div class="form-group"><label>Others</label><textarea name="otherFactors"></textarea></div>
+
+        <div class="nav-buttons">
+          <button type="button" data-prev-page="page13">Previous</button>
+          <button type="button" data-next-page="prescription.html">Submit</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    let currentPageIndex = 0;
+    const formContainer = document.getElementById('formContainer'); // Get the container element
+
+    // Function to save form data to localStorage
+    function saveFormData(formId) {
+      const form = document.getElementById(formId);
+      if (form) {
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+          if (input.name) {
+            if (input.type === 'checkbox' || input.type === 'radio') {
+              localStorage.setItem(`${formId}_${input.name}_checked`, input.checked);
+              if (input.type === 'radio' && input.checked) {
+                localStorage.setItem(`${formId}_${input.name}_value`, input.value);
+              }
+            } else if (input.type === 'file') {
+              // Cannot auto-fill file inputs for security reasons
+            } else {
+              localStorage.setItem(`${formId}_${input.name}`, input.value);
+            }
+          }
+        });
+      }
+    }
+
+    // Function to load form data from localStorage
+    function loadFormData(formId) {
+      const form = document.getElementById(formId);
+      if (form) {
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+          if (input.name) {
+            if (input.type === 'checkbox' || input.type === 'radio') {
+              const isChecked = localStorage.getItem(`${formId}_${input.name}_checked`) === 'true';
+              input.checked = isChecked;
+              if (input.type === 'radio' && isChecked) {
+                const storedValue = localStorage.getItem(`${formId}_${input.name}_value`);
+                if (input.value === storedValue) {
+                  input.checked = true;
+                }
+              }
+            } else if (input.type !== 'file') {
+              const storedValue = localStorage.getItem(`${formId}_${input.name}`);
+              if (storedValue !== null) {
+                input.value = storedValue;
+              }
+            }
+          }
+        });
+      }
+    }
+
+    function showPage(index) {
+      // Save data of the current page before hiding it
+      const currentFormId = pages[currentPageIndex] ? pages[currentPageIndex].querySelector('form').id : null;
+      if (currentFormId) {
+        saveFormData(currentFormId);
+      }
+
+      const nextPageId = pages[index] ? pages[index].id : null;
+
+      // Check if the next page is an external HTML file
+      if (typeof pages[index] === 'undefined' && index === pages.length) { // This condition handles the case for the last button
+          window.location.href = 'prescription.html';
+          return; // Stop further execution
+      }
+
+      pages.forEach((page, i) => {
+        // Only activate the page if its index matches the target index
+        if (i === index) {
+          page.classList.add('active');
+          // Load data for the new active page
+          const newFormId = page.querySelector('form').id;
+          loadFormData(newFormId);
+        } else {
+          page.classList.remove('active');
+        }
+      });
+      currentPageIndex = index;
+      // Scroll the formContainer to the top of the page when a new page is shown
+      requestAnimationFrame(() => {
+        formContainer.scrollTo(0, 0);
+      });
+    }
+
+    // Function to toggle inputs for medical history items (Page 2)
+    function toggleMedicalInputs(radio) {
+      const itemDiv = radio.closest('.item');
+      if (itemDiv) {
+        const inputContainer = itemDiv.querySelector('.medical-inputs-group');
+        const severityInput = itemDiv.querySelector('input[name$="_severity"]');
+        const durationInput = itemDiv.querySelector('input[name$="_duration"]');
+        
+        const enable = radio.value === 'Yes';
+
+        if (inputContainer) {
+          inputContainer.classList.toggle('hidden', !enable); // Toggle visibility of the container
+        }
+
+        if (severityInput) {
+          severityInput.disabled = !enable;
+          if (!enable) severityInput.value = '';
+        }
+        if (durationInput) {
+          durationInput.disabled = !enable;
+          if (!enable) durationInput.value = '';
+        }
+      }
+    }
+
+    // Function to toggle inputs for habit items (Page 3)
+    function toggleHabitInputs(checkbox) {
+      const habitItemDiv = checkbox.closest('.habit-item');
+      if (habitItemDiv) {
+        const habitInputGroup = habitItemDiv.querySelector('.habit-inputs-group');
+        const freqInput = habitItemDiv.querySelector('input[name$="_freq"]');
+        const intensityInput = habitItemDiv.querySelector('input[name$="_intensity"]');
+        const durationInput = habitItemDiv.querySelector('input[name$="_duration"]');
+        const enable = checkbox.checked;
+
+        if (habitInputGroup) {
+            habitInputGroup.classList.toggle('hidden', !enable); // Toggle visibility of the container
+        }
+
+        if (freqInput) {
+          freqInput.disabled = !enable;
+          if (!enable) freqInput.value = '';
+        }
+        if (intensityInput) {
+          intensityInput.disabled = !enable;
+          if (!enable) intensityInput.value = '';
+        }
+        if (durationInput) {
+          durationInput.disabled = !enable;
+          if (!enable) durationInput.value = '';
+        }
+      }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Start from page2, which is now the first page (index 0)
+      showPage(0);
+
+      // Set up navigation for forms
+      pages.forEach(page => {
+        const nextButton = page.querySelector('[data-next-page]');
+        if (nextButton) {
+          nextButton.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent actual form submission for navigation
+            const nextPageId = nextButton.dataset.nextPage;
+            
+            // Check if the next page is an external HTML file
+            if (nextPageId.endsWith('.html')) {
+                window.location.href = nextPageId;
+            } else {
+                const nextPageIndex = Array.from(pages).findIndex(p => p.id === nextPageId);
+                if (nextPageIndex !== -1) {
+                    showPage(nextPageIndex);
+                }
+            }
+          });
+        }
+
+        const prevButton = page.querySelector('[data-prev-page]');
+        if (prevButton) {
+          prevButton.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default button action
+            const prevPageId = prevButton.dataset.prevPage;
+            const prevPageIndex = Array.from(pages).findIndex(p => p.id === prevPageId);
+            if (prevPageIndex !== -1) {
+              showPage(prevPageIndex);
+            }
+          });
+        }
+      });
+
+      // Medical History Checklist (from page2.html)
+      const checklistData = {
+        "Systemic Diseases": ["hypertension", "diabetes mellitus", "heart disease", "respiratory disease", "digestive disease", "kidney disease", "liver disease", "thyroid dysfunction", "epilepsy", "bleeding disorders", "allergies", "infectious diseases", "arthritis", "any other disorder/disability"],
+        "Medications": ["medications"]
+      };
+
+      const checklistContainer = document.getElementById("checklist");
+      if (checklistContainer) {
+        for (const [group, items] of Object.entries(checklistData)) {
+          const section = document.createElement("div");
+          section.className = "section";
+          section.innerHTML = `<h2>${group}</h2>`;
+
+          const itemGroup = document.createElement("div");
+          itemGroup.className = "item-group";
+
+          items.forEach(item => {
+            const idBase = item.replace(/\s+/g, "_").toLowerCase();
+            // Added onchange to radio buttons to call toggleMedicalInputs
+            itemGroup.innerHTML += `
+              <div class="item">
+                <label for="${idBase}">${item}</label>
+                <div class="radio-group">
+                  <label><input type="radio" name="${idBase}_yesno" value="Yes" onchange="toggleMedicalInputs(this)" required> Yes</label>
+                  <label><input type="radio" name="${idBase}_yesno" value="No" onchange="toggleMedicalInputs(this)"> No</label>
+                </div>
+                <div class="medical-inputs-group"> <!-- New wrapper div for severity and duration -->
+                  <input type="text" name="${idBase}_severity" placeholder="Severity" disabled />
+                  <input type="text" name="${idBase}_duration" placeholder="Duration" disabled />
+                </div>
+              </div>
+            `;
+          });
+
+          section.appendChild(itemGroup);
+          checklistContainer.appendChild(section);
+        }
+      }
+
+      // Toggle Linea Alba Notes (from page6.html)
+      window.toggleLineaNotes = function() {
+        const checkbox = document.getElementById("lineaAlba");
+        const notesGroup = document.getElementById("lineaNotesGroup");
+        const notesTextarea = document.getElementById("lineaNotes"); // Get the textarea directly
+        if (checkbox && notesGroup && notesTextarea) {
+          notesGroup.classList.toggle("hidden", !checkbox.checked);
+          notesTextarea.disabled = !checkbox.checked; // Disable/enable the textarea
+          if (!checkbox.checked) {
+            notesTextarea.value = ''; // Clear content if disabled
+          }
+        }
+      };
+
+      // Toggle Other Restoration Details (from page6.html)
+      window.toggleRestOther = function(select) {
+        const group = document.getElementById("restOtherGroup");
+        const textarea = document.getElementById("restOther"); // Get the textarea directly
+        if (group && select && textarea) {
+          const isOtherSelected = select.value === "other";
+          group.classList.toggle("hidden", !isOtherSelected);
+          textarea.disabled = !isOtherSelected; // Disable/enable the textarea
+          if (!isOtherSelected) {
+            textarea.value = ''; // Clear content if disabled
+          }
+        }
+      };
+
+      // Toggle Undercut Description (from page9.html)
+      window.toggleUndercutDesc = function() {
+        const checkbox = document.getElementById("undercutCheckbox");
+        const notesGroup = document.getElementById("undercutDescGroup");
+        const notesTextarea = document.getElementById("undercutDesc"); // Get the textarea directly
+        if (checkbox && notesGroup && notesTextarea) {
+          notesGroup.classList.toggle("hidden", !checkbox.checked);
+          notesTextarea.disabled = !checkbox.checked; // Disable/enable the textarea
+          if (!checkbox.checked) {
+            notesTextarea.value = ''; // Clear content if disabled
+          }
+        }
+      };
+
+      // Initialize the state of the toggled fields on load
+      // These functions are now called directly on DOMContentLoaded to ensure initial state is correct
+      // for the now first visible page (Medical History, page2) and subsequent pages.
+      // The showPage(0) call will handle loading data for the initial page.
+
+      // Initialize the state for Medical History inputs (Page 2)
+      // This needs to be done after the checklist is generated
+      const medicalForm = document.getElementById("medicalForm");
+      if (medicalForm) {
+        const radioButtons = medicalForm.querySelectorAll('input[type="radio"][name$="_yesno"]');
+        radioButtons.forEach(radio => {
+          // Check if the radio button is initially checked to set the state
+          if (radio.checked) {
+            toggleMedicalInputs(radio);
+          } else {
+            // Also ensure inputs are hidden if "No" is default or saved
+            const itemDiv = radio.closest('.item');
+            if (itemDiv && radio.value === 'No') {
+              const inputContainer = itemDiv.querySelector('.medical-inputs-group');
+              if (inputContainer) {
+                inputContainer.classList.add('hidden');
+              }
+            }
+          }
+        });
+      }
+
+      // Initialize the state for Personal Habits inputs (Page 3)
+      const habitForm = document.getElementById("habitForm");
+      if (habitForm) {
+        const habitCheckboxes = habitForm.querySelectorAll('.habit-item input[type="checkbox"]');
+        habitCheckboxes.forEach(checkbox => {
+          toggleHabitInputs(checkbox); // Call for each checkbox to set initial state
+        });
+      }
+      // Re-initialize all toggled fields on load for all pages to ensure correct state after page load.
+      // This is important because loadFormData only loads values, not dynamic states.
+      // These calls should be after loadFormData for the initial page.
+      toggleLineaNotes();
+      toggleRestOther(document.getElementById("restoration"));
+      toggleUndercutDesc();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Patient Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('Campus.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .dashboard-container {
+      background-color: rgba(37, 40, 107, 0.85);
+      border-radius: 2rem;
+      padding: 6rem;
+      max-width: 90%;
+      width: 100%;
+      text-align: center;
+      color: white;
+    }
+
+    .dashboard-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+    }
+
+    .button {
+      background-color: white;
+      color: #26286b;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 1rem;
+      margin: 1rem auto;
+      width: 80%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #e2e8f0;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <h1 class="dashboard-title">Welcome to SRM Dental Hub</h1>
+
+    <!-- Appointments -->
+    <button class="button" onclick="window.location.href='my_appointment.html'">
+      My Appointments
+    </button>
+
+    <!-- Update My Details -->
+    <button class="button" onclick="window.location.href='update.html'">
+      Update My Details
+    </button>
+
+    <!-- My Prescription -->
+    <button class="button" onclick="window.location.href='prescription portal.html'">
+      My Prescription
+    </button>
+  </div>
+</body>
+</html>

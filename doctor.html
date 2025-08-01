@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Sign Up - SRM Dental College</title>
+  <style>
+    :root {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url('campus.png') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.signup-box {
+  background-color: rgba(4, 10, 124, 0.8);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 28rem;
+  box-shadow: 0 0 1rem rgba(0,0,0,0.3);
+  color: white;
+  text-align: center;
+}
+
+.logo {
+  width: 6rem;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.college-name {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.signup-box h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-group {
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  padding-right: 3rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 1rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #333;
+  padding: 0;
+}
+
+.checkbox-group {
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.checkbox-group label {
+  margin-right: 1.5rem;
+  cursor: pointer;
+}
+
+.button {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  background-color: white;
+  color: #007bff;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-bottom: 1rem;
+}
+
+.button:hover {
+  transform: scale(1.03);
+}
+
+@media (max-width: 600px) {
+  .college-name {
+    font-size: 1.2rem;
+  }
+
+  .signup-box h2 {
+    font-size: 1.2rem;
+  }
+
+  .button {
+    font-size: 0.95rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="signup-box">
+    <img src="logo.png" alt="SRM Logo" class="logo" />
+    <div class="college-name">SRM DENTAL COLLEGE</div>
+    <h2>Doctor Sign Up</h2>
+
+    <form id="signupForm" onsubmit="return false">
+      <div class="input-group">
+        <input type="text" id="name" placeholder="Full Name" required />
+      </div>
+
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email ID" />
+      </div>
+
+      <div class="input-group">
+        <input type="tel" id="phone" placeholder="Phone Number" />
+      </div>
+
+      <div class="checkbox-group">
+        <label><input type="radio" name="otpMethod" value="email" checked /> Email</label>
+        <label><input type="radio" name="otpMethod" value="phone" /> Phone</label>
+      </div>
+
+      <button type="button" class="button" onclick="sendOTP()">Send OTP</button>
+
+      <div class="input-group">
+        <input type="text" id="otpInput" placeholder="Enter OTP" />
+      </div>
+
+      <button type="button" class="button" onclick="verifyOTP()">Verify</button>
+
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Create Password" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('password')">👁️</button>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">👁️</button>
+      </div>
+
+      <button type="submit" class="button" onclick="finalSignup()">Sign Up</button>
+    </form>
+  </div>
+  <script>
+    let generatedOTP = '';
+let otpVerified = false;
+
+function sendOTP() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const method = document.querySelector('input[name="otpMethod"]:checked').value;
+
+  if (name === '') {
+    alert('Please enter your name.');
+    return;
+  }
+
+  if (method === 'email' && email === '') {
+    alert('Please enter your email ID.');
+    return;
+  }
+
+  if (method === 'phone' && phone === '') {
+    alert('Please enter your phone number.');
+    return;
+  }
+
+  generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+  alert(`OTP sent via ${method.toUpperCase()}: ${generatedOTP}`);
+  otpVerified = false;
+}
+
+function verifyOTP() {
+  const userOTP = document.getElementById('otpInput').value.trim();
+  if (userOTP === generatedOTP && userOTP !== '') {
+    alert('✅ OTP verified successfully!');
+    otpVerified = true;
+  } else {
+    alert('❌ Incorrect OTP. Please try again.');
+    otpVerified = false;
+  }
+}
+
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === "password" ? "text" : "password";
+}
+
+function generatedoctorID() {
+  const number = Math.floor(1000 + Math.random() * 9000);
+  return "SRMDP" + number;
+}
+
+function finalSignup() {
+  const name = document.getElementById('name').value.trim();
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  if (name === '' || !otpVerified) {
+    alert('Please complete all previous steps and verify OTP.');
+    return;
+  }
+
+  if (password.length < 6) {
+    alert('Password must be at least 6 characters.');
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert('Passwords do not match.');
+    return;
+  }
+
+  const doctorID = generatedoctorID();
+  alert(`✅ Registration successful!\nYour doctor ID is: ${doctorID}`);
+  window.location.href = "doctorlogin.html";
+}
+
+
+  </script>
+  </body>
+  </html>
+
+
+  
+
+

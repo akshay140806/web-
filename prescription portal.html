@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px; /* Increased max-width for wider table */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #25286b;
+            padding-bottom: 1rem;
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #25286b;
+        }
+        .search-bar {
+            margin-bottom: 2rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Space between input and button */
+        }
+        .search-bar input {
+            flex-grow: 1; /* Allow input to take available space */
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        .search-bar button {
+            background-color: #25286b;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            white-space: nowrap; /* Prevent button text from wrapping */
+        }
+        .search-bar button:hover {
+            background-color: #1a1c50;
+        }
+
+        /* Table Styling */
+        .prescription-table {
+            width: 100%;
+            border-collapse: separate; /* Use separate to allow border-radius on cells */
+            border-spacing: 0;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            overflow: hidden; /* Ensures rounded corners are applied */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .prescription-table th,
+        .prescription-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0; /* Light grey border for rows */
+        }
+
+        .prescription-table th {
+            background-color: #25286b; /* Dark blue header */
+            color: white;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0; /* Make header sticky if table scrolls */
+            z-index: 1; /* Ensure header is above content */
+        }
+
+        .prescription-table tbody tr:last-child td {
+            border-bottom: none; /* No border on the last row */
+        }
+
+        .prescription-table tbody tr:nth-child(even) {
+            background-color: #f8fbfd; /* Slightly different background for even rows */
+        }
+
+        .prescription-table tbody tr:hover {
+            background-color: #e0f2f7; /* Light blue on hover */
+        }
+
+        .prescription-table .tags span {
+            background-color: #7ed6df;
+            color: #25286b;
+            padding: 0.2rem 0.6rem;
+            border-radius: 0.3rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 0.4rem;
+            white-space: nowrap; /* Prevent tags from wrapping */
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            justify-content: flex-start;
+        }
+
+        .table-actions .button {
+            background-color: white;
+            color: #26286b;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: bold;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #26286b;
+            white-space: nowrap; /* Prevent button text from wrapping */
+            width: auto; /* Ensure buttons are not forced to 100% width */
+            min-width: 80px; /* Minimum width for consistency */
+            text-align: center;
+        }
+        .table-actions .button:hover {
+            background-color: #26286b;
+            color: white;
+            transform: translateY(-1px);
+        }
+        /* Changed .view-pdf button color to blue */
+        .table-actions .button.view-pdf {
+            background-color: #007bff; /* Blue for View Pdf */
+            color: white;
+            border-color: #007bff;
+        }
+        .table-actions .button.view-pdf:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .search-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-bar input {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .prescription-table thead {
+                display: none; /* Hide header on small screens */
+            }
+            .prescription-table, .prescription-table tbody, .prescription-table tr, .prescription-table td {
+                display: block;
+                width: 100%;
+            }
+            .prescription-table tr {
+                margin-bottom: 1rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.75rem;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+            .prescription-table td {
+                text-align: right;
+                position: relative;
+                padding-left: 50%; /* Space for pseudo-element label */
+                border-bottom: 1px dashed #e2e8f0; /* Dashed border for readability */
+            }
+            .prescription-table td:last-child {
+                border-bottom: none;
+            }
+            .prescription-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 45%;
+                padding-left: 1rem;
+                font-weight: bold;
+                text-align: left;
+                color: #25286b;
+            }
+            .table-actions {
+                /* Ensure buttons stay in a row and wrap if needed, even on small screens */
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center; /* Center buttons if they wrap */
+                padding: 1rem;
+                background-color: #f8fbfd;
+                border-top: 1px solid #e2e8f0;
+            }
+            .table-actions .button {
+                flex-grow: 1; /* Allow buttons to grow and fill space, but will wrap */
+                max-width: calc(50% - 0.25rem); /* Roughly half width minus gap */
+            }
+        }
+        @media (max-width: 480px) {
+            .table-actions .button {
+                /* On very small screens, ensure they remain side-by-side by sharing space */
+                max-width: calc(50% - 0.25rem); /* Keep them at roughly half width */
+                min-width: unset; /* Remove min-width constraint if it causes issues */
+            }
+        }
+
+        /* Hidden iframe for PDF generation */
+        #pdfFrame {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Health Documents</h1>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search prescriptions">
+            <button>Search</button>
+        </div>
+
+        <table class="prescription-table">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Patient UHID</th>
+                    <th>Prescribed By</th>
+                    <th>Record Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Patient Name">Desu Midhun</td>
+                    <td data-label="Patient UHID">APJ1.0030284037</td>
+                    <td data-label="Prescribed By">Dr. Archana </td>
+                    <td data-label="Record Date">19 Mar, 25</td>
+                    <td data-label="Actions">
+                        <div class="table-actions">
+                            <button class="button view-pdf" onclick="viewPrescription()">View Pdf</button>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td data-label="Patient Name">Desu Midhun</td>
+                    <td data-label="Patient UHID">APJ1.0030284037</td>
+                    <td data-label="Prescribed By">Dr. Archana</td>
+                    <td data-label="Record Date">30 Dec, 24</td>
+                    <td data-label="Actions">
+                        <div class="table-actions">
+                            <button class="button view-pdf" onclick="viewPrescription()">View Pdf</button>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td data-label="Patient Name">Desu Midhun</td>
+                    <td data-label="Patient UHID">APJ1.0030284037</td>
+                    <td data-label="Prescribed By">Dr. Archana</td>
+                    <td data-label="Record Date">30 Dec, 24</td>
+                    <td data-label="Actions">
+                        <div class="table-actions">
+                            <button class="button view-pdf" onclick="viewPrescription()">View Pdf</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <iframe id="pdfFrame"></iframe>
+
+    <script>
+        // Function to navigate to prescription_op.html
+        function viewPrescription() {
+            // Changed from window.location.href to window.open to resolve the SyntaxError
+            window.open('./prescription_op.html', '_blank');
+        }
+    </script>
+</body>
+</html>

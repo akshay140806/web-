@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chief Doctor Overlook Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: url('Campus.png') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      background-color: rgba(37, 40, 107, 0.85);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      max-width: 98%;
+      margin: auto;
+      color: white;
+      box-shadow: 0 0 1rem rgba(0,0,0,0.3);
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      font-weight: bold;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    th, td {
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      vertical-align: top;
+    }
+    th {
+      background-color: rgba(60, 141, 255, 0.3);
+    }
+    .view-button {
+      background-color: #3C8DFF;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .view-button:hover {
+      background-color: #2563EB;
+    }
+    .action-button {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      color: white;
+      border: none;
+    }
+    .approve-btn {
+      background-color: #28a745;
+    }
+    .approve-btn:hover {
+      background-color: #218838;
+    }
+    .redo-btn {
+      background-color: #ffc107;
+      color: #333;
+    }
+    .redo-btn:hover {
+      background-color: #e0a800;
+    }
+    .message-box-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.3s ease;
+    }
+    .message-box-container.show {
+      visibility: visible;
+      opacity: 1;
+    }
+    .message-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      color: #333;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 90%;
+    }
+    .message-box h2 {
+      margin-top: 0;
+      color: #3C8DFF;
+    }
+    .message-box p {
+      margin-bottom: 20px;
+      font-size: 16px;
+      text-align: left;
+    }
+    .message-box button {
+      background-color: #3C8DFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .message-box button:hover {
+      background-color: #2e7ae6;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="flex justify-between items-center mb-8">
+  <h1>Case Overview - Chief Doctor</h1>
+  <div class="text-right text-lg font-semibold text-white">
+    Dr. Arun karthick
+  </div>
+</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Doctor in Charge</th>
+          <th>Patient Name</th>
+          <th>Chief Complaint</th>
+          <th>Case Sheets</th>
+          <th>Prescription</th>
+          <!-- <th>Doctor's Advice</th> -->
+          <th>Approval</th>
+        </tr>
+      </thead>
+     <tbody>
+  <tr>
+    <td>1</td>
+    <td>Dr. John (Oral Surgeon)</td>
+    <td>Alice Smith</td>
+    <td>Toothache and swelling in lower jaw</td>
+    <td>
+      <button class="view-button" onclick="window.location.href='./case sheet filled.html'">View</button>
+    </td>
+    <td>
+      <button class="view-button" onclick="window.location.href='./prescription_op.html'">View</button>
+    </td>
+   <td>
+  <div class="flex justify-center items-center space-x-2">
+    <button class="action-button approve-btn" onclick="showMessageBox('Approval', 'Case Approved!')">Approved</button>
+    <button class="action-button redo-btn" onclick="showRedoBox()">Redo</button>
+  </div>
+</td>
+
+  </tr>
+</tbody>
+
+    </table>
+  </div>
+
+  <!-- Doctor's Advice Message Box -->
+  <!-- <div id="doctorAdviceMessageBoxContainer" class="message-box-container">
+    <div class="message-box">
+      <h2>Doctor's Advice</h2>
+      <p>
+        Based on the current case, the patient should continue with the prescribed medication for another week. 
+        Regular follow-ups are recommended to monitor blood pressure and sugar levels. 
+        Encourage the patient to adopt a healthier lifestyle, including a balanced diet and moderate exercise, 
+        and to strictly avoid smoking. A dental check-up is advised in two weeks to reassess the toothache.
+      </p>
+      <button onclick="hideDoctorAdviceMessageBox()">OK</button>
+    </div>
+  </div> -->
+
+  <!-- General Approval Message Box -->
+  <div id="messageBoxContainer" class="message-box-container">
+    <div class="message-box">
+      <h2 id="messageBoxTitle"></h2>
+      <p id="messageBoxMessage"></p>
+      <button onclick="hideMessageBox()">OK</button>
+    </div>
+  </div>
+
+  <!-- Redo Reason Box -->
+  <div id="redoBoxContainer" class="message-box-container">
+    <div class="message-box">
+      <h2>Redo Reason</h2>
+      <p>Please provide a reason for sending the case for redo:</p>
+      <textarea id="redoReason" rows="4" placeholder="Enter reason here..."></textarea>
+      <div style="margin-top: 15px;">
+        <button onclick="submitRedoReason()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showDoctorAdvice() {
+      document.getElementById('doctorAdviceMessageBoxContainer').classList.add('show');
+    }
+
+    function hideDoctorAdviceMessageBox() {
+      document.getElementById('doctorAdviceMessageBoxContainer').classList.remove('show');
+    }
+
+    function showMessageBox(title, message) {
+      document.getElementById('messageBoxTitle').innerText = title;
+      document.getElementById('messageBoxMessage').innerText = message;
+      document.getElementById('messageBoxContainer').classList.add('show');
+    }
+
+    function hideMessageBox() {
+      document.getElementById('messageBoxContainer').classList.remove('show');
+    }
+
+    function showRedoBox() {
+      document.getElementById('redoBoxContainer').classList.add('show');
+    }
+
+    function submitRedoReason() {
+      const reason = document.getElementById('redoReason').value.trim();
+      if (reason === '') {
+        alert('Please enter a reason.');
+        return;
+      }
+      document.getElementById('redoBoxContainer').classList.remove('show');
+      showMessageBox('Redo Submitted', 'Case sent for redo with reason:\n' + reason);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oral Medicine Case Sheet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('campus.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center center;
+      margin: 0;
+      padding: 20px;
+      color: #622c2c;
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 20px;
+      margin-top: 20px; /* Added margin-top for spacing */
+    }
+
+    .logo {
+      max-width: 150px;
+      height: auto;
+    }
+
+    .container {
+      max-width: 900px;
+      background:rgb(37, 40, 107,0.85);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+    }
+
+    h1, .main-heading, .heading {
+      text-align: center;
+      color: #cbe1f8;
+      margin-bottom: 30px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .heading {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #ece7e7;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #996565;
+      resize: vertical;
+      min-height: 100px; /* Default height */
+    }
+
+    #clinicalFindings {
+        min-height: 200px; /* Specific height for clinical findings */
+    }
+
+    #treatmentPlan {
+        min-height: 200px; /* Specific height for treatment plan */
+    }
+
+    button {
+      background-color: #000000;
+      color: rgb(214, 192, 192);
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #9ca8b5;
+    }
+
+    .output {
+      margin-top: 30px;
+      padding: 20px;
+      background: #403186;
+      border-radius: 10px;
+    }
+
+    .output h2 {
+      margin-top: 0;
+    }
+
+    .checkbox-group-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .checkbox-item {
+      font-size: 16px;
+    }
+
+    .checkbox-item input {
+      margin-right: 8px;
+    }
+
+    .checkbox-group {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .checkbox-group label {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .case-selected {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: rgb(122, 153, 122);
+    }
+
+    #treatmentSection {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-container">
+    <img src="logo.png" alt="SRM Dental College Logo" class="logo">
+  </div>
+
+  <div class="container">
+    <h1>Clinical Findings</h1>
+    
+    <div class="form-group">
+      <label for="clinicalFindings">Enter Clinical Findings:</label>
+      <textarea id="clinicalFindings"></textarea>
+    </div>
+
+    <button onclick="handleSubmitClinical()">Submit Clinical Findings</button>
+
+    <div class="output" id="outputSectionClinical" style="display:none;">
+      <h2>Submitted Clinical Findings:</h2>
+      <p id="outClinicalFindings"></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Diagnosis and Investigations</h1>
+
+    <div class="form-group">
+      <label for="provisionalDiagnosis">Provisional Diagnosis:</label>
+      <textarea id="provisionalDiagnosis"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="investigations">Investigations:</label>
+      <textarea id="investigations"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="finalDiagnosis">Final Diagnosis:</label>
+      <textarea id="finalDiagnosis"></textarea>
+    </div>
+
+    <button onclick="handleSubmitDiagnosis()">Submit Diagnosis Information</button>
+
+    <div class="output" id="outputSectionDiagnosis" style="display:none;">
+      <h2>Submitted Diagnosis Information:</h2>
+      <p><strong>Provisional Diagnosis:</strong> <span id="outProvisionalDiagnosis"></span></p>
+      <p><strong>Investigations:</strong> <span id="outInvestigations"></span></p>
+      <p><strong>Final Diagnosis:</strong> <span id="outFinalDiagnosis"></span></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="main-heading">TREATMENT PLAN</div>
+
+    <div class="heading">Select Case Sheet</div>
+
+    <div class="checkbox-group-list" id="caseCheckboxes">
+      <label class="checkbox-item"><input type="checkbox" value="Prosthodontics">Prosthodontics</label>
+      <label class="checkbox-item"><input type="checkbox" value="Pedodontics">Pedodontics</label>
+      <label class="checkbox-item"><input type="checkbox" value="Periodontics">Periodontics</label>
+      <label class="checkbox-item"><input type="checkbox" value="Conservative Dentistry and Endodontics">Conservative Dentistry and Endodontics</label>
+      <label class="checkbox-item"><input type="checkbox" value="Oral and Maxillofacial">Oral and Maxillofacial</label>
+      <label class="checkbox-item"><input type="checkbox" value="General">General</label>
+      
+    </div>
+
+    <div id="selectedCase" class="case-selected"></div>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="enableTreatment" onchange="toggleTreatmentSection()" />
+      <label for="enableTreatment">I confirm my selections and want to enter the Treatment Plan</label>
+    </div>
+  </div>
+
+  <div class="container" id="treatmentSection">
+    <div class="heading">Enter Treatment Plan</div>
+    <div class="form-group">
+      <textarea id="treatmentPlan" placeholder="Type treatment plan here..."></textarea>
+    </div>
+    <button class="submit-btn" onclick="handleSubmitTreatment()">Submit Treatment Plan</button>
+
+    <div class="output" id="outputSectionTreatment" style="display:none;">
+      <h2>Submitted Treatment Plan:</h2>
+      <p id="outTreatmentPlan"></p>
+    </div>
+  </div>
+
+  <script>
+    // The handleSubmitGeneral function and related elements have been removed.
+
+    function handleSubmitClinical() {
+      const clinicalFindings = document.getElementById('clinicalFindings').value;
+      document.getElementById('outClinicalFindings').textContent = clinicalFindings;
+      document.getElementById('outputSectionClinical').style.display = 'block';
+    }
+
+    function handleSubmitDiagnosis() {
+      document.getElementById('outProvisionalDiagnosis').textContent = document.getElementById('provisionalDiagnosis').value;
+      document.getElementById('outInvestigations').textContent = document.getElementById('investigations').value;
+      document.getElementById('outFinalDiagnosis').textContent = document.getElementById('finalDiagnosis').value;
+      document.getElementById('outputSectionDiagnosis').style.display = 'block';
+    }
+
+    function getSelectedCases() {
+      const checkboxes = document.querySelectorAll('#caseCheckboxes input[type="checkbox"]');
+      let selected = [];
+      checkboxes.forEach(cb => {
+        if (cb.checked) {
+          selected.push(cb.value);
+        }
+      });
+      return selected;
+    }
+
+    function toggleTreatmentSection() {
+      const selectedCases = getSelectedCases();
+      const checkbox = document.getElementById("enableTreatment");
+      const treatmentDiv = document.getElementById("treatmentSection");
+
+      if (checkbox.checked && selectedCases.length > 0) {
+        document.getElementById("selectedCase").textContent =
+          "Selected Departments: " + selectedCases.join(", ");
+        treatmentDiv.style.display = "block";
+      } else {
+        treatmentDiv.style.display = "none";
+        document.getElementById("selectedCase").textContent = "";
+        if (selectedCases.length === 0) {
+          alert("Please select at least one case sheet before continuing.");
+          checkbox.checked = false;
+        }
+      }
+    }
+
+    function handleSubmitTreatment() {
+      const plan = document.getElementById('treatmentPlan').value.trim();
+      if (plan === "") {
+        alert("Please enter a treatment plan.");
+        return;
+      }
+      document.getElementById('outTreatmentPlan').textContent = plan;
+      document.getElementById('outputSectionTreatment').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>

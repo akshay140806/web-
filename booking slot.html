@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dental Slot Booking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('campus.png'); /* Placeholder for campus.png */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .slot-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    .slot-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+    .slot-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+    }
+    .slot-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Confirmation Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: rgba(37, 40, 106, 0.95); /* Slightly darker for modal */
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white; /* Ensure modal content text is white */
+    }
+  </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+  <div class="main-container bg-white bg-opacity-10 rounded-xl shadow-2xl p-6 sm:p-8 md:p-10 w-full max-w-4xl backdrop-blur-sm border border-white border-opacity-20">
+    <div class="inner-box bg-[rgb(37,40,106)] bg-opacity-70 rounded-xl p-6 sm:p-8 md:p-10 text-white shadow-lg">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-center">Book Your Slot</h1>
+
+      <div class="mb-6" id="chiefComplaintSection">
+        <label class="block text-lg font-medium mb-2">Chief Complaint:</label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="complaintRadioGroup">
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Oral ulcer" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Oral ulcer</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Dental caries" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Dental caries</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Sensitivity" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Sensitivity</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Gingivites and gum problem" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Gingivites and gum problem</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Missing teeth / tooth replacement" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Missing teeth / tooth replacement</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Post filling complaints" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Post filling complaints</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Intra oral swelling" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Intra oral swelling</span></label>
+          <label class="inline-flex items-center">
+            <input type="radio" name="chiefComplaint" value="General" id="generalComplaintRadio" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">General</span>
+          </label>
+        </div>
+        <input
+          type="text"
+          id="generalInput"
+          placeholder="e.g., tooth pain, swelling, bleeding gums"
+          class="hidden mt-2 p-3 rounded-md bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-teal-300"
+        />
+      </div>
+
+      <button onclick="displayDateSelection()" id="showDatesButton" class="w-full py-3 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-bold text-lg shadow-md transition duration-200 ease-in-out">Show Available Dates</button>
+
+      <div id="slotDisplayArea" class="mt-8">
+        <p class="text-center text-gray-300">Select your chief complaint above and click "Show Available Dates" to proceed.</p>
+      </div>
+
+      <button id="bookNowButton" onclick="promptForBookingConfirmation()" class="mt-8 w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow-md transition duration-200 ease-in-out hidden">Book Your Slot</button>
+    </div>
+  </div>
+
+  <div id="confirmationModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h2 class="text-2xl font-bold mb-4">Confirm Your Booking</h2>
+      <p class="text-lg mb-2">Complaint: <span id="modalComplaint" class="font-semibold"></span></p>
+      <p class="text-lg mb-2">Date: <span id="modalDate" class="font-semibold"></span></p>
+      <p class="text-lg mb-4">Time: <span id="modalTime" class="font-semibold"></span></p>
+      <div class="flex justify-center gap-4 mt-6">
+        <button onclick="proceedBooking()" class="py-2 px-6 rounded-lg bg-green-600 hover:bg-green-700 text-white font-bold transition duration-200">Yes, Confirm</button>
+        <button onclick="cancelBooking()" class="py-2 px-6 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold transition duration-200">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Array of doctors available for appointments
+    const doctors = ["Dr. Sarah Lee", "Dr. John Smith", "Dr. Emily Chen", "Dr. David Miller", "Dr. Jessica Brown"];
+
+    // Define working hours and slot duration in minutes
+    const workingStartTime = 9 * 60; // 9:00 AM in minutes from midnight
+    const workingEndTime = 17 * 60; // 5:00 PM in minutes from midnight
+    const slotDuration = 30; // Each slot is 30 minutes
+
+    // Define break times in minutes from midnight
+    const lunchBreak = [13 * 60, 14 * 60]; // 1:00 PM to 2:00 PM
+    const snackBreak1 = [11 * 60, 11 * 60 + 10]; // 11:00 AM to 11:10 AM
+    const snackBreak2 = [15 * 60, 15 * 60 + 10]; // 3:00 PM to 3:10 PM
+
+    // Variables to hold the currently selected slot, date element, and date string
+    let selectedSlot = null;
+    let selectedDateElement = null; // To highlight the selected date button
+    let selectedDateString = null; // To store the 'YYYY-MM-DD' format of the selected date
+
+    // >>> IMPORTANT: Replace with the actual patient ID from your login session <<<
+    // For demonstration purposes, we'll use a dummy patient ID.
+    // In a real application, you would get this from localStorage, a cookie, or a global JS variable
+    // set after a successful login.
+    const patientId = "P0001"; // <<< REMEMBER TO UPDATE THIS WITH ACTUAL LOGGED-IN PATIENT ID
+
+
+    /**
+     * Converts minutes from midnight to a formatted time string (e.g., "9:00 AM").
+     * @param {number} mins - The number of minutes from midnight.
+     * @returns {string} The formatted time string.
+     */
+    function formatMinutesToTime(mins) {
+      const hours = Math.floor(mins / 60);
+      const minutes = mins % 60;
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const h = hours % 12 || 12; // Convert 24-hour format to 12-hour format, handle 0 as 12
+      const m = minutes < 10 ? '0' + minutes : minutes; // Add leading zero for minutes less than 10
+      return `${h}:${m} ${ampm}`;
+    }
+
+    /**
+     * Checks if a given time slot (start and end minutes) overlaps with any defined breaks.
+     * @param {number} start - The start time of the slot in minutes.
+     * @param {number} end - The end time of the slot in minutes.
+     * @param {Array<Array<number>>} breaks - An array of break time ranges [breakStart, breakEnd] in minutes.
+     * @returns {boolean} True if the slot overlaps with a break, false otherwise.
+     */
+    function isDuringBreak(start, end, breaks) {
+      return breaks.some(([bStart, bEnd]) => start < bEnd && end > bStart);
+    }
+
+    /**
+     * Generates a list of all possible time slots for a single doctor within working hours,
+     * excluding defined break times.
+     * @returns {Array<Object>} An array of time slot objects, each with 'start', 'end', and 'time' properties.
+     */
+    function generateDoctorTimeSlots() {
+      const slots = [];
+      const breaks = [lunchBreak, snackBreak1, snackBreak2];
+      let current = workingStartTime;
+
+      while (current < workingEndTime) {
+        const end = current + slotDuration;
+        // Only add slot if it ends within working hours and doesn't overlap with any breaks
+        if (end <= workingEndTime && !isDuringBreak(current, end, breaks)) {
+          slots.push({ start: current, end, time: formatMinutesToTime(current) });
+        }
+
+        // Calculate the next slot start time, jumping over breaks if necessary
+        let next = current + slotDuration;
+        if (current < lunchBreak[0] && next >= lunchBreak[0]) {
+          next = lunchBreak[1];
+        } else if (current < snackBreak1[0] && next >= snackBreak1[0]) {
+          next = snackBreak1[1];
+        } else if (current < snackBreak2[0] && next >= snackBreak2[0]) {
+          next = snackBreak2[1];
+        }
+        current = next;
+      }
+      return slots;
+    }
+
+    /**
+     * Generates the next 'numDays' dates starting from today.
+     * @param {number} numDays - The number of upcoming dates to generate.
+     * @returns {Array<Object>} An array of date objects, each with 'fullDate' (YYYY-MM-DD) and 'displayDate' (Day, Mon DD) properties.
+     */
+    function generateUpcomingDates(numDays) {
+      const dates = [];
+      const today = new Date();
+      const options = { weekday: 'short', month: 'short', day: 'numeric' };
+
+      for (let i = 0; i < numDays; i++) {
+        const futureDate = new Date(today);
+        futureDate.setDate(today.getDate() + i);
+        const yyyy = futureDate.getFullYear();
+        const mm = String(futureDate.getMonth() + 1).padStart(2, '0');
+        const dd = String(futureDate.getDate()).padStart(2, '0');
+        dates.push({
+          fullDate: `${yyyy}-${mm}-${dd}`,
+          displayDate: futureDate.toLocaleDateString('en-US', options)
+        });
+      }
+      return dates;
+    }
+
+    /**
+     * Displays the initial selection of upcoming dates.
+     * This function is called when the "Show Available Dates" button is clicked.
+     */
+    function displayDateSelection() {
+      const selectedComplaintRadio = document.querySelector('input[name="chiefComplaint"]:checked');
+      const display = document.getElementById('slotDisplayArea');
+      const bookButton = document.getElementById('bookNowButton');
+      const showDatesButton = document.getElementById('showDatesButton');
+
+      // Reset state
+      display.innerHTML = '';
+      bookButton.classList.add('hidden');
+      selectedSlot = null;
+      selectedDateElement = null;
+      selectedDateString = null;
+
+      // Validate chief complaint selection
+      if (!selectedComplaintRadio) {
+        display.innerHTML = `<div class="text-center p-6 bg-red-600 bg-opacity-70 rounded-lg"><p class="text-white text-lg font-semibold mb-2">Please select a chief complaint first!</p></div>`;
+        return;
+      }
+
+      // Handle "General" input visibility
+      if (selectedComplaintRadio.value === "General") {
+        document.getElementById("generalInput").classList.remove("hidden");
+      } else {
+        document.getElementById("generalInput").classList.add("hidden");
+        document.getElementById("generalInput").value = ''; // Clear custom input if not "General"
+      }
+
+      const upcomingDates = generateUpcomingDates(4); // Get the next 4 dates
+      let html = `<p class="text-center text-lg font-semibold mb-4">Select a Date:</p>`;
+      html += '<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-h-60 overflow-y-auto pr-2 slot-container">';
+
+      upcomingDates.forEach(date => {
+        html += `<div class="group relative cursor-pointer py-3 px-4 mb-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-medium text-center"
+          data-full-date="${date.fullDate}" onclick="selectDate(this, '${date.fullDate}')">
+          <span>${date.displayDate}</span>
+        </div>`;
+      });
+      html += '</div>';
+      display.innerHTML = html;
+
+      // Change the button text to guide the user
+      showDatesButton.textContent = "Select Another Date";
+    }
+
+    /**
+     * Handles the selection of a date.
+     * Highlights the selected date and then displays the time slots for that date.
+     * @param {HTMLElement} el - The clicked date element.
+     * @param {string} dateStr - The full date string (YYYY-MM-DD) of the selected date.
+     */
+    function selectDate(el, dateStr) {
+      // Remove highlight from previously selected date, if any
+      if (selectedDateElement) {
+        selectedDateElement.classList.remove('bg-indigo-700', 'ring-2', 'ring-white');
+        selectedDateElement.classList.add('bg-blue-500', 'hover:bg-blue-600');
+      }
+      // Add highlight to the newly selected date
+      el.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+      el.classList.add('bg-indigo-700', 'ring-2', 'ring-white');
+      selectedDateElement = el; // Store the selected date element
+      selectedDateString = dateStr; // Store the selected date string
+
+      // Now display the time slots for the selected date
+      displayTimeSlotsForSelectedDate();
+    }
+
+    /**
+     * Generates and displays available time slots for the currently selected date.
+     * This function is called after a date has been selected.
+     */
+    function displayTimeSlotsForSelectedDate() {
+      const display = document.getElementById('slotDisplayArea');
+      const bookButton = document.getElementById('bookNowButton');
+
+      // Clear previous time slots and hide book button
+      bookButton.classList.add('hidden');
+      selectedSlot = null;
+
+      const allSlots = generateDoctorTimeSlots();
+      // In a real application, this part would involve an API call to a backend
+      // to fetch actual available slots for the `selectedDateString` from a database.
+      // For this demo, we simulate random availability for the chosen date.
+      const schedule = {};
+      doctors.forEach(doctor => {
+        allSlots.forEach(slot => {
+          // Simulate random availability (70% chance a doctor is available for a slot)
+          if (Math.random() < 0.7) {
+            if (!schedule[slot.time]) {
+              schedule[slot.time] = [];
+            }
+            schedule[slot.time].push(doctor);
+          }
+        });
+      });
+
+      // Sort the available times
+      const times = Object.keys(schedule).sort((a, b) => {
+        const parse = t => {
+          let [h, mS] = t.split(':');
+          let [m, ap] = mS.split(' ');
+          h = parseInt(h);
+          m = parseInt(m);
+          if (ap === 'PM' && h !== 12) h += 12;
+          if (ap === 'AM' && h === 12) h = 0;
+          return h * 60 + m;
+        };
+        return parse(a) - parse(b);
+      });
+
+      // Build HTML for displaying available slots
+      let html = `<p class="text-center text-lg font-semibold mb-4">Available Slots for ${selectedDateString}:</p>`;
+      if (!times.length) {
+        html += `<p class="text-center text-red-300">No available slots for ${selectedDateString}.</p>`;
+      } else {
+        html += '<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-60 overflow-y-auto pr-2 slot-container">';
+        times.forEach(t => {
+          const docs = schedule[t].join(', ');
+          const encodedDocs = encodeURIComponent(docs); // Encode for data attribute
+          html += `<div class="group relative cursor-pointer py-3 px-4 mb-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-medium text-center"
+            data-time="${t}" data-doctors="${encodedDocs}" data-date="${selectedDateString}" onclick="selectTimeSlot(this)">
+            <span>${t}</span>
+            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max p-2 rounded-lg bg-gray-800 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">${docs}</div>
+          </div>`;
+        });
+        html += '</div>';
+      }
+      display.innerHTML = html;
+    }
+
+    /**
+     * Handles the selection of a time slot.
+     * Highlights the selected slot and shows the "Book Now" button.
+     * @param {HTMLElement} el - The clicked slot element.
+     */
+    function selectTimeSlot(el) {
+      // Remove highlight from previously selected slot, if any
+      if (selectedSlot) {
+        selectedSlot.classList.remove('bg-indigo-700', 'ring-2', 'ring-white');
+        selectedSlot.classList.add('bg-blue-500', 'hover:bg-blue-600');
+      }
+      // Add highlight to the newly selected slot
+      el.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+      el.classList.add('bg-indigo-700', 'ring-2', 'ring-white');
+      selectedSlot = el; // Store the selected slot element
+      document.getElementById('bookNowButton').classList.remove('hidden'); // Show the book button
+    }
+
+    /**
+     * Shows the confirmation modal with booking details.
+     */
+    function promptForBookingConfirmation() {
+      if (selectedSlot) {
+        const time = selectedSlot.dataset.time;
+        const date = selectedSlot.dataset.date;
+        let complaint = document.querySelector('input[name="chiefComplaint"]:checked')?.value || "Not specified";
+
+        if (complaint === "General") {
+          const custom = document.getElementById("generalInput").value.trim();
+          if (custom) complaint = custom;
+          else complaint = "General (No specific details provided)"; // Handle empty general input
+        }
+
+        // Populate modal content
+        document.getElementById('modalComplaint').textContent = complaint;
+        document.getElementById('modalDate').textContent = date;
+        document.getElementById('modalTime').textContent = time;
+
+        // Show the modal
+        document.getElementById('confirmationModal').classList.remove('hidden');
+      }
+    }
+
+    /**
+     * Hides the confirmation modal.
+     */
+    function cancelBooking() {
+      document.getElementById('confirmationModal').classList.add('hidden');
+    }
+
+    /**
+     * Proceeds with the booking after user confirmation.
+     * This is the final step after the user clicks "Yes, Confirm" in the modal.
+     */
+    async function proceedBooking() {
+      // Hide the modal first
+      document.getElementById('confirmationModal').classList.add('hidden');
+
+      if (selectedSlot) {
+        const time = selectedSlot.dataset.time;
+        const date = selectedSlot.dataset.date;
+        let complaint = document.querySelector('input[name="chiefComplaint"]:checked')?.value || "Not specified";
+
+        if (complaint === "General") {
+          const custom = document.getElementById("generalInput").value.trim();
+          if (custom) complaint = custom;
+          else complaint = "General (No specific details provided)"; // Handle empty general input
+        }
+
+        try {
+          const response = await fetch('http://localhost:3001/api/book-slot', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              patientId: patientId, // Use the actual patient ID here
+              chiefComplaint: complaint,
+              date: date,
+              time: time
+            })
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            // Display final booking confirmation message
+            document.getElementById("slotDisplayArea").innerHTML = `
+              <div class="text-center p-6 bg-green-700 bg-opacity-70 rounded-lg">
+                <p class="text-white text-xl font-semibold mb-2">Booking Confirmed!</p>
+                <p class="text-white text-base">For: <span class="font-bold">${complaint}</span> on <span class="font-bold">${date}</span> at <span class="font-bold">${time}</span></p>
+                <p class="text-white text-sm mt-1">A doctor will be assigned based on availability.</p>
+                <p class="text-white text-sm mt-1">Booking ID: <span class="font-bold">${result.bookingId}</span></p>
+              </div>`;
+
+            // Hide both the "Book Your Slot" and "Show Available Dates" buttons
+            document.getElementById("bookNowButton").classList.add("hidden");
+            document.getElementById("showDatesButton").classList.add("hidden"); // Hide the main action button
+            selectedSlot = null; // Clear selected slot
+
+            // Freeze the chief complaint section by replacing radio buttons and input with plain text
+            const chiefComplaintSection = document.getElementById('chiefComplaintSection');
+            chiefComplaintSection.innerHTML = `
+              <label class="block text-lg font-medium mb-2">Chief Complaint:</label>
+              <p class="text-lg font-semibold">${complaint}</p>
+            `;
+          } else {
+            document.getElementById("slotDisplayArea").innerHTML = `
+              <div class="text-center p-6 bg-red-600 bg-opacity-70 rounded-lg">
+                <p class="text-white text-xl font-semibold mb-2">Booking Failed!</p>
+                <p class="text-white text-base">${result.error || 'Please try again.'}</p>
+              </div>`;
+          }
+        } catch (error) {
+          console.error('Error booking slot:', error);
+          document.getElementById("slotDisplayArea").innerHTML = `
+            <div class="text-center p-6 bg-red-600 bg-opacity-70 rounded-lg">
+              <p class="text-white text-xl font-semibold mb-2">Booking Failed!</p>
+              <p class="text-white text-base">Network error or server unavailable. Please try again.</p>
+            </div>`;
+        }
+      }
+    }
+
+    /**
+     * Toggles the visibility of the general complaint input field.
+     * @param {boolean} show - True to show, false to hide.
+     */
+    function toggleGeneralInput(show) {
+      const input = document.getElementById("generalInput");
+      input.classList.toggle("hidden", !show);
+    }
+
+    /**
+     * Resets the booking form to its initial state.
+     * This function is now only called implicitly if the user refreshes the page.
+     */
+    function resetBookingForm() {
+      document.getElementById("slotDisplayArea").innerHTML = '<p class="text-center text-gray-300">Select your chief complaint above and click "Show Available Dates" to proceed.</p>';
+      document.getElementById("bookNowButton").classList.add("hidden");
+      document.getElementById("showDatesButton").classList.remove("hidden"); // Ensure it's visible on full reset
+      document.getElementById("showDatesButton").textContent = "Show Available Dates"; // Reset button text
+      selectedSlot = null;
+      selectedDateElement = null;
+      selectedDateString = null;
+
+      // Restore the chief complaint section to its original radio button structure
+      const chiefComplaintSection = document.getElementById('chiefComplaintSection');
+      chiefComplaintSection.innerHTML = `
+        <label class="block text-lg font-medium mb-2">Chief Complaint:</label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="complaintRadioGroup">
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Oral ulcer" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Oral ulcer</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Dental caries" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Dental caries</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Sensitivity" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Sensitivity</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Gingivites and gum problem" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Gingivites and gum problem</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Missing teeth / tooth replacement" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Missing teeth / tooth replacement</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Post filling complaints" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Post filling complaints</span></label>
+          <label class="inline-flex items-center"><input type="radio" name="chiefComplaint" value="Intra oral swelling" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">Intra oral swelling</span></label>
+          <label class="inline-flex items-center">
+            <input type="radio" name="chiefComplaint" value="General" id="generalComplaintRadio" class="form-radio h-5 w-5 text-teal-500"><span class="ml-2">General</span>
+          </label>
+        </div>
+        <input
+          type="text"
+          id="generalInput"
+          placeholder="e.g., tooth pain, swelling, bleeding gums"
+          class="hidden mt-2 p-3 rounded-md bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-teal-300"
+        />
+      `;
+      document.getElementById("generalInput").value = ''; // Clear general input text
+      document.getElementById("generalInput").classList.add("hidden"); // Hide general input by default
+
+      // Re-attach event listeners for the newly created radio buttons and general input
+      attachComplaintRadioListeners();
+    }
+
+    // Helper function to attach event listeners to complaint radios and general input
+    function attachComplaintRadioListeners() {
+      const generalRadio = document.getElementById('generalComplaintRadio');
+      generalRadio?.addEventListener('change', function () {
+        toggleGeneralInput(true);
+      });
+
+      document.querySelectorAll('input[name="chiefComplaint"]').forEach(el => {
+        el.addEventListener('change', function () {
+          if (this.id !== 'generalComplaintRadio') {
+            toggleGeneralInput(false);
+          }
+        });
+      });
+    }
+
+    // Event listener for DOM content loaded
+    document.addEventListener("DOMContentLoaded", function () {
+      attachComplaintRadioListeners(); // Attach listeners on initial load
+    });
+  </script>
+</body>
+</html>

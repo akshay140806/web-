@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Sheet Selection</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('campus.png') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: rgba(37, 40, 107, 0.85);
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 90%;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .button-group a {
+      text-decoration: none;
+    }
+
+    .button {
+      padding: 15px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: white;
+      color: #25286b;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      min-width: 250px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+
+    .heading {
+      font-size: 28px;
+      color: white;
+      font-weight: bold;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .sub-options {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="heading">Select Case Sheet</div>
+
+    <div class="button-group" id="mainButtonGroup">
+      <button class="button" id="prosthodonticsBtn">Prosthodontics</button>
+      <button class="button" id="pedoBtn">Pedodontics</button>
+      <button class="button" id="perioBtn">Periodontics</button>
+      <a href="#"><div class="button">Conservative Dentistry and Endodontics</div></a>
+      <button class="button" id="oralBtn">Oral and Maxillofacial</button>
+      <a href="#"><div class="button">Ortho</div></a>
+      <a href="general.html"><div class="button">General</div></a>
+    </div>
+
+    <!-- Prosthodontics sub-options -->
+    <div class="sub-options" id="prosthodonticsSubOptions">
+      <a href="p_case_sheet.html" target="_blank" class="button">Implant Patient Surgery</a>
+      <a href="#" target="_blank" class="button">Complete Denture</a>
+      <a href="partial.html" target="_blank" class="button">Partial Denture</a>
+      <a href="case sheet.html" target="_blank" class="button">Implant</a>
+    </div>
+
+    <!-- Oral and Maxillofacial sub-options -->
+    <div class="sub-options" id="oralSubOptions">
+      <a href="clef.html" target="_blank" class="button">Clef Lip</a>
+      <a href="trauma.html" target="_blank" class="button">Trauma</a>
+      <a href="impaction.html" target="_blank" class="button">Impaction</a>
+      <a href="pathology.html" target="_blank" class="button">Pathology</a>
+    </div>
+
+    <!-- Periodontics sub-options -->
+    <div class="sub-options" id="perioSubOptions">
+      <a href="long_case.html" target="_blank" class="button">Long Case Sheet</a>
+      <a href="short_case.html" target="_blank" class="button">Short Case Sheet</a>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById('prosthodonticsBtn').addEventListener('click', function () {
+      document.getElementById('mainButtonGroup').style.display = 'none';
+      document.getElementById('prosthodonticsSubOptions').style.display = 'flex';
+    });
+
+    document.getElementById('oralBtn').addEventListener('click', function () {
+      document.getElementById('mainButtonGroup').style.display = 'none';
+      document.getElementById('oralSubOptions').style.display = 'flex';
+    });
+
+    document.getElementById('perioBtn').addEventListener('click', function () {
+      document.getElementById('mainButtonGroup').style.display = 'none';
+      document.getElementById('perioSubOptions').style.display = 'flex';
+    });
+  </script>
+</body>
+
+</html>

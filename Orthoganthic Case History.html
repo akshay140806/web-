@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orthognathic Case History</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('campus.png') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      padding: 40px 20px;
+    }
+    .case-sheet {
+      background-color: rgba(38, 40, 107, 0.85);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    h2 {
+      border-bottom: 1px solid white;
+      padding-bottom: 5px;
+      margin-top: 20px;
+    }                           
+    .form-group {
+      margin-bottom: 15px;
+    }
+    #imagefile{
+      padding-top: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"], input[type="date"], input[type="email"], input[type="tel"], select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      box-sizing: border-box; /* Ensures padding doesn't increase width */
+      color: #333; /* Darker text for input fields */
+    }
+    .checkbox-group, .radio-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .checkbox-group label, .radio-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+    }
+    .checkbox-group input[type="checkbox"], .radio-group input[type="radio"] {
+      margin-right: 5px;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #26286b;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #e0e0e0;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .image-placeholder {
+        width: 100%;
+        height: 200px; /* Adjust height as needed */
+        background-color: #4a4c9e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+    }
+    textarea {
+        resize: vertical; /* Allow vertical resizing */
+        min-height: 80px;
+    }
+    table{
+      border: 2%;
+      border-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="case-sheet">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <img src="logo.png" alt="SRM Dental College Logo" style="max-width: 120px; height: auto; margin-bottom: 10px; border-radius: 50%;" />
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6" style="margin: 0;">SRM Dental College</h2>
+      <p style="margin-top: 10px; font-size: 1.1em;">Orthognathic Case History</p>
+    </div>
+    <form>
+      <!-- Page 1: General Information & Chief Complaint -->
+      <div class="page active">
+        
+          
+
+        
+        <h2>Extraoral Examination</h2>
+        <div class="form-group">
+          <label>Shape of the Head:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="headShape" value="mesocephalic" /> Mesocephalic</label>
+            <label><input type="radio" name="headShape" value="brachycephalic" /> Brachycephalic</label>
+            <label><input type="radio" name="headShape" value="dolicocephalic" /> Dolicocephalic</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Facial Form:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="facialForm" value="mesoprosopic" /> Mesoprosopic</label>
+            <label><input type="radio" name="facialForm" value="europrosopic" /> Europrosopic</label>
+            <label><input type="radio" name="facialForm" value="leptoprosopic" /> Leptoprosopic</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Facial Profile:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="facialProfile" value="convex" /> Convex</label>
+            <label><input type="radio" name="facialProfile" value="straight" /> Straight</label>
+            <label><input type="radio" name="facialProfile" value="concave" /> Concave</label>
+          </div>
+          <div class="form-group"><input type="file" id="imagefile" name="facialProfile" accept="image/*" /></div>
+
+        </div>
+        <div class="form-group">
+          <label>Facial Divergence:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="facialDivergence" value="anterior" /> Anterior</label>
+            <label><input type="radio" name="facialDivergence" value="straight" /> Straight</label>
+            <label><input type="radio" name="facialDivergence" value="posterior" /> Posterior</label>
+          </div>
+          <div class="form-group"><input type="file" id="imagefile" name="facialDivergence" accept="image/*" /></div>
+
+        </div>
+      </div>
+
+      <!-- Page 4: Extraoral Examination (Part 2 - Facial Height, Lip, etc.) -->
+      <div class="page">
+        <h2>Extraoral Examination (Cont.)</h2>
+       
+
+        <h3>Facial Height:</h3>
+        <div class="form-group"><label for="upper1_3">Upper 1/3:</label><input type="text" id="upper1_3" name="upper1_3" /></div>
+        <div class="form-group"><label for="middle1_3">Middle 1/3:</label><input type="text" id="middle1_3" name="middle1_3" /></div>
+        <div class="form-group"><label for="lower1_3">Lower 1/3:</label><input type="text" id="lower1_3" name="lower1_3" /></div>
+        <div class="form-group"><input type="file" id="imagefile" name="facialHeight" accept="image/*" /></div>
+
+        <label>Eye:</label>
+        <div class="form-group"><label for="intercanthalDistance">Intercanthal distance:</label><input type="text" id="intercanthalDistance" name="intercanthalDistance" /></div>
+        <div class="form-group"><label for="interpupillaryDistance">Interpupillary distance:</label><input type="text" id="interpupillaryDistance" name="interpupillaryDistance" /></div>
+        <div class="form-group"><label for="nasalDorsumWidth">Width of the nasal dorsum / Alar base width:</label><input type="text" id="nasalDorsumWidth" name="nasalDorsumWidth" /></div>
+        <div class="form-group"><input type="file" id="imagefile" name="Eye" accept="image/*" /></div>
+
+
+        <div class="form-group"><label for="upperLipLength">Upper Lip Length:</label><input type="text" id="upperLipLength" name="upperLipLength" /></div>
+        <label for="lipPostureTonicity">Lip posture and tonicity:</label>
+        <div class="form-group"><label for="incisalShow">Incisal show:</label><input type="text" id="incisalShow" name="incisalShow" /></div>
+        <div class="form-group"><label for="interlabialDistance">Interlabial Distance:</label><input type="text" id="interlabialDistance" name="interlabialDistance" /></div>
+        <div class="form-group"><label for="symmetry">Symmetry:</label><input type="text" id="symmetry" name="symmetry" /></div>
+        <div class="form-group"><label for="lipLength">Lip Length:</label><input type="text" id="lipLength" name="lipLength" /></div>
+      </div>
+
+      <!-- Page 5: Nasolabial Angle, Mentolabial Sulcus, Chin Position, Clinical FMA, Functional Examination -->
+      <div class="page">
+        <h2>Extraoral Examination (Cont.)</h2>
+
+
+
+        <div class="form-group">
+          <label>Nasolabial Angle:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="nasolabialAngle" value="normal" /> Normal</label>
+            <label><input type="radio" name="nasolabialAngle" value="acute" /> Acute</label>
+            <label><input type="radio" name="nasolabialAngle" value="obtuse" /> Obtuse</label>
+          </div>
+          <div class="form-group"><input type="file" id="imagefile" name="NasolabialAngle" accept="image/*" /></div>
+        </div>
+        <div class="form-group">
+          <label>Mentolabial sulcus:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="mentolabialSulcus" value="normal" /> Normal</label>
+            <label><input type="radio" name="mentolabialSulcus" value="shallow" /> Shallow</label>
+            <label><input type="radio" name="mentolabialSulcus" value="deep" /> Deep</label>
+          </div>
+          <div class="form-group"><input type="file" id="imagefile" name="MentolabialSulcus" accept="image/*" /></div>
+        </div>
+        <div class="form-group">
+          <label>Chin Position:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="chinPosition" value="retruded" /> Retruded</label>
+            <label><input type="radio" name="chinPosition" value="normal" /> Normal</label>
+            <label><input type="radio" name="chinPosition" value="protruded" /> Protruded</label>
+          </div>
+          <div class="form-group"><input type="file" id="imagefile" name="ChinPosition" accept="image/*" /></div>
+        </div>
+        <div class="form-group">
+          <label>Clinical FMA:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="clinicalFMA" value="average" /> Average</label>
+            <label><input type="radio" name="clinicalFMA" value="high" /> High</label>
+            <label><input type="radio" name="clinicalFMA" value="low" /> Low</label>
+          </div>
+        </div>
+
+        <h2>Functional Examination</h2>
+        <div class="form-group"><label for="incisorExposureRepose">Amount of Incisor Exposure (In Repose):</label><input type="text" id="incisorExposureRepose" name="incisorExposureRepose" placeholder="mm" /></div>
+        <div class="form-group"><label for="incisorExposureSmile">Amount of Incisor Exposure (In Smile):</label><input type="text" id="incisorExposureSmile" name="incisorExposureSmile" placeholder="mm" /></div>
+      </div>
+
+      <!-- Page 6: TMJ Examination, Soft Tissue -->
+      <div class="page">
+        <h2>TMJ Examination</h2>
+        <div class="form-group"><label for="maximalMouthOpening">Maximal mouth opening (mm):</label><input type="text" id="maximalMouthOpening" name="maximalMouthOpening" /></div>
+        <div class="form-group">
+          <label>Deviation on mouth opening:</label>
+          <input type="text" id="deviationMouthOpeningLeft" name="deviationMouthOpeningLeft" placeholder="Left" />
+          <input type="text" id="deviationMouthOpeningRight" name="deviationMouthOpeningRight" placeholder="Right" style="margin-top: 5px;" />
+        </div>
+        <div class="form-group"><label for="maximalProtrusion">Maximal protrusion (mm):</label><input type="text" id="maximalProtrusion" name="maximalProtrusion" /></div>
+        <div class="form-group">
+          <label>Deviation on protrusion:</label>
+          <input type="text" id="deviationProtrusionLeft" name="deviationProtrusionLeft" placeholder="Left" />
+          <input type="text" id="deviationProtrusionRight" name="deviationProtrusionRight" placeholder="Right" style="margin-top: 5px;" />
+        </div>
+
+        <h3>Temporomandibular joint signs:</h3>
+        <div class="form-group">
+          <label>Clicking/popping: Early (< 10 mm)|Late (> 10mm)</label>
+          <input type="text" id="clickingPoppingLeft" name="clickingPoppingLeft" placeholder="Left (Early/Late)" />
+          <input type="text" id="clickingPoppingRight" name="clickingPoppingRight" placeholder="Right (Early/Late)" style="margin-top: 5px;" />
+        </div>
+        <div class="form-group">
+          <label>Pain:</label>
+          <input type="text" id="painLeftJoint" name="painLeftJoint" placeholder="Left (Joint)" />
+          <input type="text" id="painLeftMuscle" name="painLeftMuscle" placeholder="Left (Muscle(s))" style="margin-top: 5px;" />
+          <input type="text" id="painRightJoint" name="painRightJoint" placeholder="Right (Joint)" style="margin-top: 5px;" />
+          <input type="text" id="painRightMuscle" name="painRightMuscle" placeholder="Right (Muscle(s))" style="margin-top: 5px;" />
+        </div>
+        <div class="form-group">
+          <label>Crepitations:</label>
+          <input type="text" id="crepitationsLeft" name="crepitationsLeft" placeholder="Left" />
+          <input type="text" id="crepitationsRight" name="crepitationsRight" placeholder="Right" style="margin-top: 5px;" />
+        </div>
+        <div class="form-group"><label for="previousTreatment">Previous treatment:</label><textarea id="previousTreatment" name="previousTreatment"></textarea></div>
+
+        <h2>Soft Tissue</h2>
+        <div class="form-group">
+          <label>Oral Hygiene Status:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="oralHygieneStatus" value="good" /> Good</label>
+            <label><input type="radio" name="oralHygieneStatus" value="satisfactory" /> Satisfactory</label>
+            <label><input type="radio" name="oralHygieneStatus" value="poor" /> Poor</label>
+          </div>
+        </div>
+        <div class="form-group"><label for="gingiva">Gingiva:</label><input type="text" id="gingiva" name="gingiva" /></div>
+        <div class="form-group"><label for="frenalAttachment">Frenal Attachment:</label><input type="text" id="frenalAttachment" name="frenalAttachment" /></div>
+      </div>
+
+      <!-- Page 7: Soft Tissue (Cont.), Hard Tissue -->
+      <div class="page">
+        <h2>Soft Tissue (Cont.)</h2>
+        <label>Tongue:</label>
+        <div class="form-group"><label for="tongueSize">Size:</label><input type="text" id="tongueSize" name="tongueSize" /></div>
+        <div class="form-group"><label for="tongueMovement">Movement:</label><input type="text" id="tongueMovement" name="tongueMovement" /></div>
+        <div class="form-group">
+        <label>Palate:</label>
+        <div class="radio-group">
+          <label><input type="radio" name="palate" value="deep" /> Deep</label>
+          <label><input type="radio" name="palate" value="normal" /> Normal</label>
+          <label><input type="radio" name="palate" value="shallow" /> Shallow</label>
+        </div>
+        </div>
+
+        <h2>HARD TISSUE</h2>
+        <div class="form-group"><label for="numPermanentTeeth">No. of permanent teeth present:</label><input type="text" id="numPermanentTeeth" name="numPermanentTeeth" /></div>
+        <div class="form-group"><label for="numUneruptedImpactedTeeth">No. of unerupted / impacted teeth:</label><input type="text" id="numUneruptedImpactedTeeth" name="numUneruptedImpactedTeeth" /></div>
+        <div class="form-group"><label for="crowding">Crowding:</label><input type="text" id="crowding" name="crowding" /></div>
+        <div class="form-group"><label for="spacing">Spacing:</label><input type="text" id="spacing" name="spacing" /></div>
+        <div class="form-group"><label for="rotationOfTeeth">Rotation of teeth:</label><input type="text" id="rotationOfTeeth" name="rotationOfTeeth" /></div>
+
+        <h3>Antero-posterior Relationship:</h3>
+        <div class="form-group"><label for="overjet">Over jet (mm):</label><input type="text" id="overjet" name="overjet" /></div>
+        <div class="form-group">
+          <label>Molar:</label>
+          <input type="text" id="molarRight" name="molarRight" placeholder="Right" />
+          <input type="text" id="molarLeft" name="molarLeft" placeholder="Left" style="margin-top: 5px;" />
+        </div>
+        <div class="form-group">
+          <label>Canine:</label>
+          <input type="text" id="canineRight" name="canineRight" placeholder="Right" />
+          <input type="text" id="canineLeft" name="canineLeft" placeholder="Left" style="margin-top: 5px;" />
+        </div>
+
+        <h3>Vertical Relationship:</h3>
+        <div class="form-group"><label for="overbite">Over bite (mm):</label><input type="text" id="overbite" name="overbite" /></div>
+        <div class="form-group"><label for="openbite">Open bite (mm):</label><input type="text" id="openbite" name="openbite" /></div>
+
+        <h3>Transverse Relationship:</h3>
+        <div class="form-group"><label for="crossbite">Crossbite:</label><input type="text" id="crossbite" name="crossbite" /></div>
+
+        <h3>Midline Relation:</h3>
+        <div class="form-group"><label for="dentalMidline">Dental Midline:</label><input type="text" id="dentalMidline" name="dentalMidline" /></div>
+        <div class="form-group"><label for="facialMidline">Facial Midline:</label><input type="text" id="facialMidline" name="facialMidline" /></div>
+        <div class="form-group"><input type="file" id="imagefile" name="MidlineRelation" accept="image/*" /></div>
+      </div>
+        
+
+
+      <!-- Page 8: Clinical Diagnosis, Problem List -->
+      <div class="page">
+        <h2>Clinical Diagnosis</h2>
+        <div class="form-group"><textarea id="clinicalDiagnosis" name="clinicalDiagnosis"></textarea></div>
+
+        <h2>Problem List</h2>
+        <div class="form-group"><textarea id="problemList" name="problemList"></textarea></div>
+      </div>
+
+      <!-- Page 9: Investigations -->
+      <div class="page">
+        <h2>Investigations</h2>
+        <div class="form-group"><label for="lateralCephalogram">Lateral Cephalogram:</label><input type="text" id="lateralCephalogram" name="lateralCephalogram" /></div>
+        <div class="form-group"><label for="frontalCephalogram">Frontal Cephalogram:</label><input type="text" id="frontalCephalogram" name="frontalCephalogram" /></div>
+        <div class="form-group"><label for="opg">OPG:</label><input type="text" id="opg" name="opg" /></div>
+
+        <h3>Panoramic Radiographic Evaluation:</h3>
+        <div class="form-group"><label for="absentTeeth">Absent teeth:</label><input type="text" id="absentTeeth" name="absentTeeth" /></div>
+        <div class="form-group"><label for="uneruptedTeeth">Unerupted teeth:</label><input type="text" id="uneruptedTeeth" name="uneruptedTeeth" /></div>
+        <div class="form-group"><label for="impactedTeeth">Impacted teeth:</label><input type="text" id="impactedTeeth" name="impactedTeeth" /></div>
+        <div class="form-group"><label for="dentalCaries">Dental caries:</label><input type="text" id="dentalCaries" name="dentalCaries" /></div>
+        <div class="form-group"><label for="periodontalPathology">Periodontal pathology:</label><input type="text" id="periodontalPathology" name="periodontalPathology" /></div>
+        <div class="form-group">
+          <label>Maxillary sinus pathology:</label>
+          <input type="text" id="maxillarySinusPathologyLeft" name="maxillarySinusPathologyLeft" placeholder="Left" />
+          <input type="text" id="maxillarySinusPathologyRight" name="maxillarySinusPathologyRight" placeholder="Right" style="margin-top: 5px;" />
+        </div>
+        <div class="form-group">
+          <label>Temporomandibular joint pathology:</label>
+          <input type="text" id="tmjPathologyLeft" name="tmjPathologyLeft" placeholder="Left" />
+          <input type="text" id="tmjPathologyRight" name="tmjPathologyRight" placeholder="Right" style="margin-top: 5px;" />
+        </div>
+        <div class="form-group">
+          <label>Bone pathology:</label>
+          <input type="text" id="bonePathologyMaxilla" name="bonePathologyMaxilla" placeholder="Maxilla" />
+          <input type="text" id="bonePathologyMandible" name="bonePathologyMandible" placeholder="Mandible" style="margin-top: 5px;" />
+        </div>
+
+        <h3>Occlusal Radiograph:</h3>
+        <div class="form-group"><label for="occlusalRadiographMaxilla">1. Maxilla:</label><input type="text" id="occlusalRadiographMaxilla" name="occlusalRadiographMaxilla" /></div>
+        <div class="form-group"><label for="occlusalRadiographMandible">2. Mandible:</label><input type="text" id="occlusalRadiographMandible" name="occlusalRadiographMandible" /></div>
+
+        <div class="form-group"><label for="iopa">IOPA:</label><input type="text" id="iopa" name="iopa" /></div>
+        <div class="form-group"><label for="othersInvestigations">Others:</label><textarea id="othersInvestigations" name="othersInvestigations"></textarea></div>
+      </div>
+
+      <!-- Page 10: Treatment Plan -->
+      <div class="page">
+        <h2>Treatment Plan</h2>
+        <div class="form-group"><textarea id="treatmentPlan" name="treatmentPlan"></textarea></div>
+      </div>
+
+      <div class="navigation">
+        <button type="button" id="prevBtn">Back</button>
+        <button type="button" id="nextBtn">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentPage = 0;
+
+    function showPage(index) {
+      window.scrollTo(0, 0); // Scroll to top when page changes
+      pages.forEach((page, i) => {
+        page.classList.toggle('active', i === index);
+      });
+      prevBtn.disabled = index === 0;
+      nextBtn.textContent = index === pages.length - 1 ? 'Submit' : 'Next';
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      } else {
+        // Handle form submission or redirect
+        window.location.href = "prescription.html";
+
+        // Example: window.location.href = "thankyou.html";
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+
+    showPage(currentPage); // Initialize the page display
+  </script>
+</body>
+</html>

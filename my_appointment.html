@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SRM Dental - My Appointments</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles & Background */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Open Sans', sans-serif;
+      color: #333333;
+      background-image: url('campus.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(37, 40, 107, 0.85);
+      z-index: -1;
+    }
+
+    /* Header */
+    .portal-header {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px 50px;
+      color: #FFFFFF;
+    }
+
+    .portal-header .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .portal-header .logo img {
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 50px auto;
+      background-color: #FFFFFF;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      flex-grow: 1;
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: rgb(37, 40, 107);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    /* Table Styles */
+    .appointment-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 20px;
+    }
+
+    .appointment-table th,
+    .appointment-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #E0E0E0;
+    }
+
+    .appointment-table th {
+      background-color: #F0F0F0;
+      color: rgb(37, 40, 107);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .appointment-table th:first-child {
+      border-top-left-radius: 8px;
+    }
+    .appointment-table th:last-child {
+      border-top-right-radius: 8px;
+    }
+
+    .appointment-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .appointment-table tbody tr:nth-child(even) {
+      background-color: #F9F9F9;
+    }
+
+    /* Status Tag */
+    .status-tag {
+      background-color: #E0E0E0;
+      color: #555555;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 0.85em;
+      font-weight: 600;
+      display: inline-block;
+      min-width: 70px;
+      text-align: center;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .action-buttons a,
+    .action-buttons button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .action-buttons .btn-cancel {
+      background-color: rgb(220, 53, 69);
+      color: #FFFFFF;
+    }
+
+    .action-buttons .btn-cancel:hover {
+      background-color: rgb(190, 40, 55);
+      box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+    }
+
+    .action-buttons .btn-reschedule {
+      background-color: rgb(40, 167, 69);
+      color: #FFFFFF;
+    }
+
+    .action-buttons .btn-reschedule:hover {
+      background-color: rgb(30, 130, 55);
+      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+    }
+
+    /* Footer */
+    .portal-footer {
+      margin-top: 40px;
+      padding: 20px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      background-color: rgba(37, 40, 107, 0.95);
+    }
+
+    @media (max-width: 768px) {
+      .portal-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 20px;
+      }
+
+      .container {
+        margin: 15px;
+        padding: 15px;
+        overflow-x: auto;
+      }
+
+      .appointment-table {
+        min-width: 700px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="portal-header">
+    <a href="#" class="logo">
+      <img src="logo.png" alt="Dental Logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/CCCCCC/666666?text=Logo';">
+      SRM Dental College
+    </a>
+  </header>
+
+  <main class="container">
+    <h1>My Appointments</h1>
+    <table class="appointment-table">
+      <thead>
+        <tr>
+          <th>Appointment No.</th>
+          <th>Dept/Dr.</th>
+          <th>Appt. Date & Time</th>
+          <th>Whether Attended</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025070026</td>
+          <td>Oral & Maxillofacial Surgery/DR VICTOR DOOM</td>
+          <td>2025-07-03 09:30:00</td>
+          <td><span class="status-tag">Pending</span></td>
+          <td>
+            <div class="action-buttons">
+              <a href="booking slot.html" class="btn-reschedule">Reschedule</a>
+              <a href="booking slot.html" class="btn-cancel">Cancel</a>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>2025070027</td>
+          <td>Orthodontics/DR STEPHEN STRANGE</td>
+          <td>2025-07-04 10:00:00</td>
+          <td><span class="status-tag">Pending</span></td>
+          <td>
+            <div class="action-buttons">
+              <a href="booking slot.html" class="btn-reschedule">Reschedule</a>
+              <a href="#" class="btn-cancel">Cancel</a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <footer class="portal-footer">
+    &copy; 2025 SRM Dental College. All rights reserved.
+  </footer>
+</body>
+</html>

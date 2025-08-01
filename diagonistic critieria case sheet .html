@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SRM Dental College - Trauma & TMD Case Sheet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('campus.png') no-repeat center center fixed; /* cite: campus.png */
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      padding: 40px 20px;
+    }
+    .case-sheet {
+      background-color: rgba(38, 40, 107, 0.85);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 900px; /* Increased max-width for more content */
+      color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    h2, h3, h4 {
+      border-bottom: 1px solid rgba(255,255,255,0.7);
+      padding-bottom: 5px;
+      margin-top: 20px;
+      color: white;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"], input[type="number"], textarea, select {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      box-sizing: border-box;
+      color: black;
+      resize: none;
+      min-height: 50px; /* Minimum height for the textarea */
+      max-height: 200px; /* Maximum height for the textarea */
+      overflow-y: auto; /* Adds scrollbar when content exceeds max-height */
+    }
+    
+    .checkbox-group, .radio-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .checkbox-group label, .radio-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+    .checkbox-group input[type="checkbox"], .radio-group input[type="radio"] {
+      margin-right: 5px;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #26286b;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      color: white;
+    }
+    table, th, td {
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: rgba(0,0,0,0.2);
+    }
+    .radio-row, .checkbox-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .radio-row label, .checkbox-row label {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+      font-weight: normal;
+    }
+    .radio-row input, .checkbox-row input {
+      margin-right: 5px;
+    }
+    .small-input {
+      width: auto;
+      min-width: 50px;
+      max-width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="case-sheet">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <img src="logo.png" alt="SRM Dental College Logo" style="max-width: 120px; height: auto; margin-bottom: 10px;" />
+      <h2 style="margin: 0;">SRM Dental College</h2>
+      <h3 style="margin: 5px 0;">Department of Oral & Maxillofacial Surgery</h3>
+      <h4 style="margin: 5px 0;">TRAUMA & TMD CASE SHEET</h4>
+    </div>
+    <form>
+      <div class="page active">
+      
+        <h2>Diagnostic Criteria for Temporomandibular Disorders</h2>
+        <h3>Symptom Questionnaire - Pain</h3>
+        <div class="form-group">
+          <label for="painEver">1. Have you ever had pain in your jaw, temple, in the ear, or in front of the ear on either side?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="painEverNo" name="painEver" value="no" /> No</label>
+            <label><input type="radio" id="painEverYes" name="painEver" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="painYears">2. How many years or months ago did your pain in the jaw, temple, in the ear, or in front of the ear first begin?</label>
+          <input type="number" id="painYears" min="0"  placeholder="Years" class="small-input" style="width: auto; margin-right: 10px;"/> years
+          <input type="number" id="painMonths" min="0"  placeholder="Months" class="small-input" style="width: auto; margin-left: 10px;"/> months
+        </div>
+        <div class="form-group">
+          <label for="painLast30Days">3. In the last 30 days, which of the following best describes any pain in your jaw, temple, in the ear, or in front of the ear on either side?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="painLast30DaysNoPain" name="painLast30Days" value="noPain" /> No pain</label>
+            <label><input type="radio" id="painLast30DaysComesGoes" name="painLast30Days" value="comesGoes" /> Pain comes and goes</label>
+            <label><input type="radio" id="painLast30DaysAlwaysPresent" name="painLast30Days" value="alwaysPresent" /> Pain is always present</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>4. In the last 30 days, did the following activities change any pain (that is, make it better or make it worse) in your jaw, temple, in the ear, or in front of the ear on either side?</label>
+          <table>
+            <thead>
+              <tr>
+                <th>Activity</th>
+                <th>No</th>
+                <th>Yes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>A. Chewing hard or tough food</td>
+                <td><input type="radio" id="changePainChewingNo" name="changePainChewing" value="no" /></td>
+                <td><input type="radio" id="changePainChewingYes" name="changePainChewing" value="yes" /></td>
+              </tr>
+              <tr>
+                <td>B. Opening your mouth, or moving your jaw forward or to the side</td>
+                <td><input type="radio" id="changePainOpeningNo" name="changePainOpening" value="no" /></td>
+                <td><input type="radio" id="changePainOpeningYes" name="changePainOpening" value="yes" /></td>
+              </tr>
+              <tr>
+                <td>C. Jaw habits such as holding teeth together, clenching/grinding teeth, or chewing gum</td>
+                <td><input type="radio" id="changePainHabitsNo" name="changePainHabits" value="no" /></td>
+                <td><input type="radio" id="changePainHabitsYes" name="changePainHabits" value="yes" /></td>
+              </tr>
+              <tr>
+                <td>D. Other jaw activities such as talking, kissing, or yawning</td>
+                <td><input type="radio" id="changePainActivitiesNo" name="changePainActivities" value="no" /></td>
+                <td><input type="radio" id="changePainActivitiesYes" name="changePainActivities" value="yes" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Symptom Questionnaire - Headache</h3>
+        <div class="form-group">
+          <label for="headacheTemple">5. In the last 30 days, have you had any headaches that included the temple areas of your head?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="headacheTempleNo" name="headacheTemple" value="no" /> No</label>
+            <label><input type="radio" id="headacheTempleYes" name="headacheTemple" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="headacheTempleCount">6. In the last 30 days, how many headaches of this type have you had?</label>
+          <input type="number" id="headacheTempleCount" min="0" class="small-input" />
+        </div>
+        <div class="form-group">
+          <label for="headacheForehead">7. In the last 30 days, have you had any headaches that included the forehead?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="headacheForeheadNo" name="headacheForehead" value="no" /> No</label>
+            <label><input type="radio" id="headacheForeheadYes" name="headacheForehead" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="headacheForeheadCount">8. In the last 30 days, how many headaches of this type have you had?</label>
+          <input type="number" id="headacheForeheadCount" min="0" class="small-input" />
+        </div>
+      </div>
+
+      <div class="page">
+        <h3>Symptom Questionnaire - Jaw Noises</h3>
+        <div class="form-group">
+          <label for="jawNoises">9. In the last 30 days, have you noticed any noises (such as clicking, popping, or grinding) in your jaw joints?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="jawNoisesNo" name="jawNoises" value="no" /> No</label>
+            <label><input type="radio" id="jawNoisesYes" name="jawNoises" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>10. If yes, where do you hear the noises?</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="noiseLocationRight" name="noiseLocation" value="right" /> Right</label>
+            <label><input type="checkbox" id="noiseLocationLeft" name="noiseLocation" value="left" /> Left</label>
+            <label><input type="checkbox" id="noiseLocationBoth" name="noiseLocation" value="both" /> Both</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>11. If yes, when do you hear the noises?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="noiseWhenOpening" name="noiseWhen" value="opening" /> Opening</label>
+            <label><input type="radio" id="noiseWhenClosing" name="noiseWhen" value="closing" /> Closing</label>
+            <label><input type="radio" id="noiseWhenBoth" name="noiseWhen" value="both" /> Both</label>
+          </div>
+        </div>
+
+        <h3>Symptom Questionnaire - Jaw Locking</h3>
+        <div class="form-group">
+          <label for="jawLockedOpen">12. In the last 30 days, has your jaw ever caught, locked, or gotten stuck so that it would not open all the way?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="jawLockedOpenNo" name="jawLockedOpen" value="no" /> No</label>
+            <label><input type="radio" id="jawLockedOpenYes" name="jawLockedOpen" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>13. If yes, where does your jaw catch, lock, or get stuck?</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="lockLocationRight" name="lockLocation" value="right" /> Right</label>
+            <label><input type="checkbox" id="lockLocationLeft" name="lockLocation" value="left" /> Left</label>
+            <label><input type="checkbox" id="lockLocationBoth" name="lockLocation" value="both" /> Both</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="jawLockedClose">14. In the last 30 days, has your jaw ever caught, locked, or gotten stuck so that it would not close all the way?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="jawLockedCloseNo" name="jawLockedClose" value="no" /> No</label>
+            <label><input type="radio" id="jawLockedCloseYes" name="jawLockedClose" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>15. If yes, where does your jaw catch, lock, or get stuck?</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="lockCloseLocationRight" name="lockCloseLocation" value="right" /> Right</label>
+            <label><input type="checkbox" id="lockCloseLocationLeft" name="lockCloseLocation" value="left" /> Left</label>
+            <label><input type="checkbox" id="lockCloseLocationBoth" name="lockCloseLocation" value="both" /> Both</label>
+          </div>
+        </div>
+
+        <h3>Symptom Questionnaire - Restricted Jaw Opening</h3>
+        <div class="form-group">
+          <label for="jawStiffAwakening">16. In the last 30 days, has your jaw ever felt stiff on awakening?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="jawStiffAwakeningNo" name="jawStiffAwakening" value="no" /> No</label>
+            <label><input type="radio" id="jawStiffAwakeningYes" name="jawStiffAwakening" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="difficultOpenWide">17. In the last 30 days, has it been difficult or painful for you to open your mouth wide?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="difficultOpenWideNo" name="difficultOpenWide" value="no" /> No</label>
+            <label><input type="radio" id="difficultOpenWideYes" name="difficultOpenWide" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="openAsWide">18. In the last 30 days, have you been able to open your mouth as wide as you ever could?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="openAsWideNo" name="openAsWide" value="no" /> No</label>
+            <label><input type="radio" id="openAsWideYes" name="openAsWide" value="yes" /> Yes</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="page">
+        <h2>Extra-oral Examination</h2>
+        <h3>Assessment of Facial assymetry</h3>
+        <div class="form-group">
+          <label>Site:</label>
+          <div class="radio-group">
+            <label><input type="radio" id="siteAsymmetryRight" name="siteAsymmetry" value="right" /> Right</label>
+            <label><input type="radio" id="siteAsymmetryLeft" name="siteAsymmetry" value="left" /> Left</label>
+            <label><input type="radio" id="siteAsymmetryBilateral" name="siteAsymmetry" value="bilateral" /> Bilateral</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Type:</label>
+          <div class="radio-group">
+            <label><input type="radio" id="typeAsymmetrySwelling" name="typeAsymmetry" value="swelling" /> Swelling</label>
+            <label><input type="radio" id="typeAsymmetryDepression" name="typeAsymmetry" value="depression" /> Depression</label>
+            <label><input type="radio" id="typeAsymmetryDeformity" name="typeAsymmetry" value="deformity" /> Deformity</label>
+          </div>
+        </div>
+        <div class="form-group"><label for="asymmetryDescription">Description:</label><textarea id="asymmetryDescription"></textarea></div>
+
+        <h3>Scars / Sinuses / Fistula</h3>
+        <div class="form-group"><label for="scarsSite">Site:</label><input type="text" id="scarsSite" /></div>
+        <div class="form-group"><label for="scarsType">Type:</label><input type="text" id="scarsType" /></div>
+        <div class="form-group"><label for="scarsDescription">Description:</label><textarea id="scarsDescription"></textarea></div>
+
+        <h3>Assessment of swelling / Depression</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Site</td>
+              <td><input type="text" id="swellingSite" /></td>
+            </tr>
+            <tr>
+              <td>Size</td>
+              <td><input type="text" id="swellingSize" /></td>
+            </tr>
+            <tr>
+              <td>Shape</td>
+              <td><input type="text" id="swellingShape" /></td>
+            </tr>
+            <tr>
+              <td>Color</td>
+              <td><input type="text" id="swellingColor" /></td>
+            </tr>
+            <tr>
+              <td>Surface</td>
+              <td><input type="text" id="swellingSurface" /></td>
+            </tr>
+            <tr>
+              <td>Margin</td>
+              <td><input type="text" id="swellingMargin" /></td>
+            </tr>
+            <tr>
+              <td>Temperature</td>
+              <td><input type="text" id="swellingTemperature" /></td>
+            </tr>
+            <tr>
+              <td>Tenderness</td>
+              <td><input type="text" id="swellingTenderness" /></td>
+            </tr>
+            <tr>
+              <td>Consistency</td>
+              <td><input type="text" id="swellingConsistency" /></td>
+            </tr>
+            <tr>
+              <td>Fluctuation</td>
+              <td><input type="text" id="swellingFluctuation" /></td>
+            </tr>
+            <tr>
+              <td>Reducibility</td>
+              <td><input type="text" id="swellingReducibility" /></td>
+            </tr>
+            <tr>
+              <td>Pulsatility</td>
+              <td><input type="text" id="swellingPulsatility" /></td>
+            </tr>
+            <tr>
+              <td>Transillumination</td>
+              <td><input type="text" id="swellingTransillumination" /></td>
+            </tr>
+            <tr>
+              <td>Mobility</td>
+              <td><input type="text" id="swellingMobility" /></td>
+            </tr>
+            <tr>
+              <td>Lymph node enlargement</td>
+              <td><input type="text" id="swellingLymphNode" /></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>ASSESSMENT OF OCULAR INJURIES</h3>
+        <div class="form-group">
+          <label for="subconjunctivalHemorrhage">Subconjunctival hemorrhage:</label>
+          <div class="radio-group">
+            <label><input type="radio" id="subconjunctivalHemorrhageNo" name="subconjunctivalHemorrhage" value="no" /> No</label>
+            <label><input type="radio" id="subconjunctivalHemorrhageYes" name="subconjunctivalHemorrhage" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="enophthalmos">Enophthalmos:</label>
+          <div class="radio-group">
+            <label><input type="radio" id="enophthalmosNo" name="enophthalmos" value="no" /> No</label>
+            <label><input type="radio" id="enophthalmosYes" name="enophthalmos" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exophthalmos">Exophthalmos:</label>
+          <div class="radio-group">
+            <label><input type="radio" id="exophthalmosNo" name="exophthalmos" value="no" /> No</label>
+            <label><input type="radio" id="exophthalmosYes" name="exophthalmos" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="diplopia">Diplopia:</label>
+          <div class="radio-group">
+            <label><input type="radio" id="diplopiaNo" name="diplopia" value="no" /> No</label>
+            <label><input type="radio" id="diplopiaYes" name="diplopia" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="periorbitalEdema">Periorbital edema:</label>
+          <div class="radio-group">
+            <label><input type="radio" id="periorbitalEdemaNo" name="periorbitalEdema" value="no" /> No</label>
+            <label><input type="radio" id="periorbitalEdemaYes" name="periorbitalEdema" value="yes" /> Yes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="pupilSizeReflex">Pupil size and reflex:</label><input type="text" id="pupilSizeReflex" />
+        </div>
+      </div>
+
+      <div class="page">
+        <h2>Intra oral examination</h2>
+        <h3>Inspection</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Site (R/L/Bilateral)</th>
+              <th>Description/Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mouth opening</td>
+              <td><input type="text" id="mouthOpeningSite" class="small-input" /></td>
+              <td><input type="text" id="mouthOpeningDescription" /></td>
+            </tr>
+            <tr>
+              <td>Deviation</td>
+              <td><input type="text" id="deviationSite" class="small-input" /></td>
+              <td><input type="text" id="deviationDescription" /></td>
+            </tr>
+            <tr>
+              <td>Ecchymosis</td>
+              <td><input type="text" id="ecchymosisSite" class="small-input" /></td>
+              <td><input type="text" id="ecchymosisDescription" placeholder="Guerin sign/coleman's sign" /></td>
+            </tr>
+            <tr>
+              <td>Presence of sinus</td>
+              <td><input type="text" id="sinusPresenceSite" class="small-input" /></td>
+              <td><input type="text" id="sinusPresenceDescription" /></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Dental Evaluation</h3>
+        <div class="form-group">
+          <label for="teethPresent">Teeth present (number):</label><input type="text" id="teethPresent" />
+        </div>
+
+        <div class="form-group">
+          <label>Missing Teeth:</label>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>18-11</th>
+                <th>21-28</th>
+                <th>48-41</th>
+                <th>31-38</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Present</td>
+                <td><input type="radio" id="missing18_11_present" name="missing18_11" value="present" /></td>
+                <td><input type="radio" id="missing21_28_present" name="missing21_28" value="present" /></td>
+                <td><input type="radio" id="missing48_41_present" name="missing48_41" value="present" /></td>
+                <td><input type="radio" id="missing31_38_present" name="missing31_38" value="present" /></td>
+              </tr>
+              <tr>
+                <td>Missing</td>
+                <td><input type="radio" id="missing18_11_missing" name="missing18_11" value="missing" /></td>
+                <td><input type="radio" id="missing21_28_missing" name="missing21_28" value="missing" /></td>
+                <td><input type="radio" id="missing48_41_missing" name="missing48_41" value="missing" /></td>
+                <td><input type="radio" id="missing31_38_missing" name="missing31_38" value="missing" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-group">
+          <label>Impacted Teeth:</label>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>18-11</th>
+                <th>21-28</th>
+                <th>48-41</th>
+                <th>31-38</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Present</td>
+                <td><input type="radio" id="impacted18_11_present" name="impacted18_11" value="present" /></td>
+                <td><input type="radio" id="impacted21_28_present" name="impacted21_28" value="present" /></td>
+                <td><input type="radio" id="impacted48_41_present" name="impacted48_41" value="present" /></td>
+                <td><input type="radio" id="impacted31_38_present" name="impacted31_38" value="present" /></td>
+              </tr>
+              <tr>
+                <td>Impacted</td>
+                <td><input type="radio" id="impacted18_11_impacted" name="impacted18_11" value="impacted" /></td>
+                <td><input type="radio" id="impacted21_28_impacted" name="impacted21_28" value="impacted" /></td>
+                <td><input type="radio" id="impacted48_41_impacted" name="impacted48_41" value="impacted" /></td>
+                <td><input type="radio" id="impacted31_38_impacted" name="impacted31_38" value="impacted" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-group"><label for="fracturedTeeth">Fractured teeth:</label><input type="text" id="fracturedTeeth" /></div>
+        <div class="form-group"><label for="teethMobility">Mobility:</label><input type="text" id="teethMobility" /></div>
+
+        <h3>Palpation</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Status (Normal/Deranged)</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tenderness</td>
+              <td><input type="text" id="palpationTendernessStatus" /></td>
+              <td><input type="text" id="palpationTendernessRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Mobility of teeth</td>
+              <td><input type="text" id="palpationTeethMobilityStatus" /></td>
+              <td><input type="text" id="palpationTeethMobilityRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Mobility of maxilla</td>
+              <td><input type="text" id="palpationMaxillaMobilityStatus" /></td>
+              <td><input type="text" id="palpationMaxillaMobilityRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Mobility of mandible</td>
+              <td><input type="text" id="palpationMandibleMobilityStatus" /></td>
+              <td><input type="text" id="palpationMandibleMobilityRemarks" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="page">
+        <h2>Cranial nerves</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Cranial Nerve</th>
+              <th>Status (Normal/Abnormal)</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CN I (Olfactory)</td>
+              <td><input type="text" id="cn1Status" /></td>
+              <td><input type="text" id="cn1Description" /></td>
+            </tr>
+            <tr>
+              <td>CN II (Optic)</td>
+              <td><input type="text" id="cn2Status" /></td>
+              <td><input type="text" id="cn2Description" /></td>
+            </tr>
+            <tr>
+              <td>CN III (Oculomotor)</td>
+              <td><input type="text" id="cn3Status" /></td>
+              <td><input type="text" id="cn3Description" /></td>
+            </tr>
+            <tr>
+              <td>CN IV (Trochlear)</td>
+              <td><input type="text" id="cn4Status" /></td>
+              <td><input type="text" id="cn4Description" /></td>
+            </tr>
+            <tr>
+              <td>CN V (Trigeminal)</td>
+              <td><input type="text" id="cn5Status" /></td>
+              <td><input type="text" id="cn5Description" /></td>
+            </tr>
+            <tr>
+              <td>CN VI (Abducens)</td>
+              <td><input type="text" id="cn6Status" /></td>
+              <td><input type="text" id="cn6Description" /></td>
+            </tr>
+            <tr>
+              <td>CN VII (Facial)</td>
+              <td><input type="text" id="cn7Status" /></td>
+              <td><input type="text" id="cn7Description" /></td>
+            </tr>
+            <tr>
+              <td>CN VIII (Vestibulocochlear)</td>
+              <td><input type="text" id="cn8Status" /></td>
+              <td><input type="text" id="cn8Description" /></td>
+            </tr>
+            <tr>
+              <td>CN IX (Glossopharyngeal)</td>
+              <td><input type="text" id="cn9Status" /></td>
+              <td><input type="text" id="cn9Description" /></td>
+            </tr>
+            <tr>
+              <td>CN X (Vagus)</td>
+              <td><input type="text" id="cn10Status" /></td>
+              <td><input type="text" id="cn10Description" /></td>
+            </tr>
+            <tr>
+              <td>CN XI (Accessory)</td>
+              <td><input type="text" id="cn11Status" /></td>
+              <td><input type="text" id="cn11Description" /></td>
+            </tr>
+            <tr>
+              <td>CN XII (Hypoglossal)</td>
+              <td><input type="text" id="cn12Status" /></td>
+              <td><input type="text" id="cn12Description" /></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Temporomandibular Joint (TMJ) Examination</h2>
+        <h3>Palpation</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Site</th>
+              <th>Tenderness (Yes/No)</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Lateral pole - Right</td>
+              <td><input type="text" id="tmjPalpationLateralRightTenderness" /></td>
+              <td><input type="text" id="tmjPalpationLateralRightRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Lateral pole - Left</td>
+              <td><input type="text" id="tmjPalpationLateralLeftTenderness" /></td>
+              <td><input type="text" id="tmjPalpationLateralLeftRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Posterior aspect - Right</td>
+              <td><input type="text" id="tmjPalpationPosteriorRightTenderness" /></td>
+              <td><input type="text" id="tmjPalpationPosteriorRightRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Posterior aspect - Left</td>
+              <td><input type="text" id="tmjPalpationPosteriorLeftTenderness" /></td>
+              <td><input type="text" id="tmjPalpationPosteriorLeftRemarks" /></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>TMJ Ausculation (Joint noises)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Side</th>
+              <th>Opening (Clicking/Crepitus/None)</th>
+              <th>Closing (Clicking/Crepitus/None)</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Right</td>
+              <td><input type="text" id="tmjAuscultationRightOpening" /></td>
+              <td><input type="text" id="tmjAuscultationRightClosing" /></td>
+              <td><input type="text" id="tmjAuscultationRightRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Left</td>
+              <td><input type="text" id="tmjAuscultationLeftOpening" /></td>
+              <td><input type="text" id="tmjAuscultationLeftClosing" /></td>
+              <td><input type="text" id="tmjAuscultationLeftRemarks" /></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Mouth opening</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Measurement</th>
+              <th>Value (mm)</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Interincisal opening</td>
+              <td><input type="number" id="interincisalOpening" class="small-input" /></td>
+              <td><input type="text" id="interincisalOpeningRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Overbite</td>
+              <td><input type="number" id="overbite" class="small-input" /></td>
+              <td><input type="text" id="overbiteRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Overjet</td>
+              <td><input type="number" id="overjet" class="small-input" /></td>
+              <td><input type="text" id="overjetRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Protrusive movement</td>
+              <td><input type="number" id="protrusiveMovement" class="small-input" /></td>
+              <td><input type="text" id="protrusiveMovementRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Right lateral movement</td>
+              <td><input type="number" id="rightLateralMovement" class="small-input" /></td>
+              <td><input type="text" id="rightLateralMovementRemarks" /></td>
+            </tr>
+            <tr>
+              <td>Left lateral movement</td>
+              <td><input type="number" id="leftLateralMovement" class="small-input" /></td>
+              <td><input type="text" id="leftLateralMovementRemarks" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="page">
+        <h2>Patient Health Questionnaire - 4 (PHQ-4)</h2>
+        <p>Over the last 2 weeks, how often have you been bothered by the following problems?</p>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Not at all</th>
+              <th>Several days</th>
+              <th>More than half the days</th>
+              <th>Nearly every day</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1. Feeling nervous, anxious or on edge</td>
+              <td><input type="radio" id="phq1_0" name="phq1" value="0" /></td>
+              <td><input type="radio" id="phq1_1" name="phq1" value="1" /></td>
+              <td><input type="radio" id="phq1_2" name="phq1" value="2" /></td>
+              <td><input type="radio" id="phq1_3" name="phq1" value="3" /></td>
+            </tr>
+            <tr>
+              <td>2. Not being able to stop or control worrying</td>
+              <td><input type="radio" id="phq2_0" name="phq2" value="0" /></td>
+              <td><input type="radio" id="phq2_1" name="phq2" value="1" /></td>
+              <td><input type="radio" id="phq2_2" name="phq2" value="2" /></td>
+              <td><input type="radio" id="phq2_3" name="phq2" value="3" /></td>
+            </tr>
+            <tr>
+              <td>3. Little interest or pleasure in doing things</td>
+              <td><input type="radio" id="phq3_0" name="phq3" value="0" /></td>
+              <td><input type="radio" id="phq3_1" name="phq3" value="1" /></td>
+              <td><input type="radio" id="phq3_2" name="phq3" value="2" /></td>
+              <td><input type="radio" id="phq3_3" name="phq3" value="3" /></td>
+            </tr>
+            <tr>
+              <td>4. Feeling down, depressed, or hopeless</td>
+              <td><input type="radio" id="phq4_0" name="phq4" value="0" /></td>
+              <td><input type="radio" id="phq4_1" name="phq4" value="1" /></td>
+              <td><input type="radio" id="phq4_2" name="phq4" value="2" /></td>
+              <td><input type="radio" id="phq4_3" name="phq4" value="3" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="form-group"><label for="phqTotalScore">TOTAL SCORE = </label><input type="number" id="phqTotalScore" min="0"  class="small-input" /></div>
+        <div class="form-group">
+          <label for="difficultyLevel">If you checked off any problems, how difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?</label>
+          <div class="radio-group">
+            <label><input type="radio" id="difficultyLevelNotAtAll" name="difficultyLevel" value="notAtAll" /> Not difficult at all</label>
+            <label><input type="radio" id="difficultyLevelSomewhat" name="difficultyLevel" value="somewhat" /> Somewhat difficult</label>
+            <label><input type="radio" id="difficultyLevelVery" name="difficultyLevel" value="very" /> Very difficult</label>
+            <label><input type="radio" id="difficultyLevelExtremely" name="difficultyLevel" value="extremely" /> Extremely difficult</label>
+          </div>
+        </div>
+
+        <h2>Oral Behavior Checklist (OBC)</h2>
+        <p>In the last 30 days, how often did you engage in each of the following activities?</p>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Not at all</th>
+              <th>A few days</th>
+              <th>Several days</th>
+              <th>Most days</th>
+              <th>Every day</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1. Clenching teeth (not chewing)</td>
+              <td><input type="radio" id="obc1_0" name="obc1" value="0" /></td>
+              <td><input type="radio" id="obc1_1" name="obc1" value="1" /></td>
+              <td><input type="radio" id="obc1_2" name="obc1" value="2" /></td>
+              <td><input type="radio" id="obc1_3" name="obc1" value="3" /></td>
+              <td><input type="radio" id="obc1_4" name="obc1" value="4" /></td>
+            </tr>
+            <tr>
+              <td>2. Grinding teeth (not chewing)</td>
+              <td><input type="radio" id="obc2_0" name="obc2" value="0" /></td>
+              <td><input type="radio" id="obc2_1" name="obc2" value="1" /></td>
+              <td><input type="radio" id="obc2_2" name="obc2" value="2" /></td>
+              <td><input type="radio" id="obc2_3" name="obc2" value="3" /></td>
+              <td><input type="radio" id="obc2_4" name="obc2" value="4" /></td>
+            </tr>
+            <tr>
+              <td>3. Holding teeth together (not chewing)</td>
+              <td><input type="radio" id="obc3_0" name="obc3" value="0" /></td>
+              <td><input type="radio" id="obc3_1" name="obc3" value="1" /></td>
+              <td><input type="radio" id="obc3_2" name="obc3" value="2" /></td>
+              <td><input type="radio" id="obc3_3" name="obc3" value="3" /></td>
+              <td><input type="radio" id="obc3_4" name="obc3" value="4" /></td>
+            </tr>
+            <tr>
+              <td>4. Lip/cheek biting</td>
+              <td><input type="radio" id="obc4_0" name="obc4" value="0" /></td>
+              <td><input type="radio" id="obc4_1" name="obc4" value="1" /></td>
+              <td><input type="radio" id="obc4_2" name="obc4" value="2" /></td>
+              <td><input type="radio" id="obc4_3" name="obc4" value="3" /></td>
+              <td><input type="radio" id="obc4_4" name="obc4" value="4" /></td>
+            </tr>
+            <tr>
+              <td>5. Tongue pressing/bracing</td>
+              <td><input type="radio" id="obc5_0" name="obc5" value="0" /></td>
+              <td><input type="radio" id="obc5_1" name="obc5" value="1" /></td>
+              <td><input type="radio" id="obc5_2" name="obc5" value="2" /></td>
+              <td><input type="radio" id="obc5_3" name="obc5" value="3" /></td>
+              <td><input type="radio" id="obc5_4" name="obc5" value="4" /></td>
+            </tr>
+            <tr>
+              <td>6. Chewing gum</td>
+              <td><input type="radio" id="obc6_0" name="obc6" value="0" /></td>
+              <td><input type="radio" id="obc6_1" name="obc6" value="1" /></td>
+              <td><input type="radio" id="obc6_2" name="obc6" value="2" /></td>
+              <td><input type="radio" id="obc6_3" name="obc6" value="3" /></td>
+              <td><input type="radio" id="obc6_4" name="obc6" value="4" /></td>
+            </tr>
+            <tr>
+              <td>7. Biting fingernails/cuticles</td>
+              <td><input type="radio" id="obc7_0" name="obc7" value="0" /></td>
+              <td><input type="radio" id="obc7_1" name="obc7" value="1" /></td>
+              <td><input type="radio" id="obc7_2" name="obc7" value="2" /></td>
+              <td><input type="radio" id="obc7_3" name="obc7" value="3" /></td>
+              <td><input type="radio" id="obc7_4" name="obc7" value="4" /></td>
+            </tr>
+            <tr>
+              <td>8. Biting objects (pens, pencils)</td>
+              <td><input type="radio" id="obc8_0" name="obc8" value="0" /></td>
+              <td><input type="radio" id="obc8_1" name="obc8" value="1" /></td>
+              <td><input type="radio" id="obc8_2" name="obc8" value="2" /></td>
+              <td><input type="radio" id="obc8_3" name="obc8" value="3" /></td>
+              <td><input type="radio" id="obc8_4" name="obc8" value="4" /></td>
+            </tr>
+            <tr>
+              <td>9. Leaning on jaw/chin</td>
+              <td><input type="radio" id="obc9_0" name="obc9" value="0" /></td>
+              <td><input type="radio" id="obc9_1" name="obc9" value="1" /></td>
+              <td><input type="radio" id="obc9_2" name="obc9" value="2" /></td>
+              <td><input type="radio" id="obc9_3" name="obc9" value="3" /></td>
+              <td><input type="radio" id="obc9_4" name="obc9" value="4" /></td>
+            </tr>
+            <tr>
+              <td>10. Yawning widely</td>
+              <td><input type="radio" id="obc10_0" name="obc10" value="0" /></td>
+              <td><input type="radio" id="obc10_1" name="obc10" value="1" /></td>
+              <td><input type="radio" id="obc10_2" name="obc10" value="2" /></td>
+              <td><input type="radio" id="obc10_3" name="obc10" value="3" /></td>
+              <td><input type="radio" id="obc10_4" name="obc10" value="4" /></td>
+            </tr>
+            <tr>
+              <td>11. Forward head posture</td>
+              <td><input type="radio" id="obc11_0" name="obc11" value="0" /></td>
+              <td><input type="radio" id="obc11_1" name="obc11" value="1" /></td>
+              <td><input type="radio" id="obc11_2" name="obc11" value="2" /></td>
+              <td><input type="radio" id="obc11_3" name="obc11" value="3" /></td>
+              <td><input type="radio" id="obc11_4" name="obc11" value="4" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="page">
+        <h2>Jaw Functional Limitation Scale (JFLS-8)</h2>
+        <p>Over the last 30 days, how much difficulty have you had doing the following activities because of your jaw?</p>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th colspan="11">Degree of Limitation</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th>0<br/>None</th>
+              <th>1</th>
+              <th>2</th>
+              <th>3</th>
+              <th>4</th>
+              <th>5</th>
+              <th>6</th>
+              <th>7</th>
+              <th>8</th>
+              <th>9</th>
+              <th>10<br/>Severe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1. Chewing tough foods (e.g., tough meat, hard candy, raw carrots)</td>
+              <td><input type="radio" id="jfls1_0" name="jfls1" value="0" /></td>
+              <td><input type="radio" id="jfls1_1" name="jfls1" value="1" /></td>
+              <td><input type="radio" id="jfls1_2" name="jfls1" value="2" /></td>
+              <td><input type="radio" id="jfls1_3" name="jfls1" value="3" /></td>
+              <td><input type="radio" id="jfls1_4" name="jfls1" value="4" /></td>
+              <td><input type="radio" id="jfls1_5" name="jfls1" value="5" /></td>
+              <td><input type="radio" id="jfls1_6" name="jfls1" value="6" /></td>
+              <td><input type="radio" id="jfls1_7" name="jfls1" value="7" /></td>
+              <td><input type="radio" id="jfls1_8" name="jfls1" value="8" /></td>
+              <td><input type="radio" id="jfls1_9" name="jfls1" value="9" /></td>
+              <td><input type="radio" id="jfls1_10" name="jfls1" value="10" /></td>
+            </tr>
+            <tr>
+              <td>2. Chewing most foods (e.g., bread, pasta, soft fruits/vegetables)</td>
+              <td><input type="radio" id="jfls2_0" name="jfls2" value="0" /></td>
+              <td><input type="radio" id="jfls2_1" name="jfls2" value="1" /></td>
+              <td><input type="radio" id="jfls2_2" name="jfls2" value="2" /></td>
+              <td><input type="radio" id="jfls2_3" name="jfls2" value="3" /></td>
+              <td><input type="radio" id="jfls2_4" name="jfls2" value="4" /></td>
+              <td><input type="radio" id="jfls2_5" name="jfls2" value="5" /></td>
+              <td><input type="radio" id="jfls2_6" name="jfls2" value="6" /></td>
+              <td><input type="radio" id="jfls2_7" name="jfls2" value="7" /></td>
+              <td><input type="radio" id="jfls2_8" name="jfls2" value="8" /></td>
+              <td><input type="radio" id="jfls2_9" name="jfls2" value="9" /></td>
+              <td><input type="radio" id="jfls2_10" name="jfls2" value="10" /></td>
+            </tr>
+            <tr>
+              <td>3. Biting (e.g., biting into an apple, sandwich)</td>
+              <td><input type="radio" id="jfls3_0" name="jfls3" value="0" /></td>
+              <td><input type="radio" id="jfls3_1" name="jfls3" value="1" /></td>
+              <td><input type="radio" id="jfls3_2" name="jfls3" value="2" /></td>
+              <td><input type="radio" id="jfls3_3" name="jfls3" value="3" /></td>
+              <td><input type="radio" id="jfls3_4" name="jfls3" value="4" /></td>
+              <td><input type="radio" id="jfls3_5" name="jfls3" value="5" /></td>
+              <td><input type="radio" id="jfls3_6" name="jfls3" value="6" /></td>
+              <td><input type="radio" id="jfls3_7" name="jfls3" value="7" /></td>
+              <td><input type="radio" id="jfls3_8" name="jfls3" value="8" /></td>
+              <td><input type="radio" id="jfls3_9" name="jfls3" value="9" /></td>
+              <td><input type="radio" id="jfls3_10" name="jfls3" value="10" /></td>
+            </tr>
+            <tr>
+              <td>4. Opening your mouth wide to yawn</td>
+              <td><input type="radio" id="jfls4_0" name="jfls4" value="0" /></td>
+              <td><input type="radio" id="jfls4_1" name="jfls4" value="1" /></td>
+              <td><input type="radio" id="jfls4_2" name="jfls4" value="2" /></td>
+              <td><input type="radio" id="jfls4_3" name="jfls4" value="3" /></td>
+              <td><input type="radio" id="jfls4_4" name="jfls4" value="4" /></td>
+              <td><input type="radio" id="jfls4_5" name="jfls4" value="5" /></td>
+              <td><input type="radio" id="jfls4_6" name="jfls4" value="6" /></td>
+              <td><input type="radio" id="jfls4_7" name="jfls4" value="7" /></td>
+              <td><input type="radio" id="jfls4_8" name="jfls4" value="8" /></td>
+              <td><input type="radio" id="jfls4_9" name="jfls4" value="9" /></td>
+              <td><input type="radio" id="jfls4_10" name="jfls4" value="10" /></td>
+            </tr>
+            <tr>
+              <td>5. Opening your mouth wide to sing</td>
+              <td><input type="radio" id="jfls5_0" name="jfls5" value="0" /></td>
+              <td><input type="radio" id="jfls5_1" name="jfls5" value="1" /></td>
+              <td><input type="radio" id="jfls5_2" name="jfls5" value="2" /></td>
+              <td><input type="radio" id="jfls5_3" name="jfls5" value="3" /></td>
+              <td><input type="radio" id="jfls5_4" name="jfls5" value="4" /></td>
+              <td><input type="radio" id="jfls5_5" name="jfls5" value="5" /></td>
+              <td><input type="radio" id="jfls5_6" name="jfls5" value="6" /></td>
+              <td><input type="radio" id="jfls5_7" name="jfls5" value="7" /></td>
+              <td><input type="radio" id="jfls5_8" name="jfls5" value="8" /></td>
+              <td><input type="radio" id="jfls5_9" name="jfls5" value="9" /></td>
+              <td><input type="radio" id="jfls5_10" name="jfls5" value="10" /></td>
+            </tr>
+            <tr>
+              <td>6. Speaking/talking</td>
+              <td><input type="radio" id="jfls6_0" name="jfls6" value="0" /></td>
+              <td><input type="radio" id="jfls6_1" name="jfls6" value="1" /></td>
+              <td><input type="radio" id="jfls6_2" name="jfls6" value="2" /></td>
+              <td><input type="radio" id="jfls6_3" name="jfls6" value="3" /></td>
+              <td><input type="radio" id="jfls6_4" name="jfls6" value="4" /></td>
+              <td><input type="radio" id="jfls6_5" name="jfls6" value="5" /></td>
+              <td><input type="radio" id="jfls6_6" name="jfls6" value="6" /></td>
+              <td><input type="radio" id="jfls6_7" name="jfls6" value="7" /></td>
+              <td><input type="radio" id="jfls6_8" name="jfls6" value="8" /></td>
+              <td><input type="radio" id="jfls6_9" name="jfls6" value="9" /></td>
+              <td><input type="radio" id="jfls6_10" name="jfls6" value="10" /></td>
+            </tr>
+            <tr>
+              <td>7. Smiling</td>
+              <td><input type="radio" id="jfls7_0" name="jfls7" value="0" /></td>
+              <td><input type="radio" id="jfls7_1" name="jfls7" value="1" /></td>
+              <td><input type="radio" id="jfls7_2" name="jfls7" value="2" /></td>
+              <td><input type="radio" id="jfls7_3" name="jfls7" value="3" /></td>
+              <td><input type="radio" id="jfls7_4" name="jfls7" value="4" /></td>
+              <td><input type="radio" id="jfls7_5" name="jfls7" value="5" /></td>
+              <td><input type="radio" id="jfls7_6" name="jfls7" value="6" /></td>
+              <td><input type="radio" id="jfls7_7" name="jfls7" value="7" /></td>
+              <td><input type="radio" id="jfls7_8" name="jfls7" value="8" /></td>
+              <td><input type="radio" id="jfls7_9" name="jfls7" value="9" /></td>
+              <td><input type="radio" id="jfls7_10" name="jfls7" value="10" /></td>
+            </tr>
+            <tr>
+              <td>8. Drinking from a cup/glass</td>
+              <td><input type="radio" id="jfls8_0" name="jfls8" value="0" /></td>
+              <td><input type="radio" id="jfls8_1" name="jfls8" value="1" /></td>
+              <td><input type="radio" id="jfls8_2" name="jfls8" value="2" /></td>
+              <td><input type="radio" id="jfls8_3" name="jfls8" value="3" /></td>
+              <td><input type="radio" id="jfls8_4" name="jfls8" value="4" /></td>
+              <td><input type="radio" id="jfls8_5" name="jfls8" value="5" /></td>
+              <td><input type="radio" id="jfls8_6" name="jfls8" value="6" /></td>
+              <td><input type="radio" id="jfls8_7" name="jfls8" value="7" /></td>
+              <td><input type="radio" id="jfls8_8" name="jfls8" value="8" /></td>
+              <td><input type="radio" id="jfls8_9" name="jfls8" value="9" /></td>
+              <td><input type="radio" id="jfls8_10" name="jfls8" value="10" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="page">
+        <h2>Radiographs</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Type of imaging</th>
+              <th>Findings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Conventional Radiographs</td>
+              <td><input type="text" id="conventionalRadiographsFindings" /></td>
+            </tr>
+            <tr>
+              <td>OPG</td>
+              <td><input type="text" id="opgFindings" /></td>
+            </tr>
+            <tr>
+              <td>Occlusal</td>
+              <td><input type="text" id="occlusalFindings" /></td>
+            </tr>
+            <tr>
+              <td>PA Skull</td>
+              <td><input type="text" id="paSkullFindings" /></td>
+            </tr>
+            <tr>
+              <td>PA Mandible</td>
+              <td><input type="text" id="paMandibleFindings" /></td>
+            </tr>
+            <tr>
+              <td>PNS</td>
+              <td><input type="text" id="pnsFindings" /></td>
+            </tr>
+            <tr>
+              <td>Submento Vertex</td>
+              <td><input type="text" id="submentoVertexFindings" /></td>
+            </tr>
+            <tr>
+              <td>CT</td>
+              <td><input type="text" id="ctFindings" /></td>
+            </tr>
+            <tr>
+              <td>MRI</td>
+              <td><input type="text" id="mriFindings" /></td>
+            </tr>
+            <tr>
+              <td>Others</td>
+              <td><input type="text" id="othersFindings" /></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Diagnosis</h2>
+        <div class="form-group"><textarea id="diagnosis"></textarea></div>
+
+        <h2>Surgical notes</h2>
+        <div class="form-group"><label for="surgicalDOA">DOA:</label><input type="text" id="surgicalDOA" /></div>
+        <div class="form-group"><label for="surgicalDOS">DOS:</label><input type="text" id="surgicalDOS" /></div>
+        <div class="form-group"><label for="surgicalDOD">DOD:</label><input type="text" id="surgicalDOD" /></div>
+        <div class="form-group"><label for="surgicalProcedure">Procedure:</label><textarea id="surgicalProcedure"></textarea></div>
+        <div class="form-group"><label for="surgicalAnaesthesia">Anaesthesia:</label><input type="text" id="surgicalAnaesthesia" /></div>
+        <div class="form-group"><label for="surgicalIntubation">Intubation:</label><input type="text" id="surgicalIntubation" /></div>
+        <div class="form-group"><label for="surgicalTreatmentDone">Treatment done:</label><textarea id="surgicalTreatmentDone"></textarea></div>
+      </div>
+
+      <div class="navigation">
+        <button type="button" id="prevBtn" disabled>Previous</button>
+        <button type="button" id="nextBtn">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentPage = 0;
+
+    function showPage(index) {
+      window.scrollTo(0, 0);
+      pages.forEach((page, i) => {
+        page.classList.toggle('active', i === index);
+      });
+      prevBtn.disabled = index === 0;
+      nextBtn.textContent = index === pages.length - 1 ? 'Submit' : 'Next';
+      // Added a check for prescriptionBtn as it was referenced without definition
+      const prescriptionBtn = document.getElementById('prescriptionBtn'); 
+      if (prescriptionBtn) { 
+          prescriptionBtn.style.display = index === pages.length - 1 ? 'block' : 'none';
+      }
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      } else {
+        window.location.href = "prescription.html";
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+
+    // Ensure prescriptionBtn is defined before adding an event listener
+    const prescriptionBtn = document.getElementById('prescriptionBtn');
+    if (prescriptionBtn) { 
+        prescriptionBtn.addEventListener('click', () => {
+            window.location.href = 'prescription.html';
+        });
+    }
+
+    showPage(currentPage); 
+  </script>
+</body>
+</html>

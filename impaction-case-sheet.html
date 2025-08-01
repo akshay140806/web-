@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SRM Dental College - Impaction Case Sheet</title>
+  <style>
+   
+
+
+  
+     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('campus.png') no-repeat center center fixed; /* cite: campus.png */
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      padding: 40px 20px;
+    }
+    .case-sheet {
+      background-color: rgba(32, 35, 125, 0.85);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    h2 {
+      border-bottom: 1px solid white;
+      padding-bottom: 5px;
+      margin-top: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      box-sizing: border-box; 
+      resize: none;
+      min-height: 50px; /* Minimum height for the textarea */
+      max-height: 200px; /* Maximum height for the textarea */
+      overflow-y: auto; /* Adds scrollbar when content exceeds max-height */
+    }
+
+    
+    .checkbox-group {
+ display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+    }
+    .checkbox-group input[type="checkbox"],
+    .radio-group input[type="radio"] {
+      margin-right: 5px;
+    }
+    .radio-group {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    .radio-group label {
+        font-weight: normal;
+        display: flex;
+        align-items: center;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+        .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #26286b;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .score-table th, .score-table td {
+      border: 1px solid white;
+      padding: 8px;
+      text-align: left;
+    }
+    .score-table th {
+      background-color: rgba(255,255,255,0.1);
+    }
+    .score-table input {
+      width: 100%;
+      padding: 4px;
+      margin: 0;
+    }
+    .inline-form {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .inline-form input {
+      flex: 1;
+    }
+    .subsection {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+    .assessment-section {
+      background-color: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="case-sheet">
+     <div style="text-align: center; margin-bottom: 20px;">
+<img src="logo.png" alt="SRM Dental College Logo" style="max-width: 120px; height: auto; margin-bottom: 10px;" />
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6" style="margin: 0;">SRM Dental College</h2>
+    <p style="margin: 0; color: white;">Department of Oral & Maxillofacial Surgery</p>
+    <h3 style="margin: 10px 0 0 0; color: white;">Impaction-Clinical/Radiographic Interperation CASE SHEET</h3>
+  </div>
+    
+    <form>
+      <div class="page active">
+       
+
+        <div class="form-group">
+          <label>Tooth No:</label>
+          <input type="text" id="toothNo" />
+        </div>
+
+        <h2>Type of impaction:</h2>
+        
+        <div class="form-group">
+          <label>Class:</label>
+          <input type="text" id="impactionClass" />
+        </div>
+
+        <div class="form-group">
+          <label>Position:</label>
+          <input type="text" id="impactionPosition" />
+        </div>
+
+        <div class="form-group">
+          <label>Shape of the crown:</label>
+          <input type="text" id="crownShape" />
+        </div>
+
+        <div class="form-group">
+          <label>Roots:</label>
+          <input type="text" id="roots" />
+        </div>
+
+        <div class="form-group">
+          <label>Number of the crowns:</label>
+          <input type="text" id="numCrowns" />
+        </div>
+
+        <div class="form-group">
+          <label>Curvature:</label>
+          <input type="text" id="curvature" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>2nd molar decay:</label>
+            <div class="radio-group">
+              <label><input type="radio" name="secondMolarDecay" id="secondMolarDecayFavorable" value="favorable"> favorable</label>
+              <label><input type="radio" name="secondMolarDecay" id="secondMolarDecayUnfavorable" value="unfavorable"> unfavorable</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Follicle:</label>
+            <div class="radio-group">
+              <label><input type="radio" name="follicle" id="folliclePresent" value="present"> present</label>
+              <label><input type="radio" name="follicle" id="follicleAbsent" value="absent"> absent</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>1st molar decay:</label>
+            <div class="radio-group">
+              <label><input type="radio" name="firstMolarDecay" id="firstMolarDecayPresent" value="present"> present</label>
+              <label><input type="radio" name="firstMolarDecay" id="firstMolarDecayAbsent" value="absent"> absent</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Carious:</label>
+            <div class="radio-group">
+              <label><input type="radio" name="carious" id="cariousPresent" value="present"> present</label>
+              <label><input type="radio" name="carious" id="cariousAbsent" value="absent"> absent</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page">
+        <h2>Radiographic Assessment:</h2>
+        
+        <div class="form-group">
+          <label>1. Bone Density:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="boneDensity" id="boneDensityElastic" value="elastic"> elastic</label>
+            <label><input type="radio" name="boneDensity" id="boneDensitySclerotic" value="sclerotic"> sclerotic</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>2. Position of inf. dental canal:</label>
+          <input type="text" id="infDentalCanalPosition" />
+        </div>
+
+        <div class="form-group">
+          <label>3. Redine (mm):</label>
+          <input type="number" id="redineMM" />
+        </div>
+
+        <div class="form-group">
+          <label>4. Difficulty index:</label>
+          <input type="text" id="difficultyIndex" />
+        </div>
+
+        <div class="form-group">
+          <label>5. Procedure:</label>
+          <input type="text" id="procedure" />
+        </div>
+
+        <div class="form-group">
+          <label>6. Removal in:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="removalType" id="removalFull" value="full"> full</label>
+            <label><input type="radio" name="removalType" id="removalSectional" value="sectional"> sectional</label>
+            <label><input type="radio" name="removalType" id="removalUnsectional" value="unsectional"> unsectional</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Removal by:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="removalBy" id="removalByElevator" value="elevator"> elevator</label>
+            <label><input type="radio" name="removalBy" id="removalByRotatory" value="rotatory"> rotatory</label>
+          </div>
+        </div>
+
+        <h2>Other Radiographic views (if needed):</h2>
+        
+        <div class="form-group">
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="radiographicViews" id="viewIOPA" value="iopa"> IOPA</label>
+            <label><input type="checkbox" name="radiographicViews" id="viewOPG" value="opg"> OPG</label>
+            <label><input type="checkbox" name="radiographicViews" id="viewOcclusal" value="occlusal"> OCCLUSAL</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="page">
+        <div class="assessment-section">
+          <h2>Scoring Details For Wharfe Assessment</h2>
+          
+          <h3>1. Winter's Classification</h3>
+          <table class="score-table">
+            <thead>
+              <tr>
+                <th>Classification</th>
+                <th>Score</th>
+                <th>Selected</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Horizontal</td>
+                <td>1</td>
+                <td><input type="checkbox" name="wintersClass" id="wintersHorizontal" value="horizontal"></td>
+              </tr>
+              <tr>
+                <td>Mesioangular</td>
+                <td>1</td>
+                <td><input type="checkbox" name="wintersClass" id="wintersMesioangular" value="mesioangular"></td>
+              </tr>
+              <tr>
+                <td>Vertical</td>
+                <td>0</td>
+                <td><input type="checkbox" name="wintersClass" id="wintersVertical" value="vertical"></td>
+              </tr>
+              <tr>
+                <td>Distoangular</td>
+                <td>2</td>
+                <td><input type="checkbox" name="wintersClass" id="wintersDistoangular" value="distoangular"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>2. Height Of Mandible (mm)</h3>
+          <table class="score-table">
+            <thead>
+              <tr>
+                <th>Height Range</th>
+                <th>Score</th>
+                <th>Selected</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1 to 30</td>
+                <td>2</td>
+                <td><input type="checkbox" name="mandibleHeight" id="mandibleHeight1To30" value="1-30"></td>
+              </tr>
+              <tr>
+                <td>30 to 34</td>
+                <td>1</td>
+                <td><input type="checkbox" name="mandibleHeight" id="mandibleHeight30To34" value="30-34"></td>
+              </tr>
+              <tr>
+                <td>35 to 39</td>
+                <td>0</td>
+                <td><input type="checkbox" name="mandibleHeight" id="mandibleHeight35To39" value="35-39"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>3. Angle Of 2nd Molar (degrees)</h3>
+          <table class="score-table">
+            <thead>
+              <tr>
+                <th>Angle Range</th>
+                <th>Score</th>
+                <th>Selected</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1 to 59</td>
+                <td>2</td>
+                <td><input type="checkbox" name="molarAngle" id="molarAngle1To59" value="1-59"></td>
+              </tr>
+              <tr>
+                <td>60 to 69</td>
+                <td>0</td>
+                <td><input type="checkbox" name="molarAngle" id="molarAngle60To69" value="60-69"></td>
+              </tr>
+              <tr>
+                <td>70 to 79</td>
+                <td>1</td>
+                <td><input type="checkbox" name="molarAngle" id="molarAngle70To79" value="70-79"></td>
+              </tr>
+              <tr>
+                <td>80 to 89</td>
+                <td>2</td>
+                <td><input type="checkbox" name="molarAngle" id="molarAngle80To89" value="80-89"></td>
+              </tr>
+              <tr>
+                <td>90+</td>
+                <td>3</td>
+                <td><input type="checkbox" name="molarAngle" id="molarAngle90Plus" value="90+"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="page">
+        <div class="assessment-section">
+          <h3>4. Root Shape & Development</h3>
+          <table class="score-table">
+            <thead>
+              <tr>
+                <th>Development</th>
+                <th>Score</th>
+                <th>Selected</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>a) Less than 1/3 complete</td>
+                <td>0</td>
+                <td><input type="checkbox" name="rootDevelopment" id="rootDevLess1_3" value="less-1-3"></td>
+              </tr>
+              <tr>
+                <td>b) 1/3 to 2/3 complete</td>
+                <td>1</td>
+                <td><input type="checkbox" name="rootDevelopment" id="rootDev1_3To2_3" value="1-3-to-2-3"></td>
+              </tr>
+              <tr>
+                <td>c) More than 2/3 complete</td>
+                <td>2</td>
+                <td><input type="checkbox" name="rootDevelopment" id="rootDevMore2_3" value="more-2-3"></td>
+              </tr>
+              <tr>
+                <td>Complex</td>
+                <td>2</td>
+                <td><input type="checkbox" name="rootDevelopment" id="rootDevComplex" value="complex"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>5. Follicle</h3>
+          <table class="score-table">
+            <thead>
+              <tr>
+                <th>Follicle Type</th>
+                <th>Score</th>
+                <th>Selected</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Unfavorable curve</td>
+                <td>2</td>
+                <td><input type="checkbox" name="follicleType" id="follicleUnfavorable" value="unfavorable"></td>
+              </tr>
+              <tr>
+                <td>Normal</td>
+                <td>0</td>
+                <td><input type="checkbox" name="follicleType" id="follicleNormal" value="normal"></td>
+              </tr>
+              <tr>
+                <td>Possible enlarged</td>
+                <td>1</td>
+                <td><input type="checkbox" name="follicleType" id="folliclePossibleEnlarged" value="possible-enlarged"></td>
+              </tr>
+              <tr>
+                <td>Enlarged</td>
+                <td>2</td>
+                <td><input type="checkbox" name="follicleType" id="follicleEnlarged" value="enlarged"></td>
+              </tr>
+              <tr>
+                <td>Impaction relieved</td>
+                <td>3</td>
+                <td><input type="checkbox" name="follicleType" id="follicleImpactionRelieved" value="impaction-relieved"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>6. EXIT PATH</h3>
+          <table class="score-table">
+            <thead>
+              <tr>
+                <th>Exit Path</th>
+                <th>Score</th>
+                <th>Selected</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Space</td>
+                <td>0</td>
+                <td><input type="checkbox" name="exitPath" id="exitPathSpace" value="space"></td>
+              </tr>
+              <tr>
+                <td>Distal cusp covered</td>
+                <td>1</td>
+                <td><input type="checkbox" name="exitPath" id="exitPathDistalCusp" value="distal-cusp"></td>
+              </tr>
+              <tr>
+                <td>Mesial cusp covered</td>
+                <td>2</td>
+                <td><input type="checkbox" name="exitPath" id="exitPathMesialCusp" value="mesial-cusp"></td>
+              </tr>
+              <tr>
+                <td>All covered</td>
+                <td>3</td>
+                <td><input type="checkbox" name="exitPath" id="exitPathAllCovered" value="all-covered"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="form-group">
+            <label>wharfe's Score:</label>
+            <input type="number" id="wharfesScore" placeholder="Calculate total score" />
+          </div>
+        </div>
+      </div>
+
+      <div class="page">
+        <div class="form-group">
+          <label>Attended Doctor Name</label>
+          <input type="text" id="attendedDoctorName" />
+        </div>
+
+        <div class="form-group">
+          <label>Final Assessment Notes:</label>
+          <textarea id="finalAssessmentNotes" rows="4" placeholder="Additional clinical notes and observations"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Treatment Recommendation:</label>
+          <textarea id="treatmentRecommendation" rows="3" placeholder="Recommended treatment approach based on assessment"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Anticipated Complications:</label>
+          <textarea id="anticipatedComplications" rows="3" placeholder="Potential complications and preventive measures"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Post-operative Instructions:</label>
+          <textarea id="postOpInstructions" rows="3" placeholder="Instructions for post-operative care"></textarea>
+        </div>
+      </div>
+
+      <div class="navigation">
+        <button type="button" id="prevBtn" onclick="prevPage()">Back</button>
+        <button type="button" id="nextBtn" onclick="nextPage()">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    let currentPage = 0;
+    const pages = document.querySelectorAll('.page');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+
+    function showPage(index) {
+      window.scrollTo(0, 0);
+      pages.forEach((page, i) => {
+        page.classList.toggle('active', i === index);
+      });
+      prevBtn.disabled = index === 0;
+      nextBtn.textContent = index === pages.length - 1 ? 'Submit' : 'Next';
+      if (prescriptionBtn) { // Check if the button exists
+          prescriptionBtn.style.display = index === pages.length - 1 ? 'block' : 'none';
+      }
+    }
+ nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      } else {
+        window.location.href = "prescription.html";
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+     if (prescriptionBtn) { // Check if the button exists
+        prescriptionBtn.addEventListener('click', () => {
+            window.location.href = 'prescription.html';
+        });
+    }
+
+
+    // Calculate WHARFE score automatically
+    function calculateWharfeScore() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      let totalScore = 0;
+      
+      checkboxes.forEach(checkbox => {
+        const row = checkbox.closest('tr');
+        if (row) {
+          const scoreCell = row.querySelector('td:nth-child(2)');
+          if (scoreCell) {
+            totalScore += parseInt(scoreCell.textContent) || 0;
+          }
+        }
+      });
+      
+      document.getElementById('wharfesScore').value = totalScore;
+    }
+
+    // Add event listeners for score calculation
+    document.addEventListener('change', function(e) {
+      if (e.target.type === 'checkbox' && e.target.name.includes('Class') || 
+          e.target.name.includes('Height') || e.target.name.includes('Angle') || 
+          e.target.name.includes('Development') || e.target.name.includes('Type') || 
+          e.target.name.includes('Path')) {
+        calculateWharfeScore();
+      }
+    });
+
+    // Initialize
+    showPage(currentPage);
+
+    // Auto-fill current date
+    document.getElementById('date').valueAsDate = new Date();
+  </script>
+</body>
+</html>

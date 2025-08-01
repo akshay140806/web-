@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px; /* Add some padding for smaller screens */
+            box-sizing: border-box;
+            background-image: url('https://placehold.co/1920x1080/F0F2F5/F0F2F5?text=campus.png'); /* Fallback placeholder */
+            background-image: url('campus.png'); /* Your campus.png image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .container {
+            position: relative; /* Added for absolute positioning of user icon */
+            max-width: 90%;
+            width: 700px; /* Increased width for more fields */
+            background-color: rgba(38, 40, 107, 0.85); /* RGB -38,40,107,0.85 */
+            color: #ffffff; /* Text color for the container */
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease-out;
+            overflow-y: auto; /* Allow scrolling for longer forms */
+            max-height: 95vh; /* Limit height to prevent overflow on very small screens */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message-box {
+            background-color: #fef2f2;
+            color: #ef4444;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+        .success-box {
+            background-color: #ecfdf5;
+            color: #10b981;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+        /* Style for read-only/disabled fields */
+        .bg-gray-100 {
+            background-color: #f3f4f6;
+        }
+        .cursor-not-allowed {
+            cursor: not-allowed;
+        }
+        /* Styling for labels and inputs within the colored box */
+        .container label {
+            color: #e2e8f0; /* Lighter text for labels on dark background */
+        }
+        .container input[type="text"],
+        .container input[type="date"],
+        .container input[type="number"],
+        .container textarea,
+        .container select {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for inputs */
+            color: #333; /* Darker text for input fields */
+        }
+        .container input[type="radio"],
+        .container input[type="checkbox"] {
+            border-color: #cbd5e1; /* Lighter border for checkboxes/radios */
+        }
+        .container input[type="radio"]:checked,
+        .container input[type="checkbox"]:checked {
+             border-color: #3b82f6; /* Blue for checked state */
+             background-color: #3b82f6;
+        }
+        .container .bg-gray-50 {
+            background-color: rgba(249, 250, 251, 0.1); /* Lighter background for nested sections */
+            border-color: rgba(203, 213, 225, 0.2); /* Lighter border for nested sections */
+            color: #e2e8f0;
+        }
+        .container .bg-blue-50 {
+             background-color: rgba(191, 219, 254, 0.2); /* Light blue background for generated ID */
+             border-color: rgba(147, 197, 253, 0.3);
+        }
+        .container h2, .container h3, .container h4 {
+            color: #ffffff; /* White headings */
+        }
+        .container .text-red-500 {
+            color: #f87171; /* Adjust red for better contrast */
+        }
+        .container .text-gray-700 {
+            color: #e2e8f0; /* Lighter grey for general text */
+        }
+        .container .text-blue-800, .container .text-blue-900 {
+            color: #93c5fd; /* Lighter blue for generated ID text */
+        }
+        .container input::placeholder, .container textarea::placeholder {
+            color: #a0aec0; /* Lighter placeholder text */
+        }
+
+        /* User Icon styles - adjusted for placement within container */
+        .user-icon {
+            position: absolute;
+            top: 26px; /* Adjust as needed for padding */
+            left: 678px; /* Adjust as needed for padding */
+            cursor: pointer;
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .user-icon:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .user-icon svg {
+            fill: white;
+            width: 24px;
+            height: 24px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .user-icon {
+                top: 15px;
+                right: 15px;
+                width: 35px;
+                height: 35px;
+            }
+            .user-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+   <!-- ...existing code... -->
+<div id="details-page" class="container">
+  <!-- Appointment Confirmation Wording with Icon at Top Right Corner -->
+  <div class="absolute top-6 right-6 flex items-center z-10 gap-3">
+    <div class="user-icon" style="position:static;top:auto;left:auto;" onclick="location.href='doctor appointment.html'">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+    </div>
+    <span class="text-white font-semibold px-4 py-2 rounded-lg shadow-md">
+      Appointment Confirmation
+    </span>
+  </div>
+<!-- ...existing code... -->
+
+        <div class="flex justify-center mb-6">
+            <img src="logo.png" alt="Dental Clinic Logo" class="h-24 w-24 object-contain" onerror="this.onerror=null;this.src='dental logo.png';"> </div>
+        <h2 class="text-3xl font-bold mb-6 text-center">Patient Details</h2>
+        <div id="details-message" class="message-box"></div>
+        <div id="details-success-message" class="success-box"></div>
+
+        <div class="mb-4">
+            <label for="unique-id" class="block text-sm font-medium mb-2">Enter Existing Unique Patient ID (Optional)</label>
+            <input type="text" id="unique-id" class="shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" placeholder="e.g., U001 or leave blank for new patient">
+        </div>
+
+        <div class="mb-6 flex items-center">
+            <input type="radio" id="give-details-radio" name="details-option" class="form-radio h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked disabled>
+            <label for="give-details-radio" class="ml-2 text-sm font-medium">Auto-fill Patient Details</label>
+        </div>
+
+        <button id="get-details-btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200 transform hover:scale-105">
+            Get / Generate Patient Details
+        </button>
+
+        <div id="current-user-id-display" class="mt-8 p-4 rounded-lg border bg-blue-50 hidden">
+            <p class="font-semibold text-blue-800">Current Patient ID Generated: <span id="generated-user-id" class="font-bold text-lg text-blue-900"></span></p>
+        </div>
+
+        <div id="details-form-section" class="mt-8 p-4 rounded-lg border bg-gray-50 hidden">
+            <h3 class="text-xl font-semibold mb-4">Personal Information</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="first-name" class="block text-sm font-medium mb-2">First Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="first-name" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" required>
+                </div>
+                <div>
+                    <label for="middle-name" class="block text-sm font-medium mb-2">Middle Name</label>
+                    <input type="text" id="middle-name" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="last-name" class="block text-sm font-medium mb-2">Last Name <span class="text-red-500">*</span></label>
+                <input type="text" id="last-name" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" required>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="dob" class="block text-sm font-medium mb-2">Date of Birth <span class="text-red-500">*</span></label>
+                    <input type="date" id="dob" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" required>
+                </div>
+                <div>
+                    <label for="age" class="block text-sm font-medium mb-2">Age</label>
+                    <input type="number" id="age" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight bg-gray-100 cursor-not-allowed" readonly>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Gender <span class="text-red-500">*</span></label>
+                <div class="flex flex-wrap gap-4">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="gender" value="Male" class="editable-field form-radio h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-2 text-gray-700">Male</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="gender" value="Female" class="editable-field form-radio h-4 w-4 text-pink-600 border-gray-300 rounded focus:ring-pink-500">
+                        <span class="ml-2 text-gray-700">Female</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="gender" value="Other" class="editable-field form-radio h-4 w-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
+                        <span class="ml-2 text-gray-700">Other</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Marital Status <span class="text-red-500">*</span></label>
+                <div class="flex flex-wrap gap-4">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="marital-status" value="Single" class="editable-field form-radio h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-2 text-gray-700">Single</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="marital-status" value="Married" class="editable-field form-radio h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-2 text-gray-700">Married</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="marital-status" value="Other" class="editable-field form-radio h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-2 text-gray-700">Other</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label for="preferred-language" class="block text-sm font-medium mb-2">Preferred Language</label>
+                <select id="preferred-language" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                    <option value="">Select</option>
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Tamil">Tamil</option>
+                </select>
+            </div>
+
+            <h3 class="text-xl font-semibold mb-4 mt-8">Patient Case Entry - Chief Complaint & History</h3>
+
+            <div class="mb-4">
+                <label for="chief-complaint" class="block text-sm font-medium mb-2">Chief Complaint</label>
+                <select id="chief-complaint" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                    <option value="">Select a primary issue</option>
+                    <option value="Pain/Toothache">Pain/Toothache</option>
+                    <option value="Dental Caries (Cavities)">Dental Caries (Cavities)</option>
+                    <option value="Sensitivity">Sensitivity</option>
+                    <option value="Gingivitis and Gum Problems">Gingivitis and Gum Problems</option>
+                    <option value="Aesthetic Concerns">Aesthetic Concerns</option>
+                    <option value="Post-filling Complaints">Post-filling Complaints</option>
+                    <option value="Missing Teeth/Tooth Replacement">Missing Teeth/Tooth Replacement</option>
+                    <option value="Routine Check-up/Cleaning">Routine Check-up/Cleaning</option>
+                    <option value="Oral Ulcers">Oral Ulcers</option>
+                    <option value="Facial/Intra-oral Swelling">Facial/Intra-oral Swelling</option>
+                    <option value="Loose Teeth">Loose Teeth</option>
+                    <option value="Bad Breath (Halitosis)">Bad Breath (Halitosis)</option>
+                    <option value="Temporomandibular Joint (TMJ) Pain/Disorder">Temporomandibular Joint (TMJ) Pain/Disorder</option>
+                    <option value="Fractured Tooth">Fractured Tooth</option>
+                    <option value="Food Impaction">Food Impaction</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">History of Present Illness</label>
+                <div class="flex flex-wrap gap-4">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="hpi" value="Diabetes" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                        <span class="ml-2 text-gray-700">Diabetes</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="hpi" value="Hypertension" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                        <span class="ml-2 text-gray-700">Hypertension</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="hpi" value="Asthma" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                        <span class="ml-2 text-gray-700">Asthma</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="hpi" value="Mypertansion" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                        <span class="ml-2 text-gray-700">Mypertansion</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="hpi" value="Hyperlipidemia" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                        <span class="ml-2 text-gray-700">Hyperlipidemia</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="hpi" value="Thyroid" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                        <span class="ml-2 text-gray-700">Thyroid</span>
+                    </label>
+                </div>
+            </div>
+
+            <h4 class="text-lg font-medium mb-3 mt-6">Past Medical History</h4>
+            <div class="flex flex-wrap gap-4 mb-4">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="past-medical-history" value="Diabetes" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                    <span class="ml-2 text-gray-700">Diabetes</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="past-medical-history" value="Hypertension" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                    <span class="ml-2 text-gray-700">Hypertension</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="past-medical-history" value="Osteoporosis" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                    <span class="ml-2 text-gray-700">Osteoporosis</span>
+                </label>
+            </div>
+
+            <h4 class="text-lg font-medium mb-3">Personal Habits</h4>
+            <div class="flex flex-wrap gap-4 mb-4">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="personal-habits" value="Smoking" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                    <span class="ml-2 text-gray-700">Smoking</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="personal-habits" value="Alcohol" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                    <span class="ml-2 text-gray-700">Alcohol</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="personal-habits" value="Betel Nut" class="editable-field form-checkbox h-4 w-4 text-blue-600 rounded">
+                    <span class="ml-2 text-gray-700">Betel Nut</span>
+                </label>
+            </div>
+
+            <h4 class="text-lg font-medium mb-3 mt-6">Medical History</h4>
+            <div class="mb-4">
+                <label for="current-medications" class="block text-sm font-medium mb-2">Current Medications</label>
+                <textarea id="current-medications" rows="2" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="known-allergies" class="block text-sm font-medium mb-2">Known Allergies (e.g., latex, medications, anesthetics)</label>
+                <textarea id="known-allergies" rows="2" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="chronic-conditions" class="block text-sm font-medium mb-2">Chronic Medical Conditions (e.g., diabetes, heart disease)</label>
+                <textarea id="chronic-conditions" rows="2" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="past-surgeries" class="block text-sm font-medium mb-2">Past Surgeries or Hospitalizations</label>
+                <textarea id="past-surgeries" rows="2" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"></textarea>
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium mb-2">Pregnancy Status</label>
+                <div class="flex flex-wrap gap-4">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="pregnancy-status" value="Yes" class="editable-field form-radio h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-2 text-gray-700">Yes</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="pregnancy-status" value="No" class="editable-field form-radio h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <span class="ml-2 text-gray-700">No</span>
+                    </label>
+                </div>
+            </div>
+
+            <h4 class="text-lg font-medium mb-3 mt-6">Dental History</h4>
+            <div class="mb-4">
+                <label for="primary-dental-concerns" class="block text-sm font-medium mb-2">Primary Dental Concerns (e.g., pain, sensitivity, bleeding gums)</label>
+                <textarea id="primary-dental-concerns" rows="2" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="last-dental-visit" class="block text-sm font-medium mb-2">Date of Last Dental Visit</label>
+                <input type="date" id="last-dental-visit" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+            </div>
+
+            <div id="details-display" class="mt-8 p-4 rounded-lg border bg-gray-50 hidden">
+                <h3 class="text-xl font-semibold mb-3">Retrieved Information (Basic):</h3>
+                <p><span class="font-medium text-gray-700">ID:</span> <span id="display-id"></span></p>
+                <p><span class="font-medium text-gray-700">Name:</span> <span id="display-name"></span></p>
+                <p><span class="font-medium text-gray-700">Email:</span> <span id="display-email"></span></p>
+                <p><span class="font-medium text-gray-700">Phone:</span> <span id="display-phone"></span></p>
+            </div>
+
+            
+<h3 class="text-xl font-semibold mb-4 mt-8">Vitals</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+  <div>
+    <label for="height" class="block text-sm font-medium mb-2">Height</label>
+    <input type="text" id="height" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3" placeholder="e.g., 175 cm">
+  </div>
+  <div>
+    <label for="weight" class="block text-sm font-medium mb-2">Weight</label>
+    <input type="text" id="weight" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3" placeholder="e.g., 70 kg">
+  </div>
+  <div>
+    <label for="sugar" class="block text-sm font-medium mb-2">Sugar Level</label>
+    <input type="text" id="sugar" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3" placeholder="e.g., 90 mg/dL">
+  </div>
+  <div>
+    <label for="bp" class="block text-sm font-medium mb-2">Blood Pressure (BP)</label>
+    <input type="text" id="bp" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3" placeholder="e.g., 120/80 mmHg">
+  </div>
+  <div>
+    <label for="blood-group" class="block text-sm font-medium mb-2">Blood Group</label>
+    <input type="text" id="blood-group" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3" placeholder="e.g., O+">
+  </div>
+  <div>
+    <label for="drug-allergies" class="block text-sm font-medium mb-2">Drug Allergies</label>
+    <input type="text" id="drug-allergies" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3" placeholder="Specify drug allergies">
+  </div>
+  <div>
+    <label for="diet-allergies" class="block text-sm font-medium mb-2">Diet Allergies</label>
+    <input type="text" id="diet-allergies" class="editable-field shadow appearance-none border rounded-lg w-full py-2 px-3" placeholder="Specify diet allergies">
+  </div>
+</div>
+
+<div class="mt-8 text-center">
+              <button onclick="window.location.href='case portal.html';"
+                type="button"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-200">
+                Go to Case Files
+              </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // --- Simulated Data for quick lookup of existing IDs ---
+        const userDatabase = {
+            "U001": {
+                firstName: "Alice",
+                middleName: "",
+                lastName: "Smith",
+                email: "alice.s@example.com",
+                phone: "123-456-7890",
+                dob: "1985-05-15",
+                gender: "Female",
+                maritalStatus: "Married",
+                language: "English",
+                chiefComplaint: "Pain/Toothache",
+                hpi: ["Diabetes"],
+                pastMedicalHistory: ["Hypertension"],
+                personalHabits: ["Smoking"],
+                currentMedications: "Metformin",
+                knownAllergies: "None",
+                chronicConditions: "Type 2 Diabetes",
+                pastSurgeries: "Appendectomy",
+                pregnancyStatus: "No",
+                primaryDentalConcerns: "Sensitivity to cold",
+                lastDentalVisit: "2023-03-10",
+                height: "165 cm",
+                weight: "60 kg",
+                sugar: "95 mg/dL",
+                bp: "120/80 mmHg",
+                bloodGroup: "A+",
+                drugAllergies: "None",
+                dietAllergies: "Lactose"
+            },
+            "U002": {
+                firstName: "Bob",
+                middleName: "J.",
+                lastName: "Johnson",
+                email: "bob.j@example.com",
+                phone: "098-765-4321",
+                dob: "1992-11-20",
+                gender: "Male",
+                maritalStatus: "Single",
+                language: "Hindi",
+                chiefComplaint: "Routine Check-up/Cleaning",
+                hpi: [],
+                pastMedicalHistory: [],
+                personalHabits: ["Alcohol"],
+                currentMedications: "None",
+                knownAllergies: "Penicillin",
+                chronicConditions: "None",
+                pastSurgeries: "None",
+                pregnancyStatus: "No",
+                primaryDentalConcerns: "Desire for teeth whitening",
+                lastDentalVisit: "2024-01-05",
+                height: "175 cm",
+                weight: "75 kg",
+                sugar: "110 mg/dL",
+                bp: "125/85 mmHg",
+                bloodGroup: "O+",
+                drugAllergies: "Penicillin",
+                dietAllergies: "None"
+            },
+            "U003": {
+                firstName: "Charlie",
+                middleName: "",
+                lastName: "Brown",
+                email: "charlie.b@example.com",
+                phone: "555-123-4567",
+                dob: "1978-01-01",
+                gender: "Male",
+                maritalStatus: "Married",
+                language: "Tamil",
+                chiefComplaint: "Dental Caries (Cavities)",
+                hpi: ["Hypertension", "Thyroid"],
+                pastMedicalHistory: ["Diabetes"],
+                personalHabits: ["Betel Nut", "Smoking"],
+                currentMedications: "Thyroxine, Lisinopril",
+                knownAllergies: "Latex",
+                chronicConditions: "Hypothyroidism, Hypertension",
+                pastSurgeries: "Knee Surgery (2015)",
+                pregnancyStatus: "No",
+                primaryDentalConcerns: "Cavity in molar",
+                lastDentalVisit: "2022-07-20",
+                height: "160 cm",
+                weight: "68 kg",
+                sugar: "105 mg/dL",
+                bp: "118/78 mmHg",
+                bloodGroup: "B+",
+                drugAllergies: "Sulfa",
+                dietAllergies: "Gluten"
+            }
+        };
+
+        // --- Data for Random Generation ---
+        const firstNames = ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Henry", "Ivy", "Jack", "Sophia", "Liam", "Olivia", "Noah", "Emma"];
+        const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Anderson", "Thomas", "Jackson", "White"];
+        const middleNames = ["", "A.", "B.", "C.", "D.", "E.", "F.", "G."]; // Empty string for no middle name
+
+        const chiefComplaints = [
+            "Pain/Toothache", "Dental Caries (Cavities)", "Sensitivity",
+            "Gingivitis and Gum Problems", "Aesthetic Concerns", "Post-filling Complaints",
+            "Missing Teeth/Tooth Replacement", "Routine Check-up/Cleaning", "Oral Ulcers",
+            "Facial/Intra-oral Swelling", "Loose Teeth", "Bad Breath (Halitosis)",
+            "Temporomandibular Joint (TMJ) Pain/Disorder", "Fractured Tooth", "Food Impaction"
+        ];
+        const hpiOptions = ["Diabetes", "Hypertension", "Asthma", "Mypertansion", "Hyperlipidemia", "Thyroid"];
+        const pastMedicalHistoryOptions = ["Diabetes", "Hypertension", "Osteoporosis", "Arthritis", "Heart Disease"];
+        const personalHabitsOptions = ["Smoking", "Alcohol", "Betel Nut", "Coffee Consumption", "Sedentary Lifestyle"];
+
+        // --- DOM Elements ---
+        const detailsPage = document.getElementById('details-page');
+        const detailsMessage = document.getElementById('details-message');
+        const detailsSuccessMessage = document.getElementById('details-success-message');
+
+        const uniqueIdInput = document.getElementById('unique-id');
+        const getDetailsBtn = document.getElementById('get-details-btn');
+        const currentUserIIdDisplay = document.getElementById('current-user-id-display');
+        const generatedUserId = document.getElementById('generated-user-id');
+        const detailsFormSection = document.getElementById('details-form-section');
+
+        // Personal Information fields
+
+const heightInput = document.getElementById('height');
+const weightInput = document.getElementById('weight');
+const sugarInput = document.getElementById('sugar');
+const bpInput = document.getElementById('bp');
+const bloodGroupInput = document.getElementById('blood-group');
+const drugAllergiesInput = document.getElementById('drug-allergies');
+const dietAllergiesInput = document.getElementById('diet-allergies');
+
+        const firstNameInput = document.getElementById('first-name');
+        const middleNameInput = document.getElementById('middle-name');
+        const lastNameInput = document.getElementById('last-name');
+        const dobInput = document.getElementById('dob');
+        const ageInput = document.getElementById('age');
+        const genderRadios = document.querySelectorAll('input[name="gender"]');
+        const maritalStatusRadios = document.querySelectorAll('input[name="marital-status"]');
+        const preferredLanguageSelect = document.getElementById('preferred-language');
+
+        // Patient Case Entry fields
+        const chiefComplaintSelect = document.getElementById('chief-complaint');
+        const hpiCheckboxes = document.querySelectorAll('input[name="hpi"]');
+        const pastMedicalHistoryCheckboxes = document.querySelectorAll('input[name="past-medical-history"]');
+        const personalHabitsCheckboxes = document.querySelectorAll('input[name="personal-habits"]');
+        const currentMedicationsTextarea = document.getElementById('current-medications');
+        const knownAllergiesTextarea = document.getElementById('known-allergies');
+        const chronicConditionsTextarea = document.getElementById('chronic-conditions');
+        const pastSurgeriesTextarea = document.getElementById('past-surgeries');
+        const pregnancyStatusRadios = document.querySelectorAll('input[name="pregnancy-status"]');
+        const primaryDentalConcernsTextarea = document.getElementById('primary-dental-concerns');
+        const lastDentalVisitInput = document.getElementById('last-dental-visit');
+
+        const editableFields = document.querySelectorAll('.editable-field'); // All fields that will become read-only
+
+        // --- Functions to show/hide messages ---
+        function showMessage(element, message, type = 'error') {
+            element.textContent = message;
+            element.style.display = 'block';
+            if (type === 'error') {
+                element.className = 'message-box'; // Resets to default error styling
+            } else if (type === 'success') {
+                element.className = 'success-box'; // Applies success styling
+            }
+            // Hide after a few seconds
+            setTimeout(() => {
+                element.style.display = 'none';
+                element.textContent = '';
+            }, 5000);
+        }
+
+        function hideMessages() {
+            detailsMessage.style.display = 'none';
+            detailsSuccessMessage.style.display = 'none';
+        }
+
+        // --- Random Data Generation Functions ---
+        function getRandomItem(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function getRandomDate(startYear, endYear) {
+            const start = new Date(startYear, 0, 1);
+            const end = new Date(endYear, 11, 31);
+            const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+            return date.toISOString().split('T')[0]; // Format asYYYY-MM-DD
+        }
+
+        function calculateAge(dob) {
+            const birthDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        function getRandomCheckboxes(checkboxes, options, maxSelections) {
+            // Uncheck all first
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+
+            const selected = [];
+            const shuffledOptions = [...options].sort(() => 0.5 - Math.random());
+            // Select 1 to maxSelections items randomly
+            const numToSelect = Math.floor(Math.random() * maxSelections) + 1;
+
+            for (let i = 0; i < numToSelect && i < shuffledOptions.length; i++) {
+                selected.push(shuffledOptions[i]);
+            }
+
+            checkboxes.forEach(checkbox => {
+                if (selected.includes(checkbox.value)) {
+                    checkbox.checked = true;
+                }
+            });
+        }
+
+        function generateRandomPatientData() {
+            firstNameInput.value = getRandomItem(firstNames);
+            middleNameInput.value = getRandomItem(middleNames);
+            lastNameInput.value = getRandomItem(lastNames);
+
+            const randomDob = getRandomDate(1950, 2005);
+            dobInput.value = randomDob;
+            ageInput.value = calculateAge(randomDob);
+
+            const randomGender = getRandomItem(["Male", "Female", "Other"]);
+            genderRadios.forEach(radio => radio.checked = (radio.value === randomGender));
+
+            const randomMaritalStatus = getRandomItem(["Single", "Married", "Other"]);
+            maritalStatusRadios.forEach(radio => radio.checked = (radio.value === randomMaritalStatus));
+
+            preferredLanguageSelect.value = getRandomItem(["English", "Hindi", "Tamil"]);
+            if (!preferredLanguageSelect.value) preferredLanguageSelect.value = "English"; // Fallback if random fails (though unlikely)
+
+            chiefComplaintSelect.value = getRandomItem(chiefComplaints);
+            if (!chiefComplaintSelect.value) chiefComplaintSelect.value = chiefComplaints[0]; // Fallback
+
+            getRandomCheckboxes(hpiCheckboxes, hpiOptions, 3);
+            getRandomCheckboxes(pastMedicalHistoryCheckboxes, pastMedicalHistoryOptions, 2);
+            getRandomCheckboxes(personalHabitsCheckboxes, personalHabitsOptions, 2);
+
+            currentMedicationsTextarea.value = Math.random() > 0.3 ? "None" : "Multi-vitamin daily, Aspirin (as needed)";
+            knownAllergiesTextarea.value = Math.random() > 0.4 ? "None" : "Penicillin, Latex";
+            chronicConditionsTextarea.value = Math.random() > 0.5 ? "None" : "Mild Hypertension (controlled)";
+            pastSurgeriesTextarea.value = Math.random() > 0.5 ? "None" : "Tonsillectomy (childhood)";
+
+            const randomPregnancy = getRandomItem(["Yes", "No"]);
+            pregnancyStatusRadios.forEach(radio => radio.checked = (radio.value === randomPregnancy));
+
+            primaryDentalConcernsTextarea.value = getRandomItem([
+                "Occasional tooth sensitivity to cold",
+                "Bleeding gums when brushing",
+                "Desire for teeth whitening",
+                "Concern about a chipped tooth",
+                "None, routine check-up",
+                "Discomfort with chewing on right side"
+            ]);
+            lastDentalVisitInput.value = getRandomDate(2020, 2024);
+    heightInput.value = `${Math.floor(Math.random() * 30) + 150} cm`;
+    weightInput.value = `${Math.floor(Math.random() * 30) + 50} kg`;
+    sugarInput.value = `${Math.floor(Math.random() * 60) + 80} mg/dL`;
+    bpInput.value = `${Math.floor(Math.random() * 20) + 110}/${Math.floor(Math.random() * 20) + 70} mmHg`;
+    bloodGroupInput.value = getRandomItem(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']);
+    drugAllergiesInput.value = Math.random() > 0.6 ? 'None' : getRandomItem(['Penicillin', 'Sulfa', 'Aspirin']);
+    dietAllergiesInput.value = Math.random() > 0.7 ? 'None' : getRandomItem(['Gluten', 'Lactose', 'Peanuts']);
+
+        }
+
+        // Function to populate form from retrieved data
+        function populateFormWithPatientData(patientData) {
+            firstNameInput.value = patientData.firstName || '';
+            middleNameInput.value = patientData.middleName || '';
+            lastNameInput.value = patientData.lastName || '';
+            dobInput.value = patientData.dob || '';
+            ageInput.value = patientData.dob ? calculateAge(patientData.dob) : '';
+
+            genderRadios.forEach(radio => radio.checked = (radio.value === patientData.gender));
+            maritalStatusRadios.forEach(radio => radio.checked = (radio.value === patientData.maritalStatus));
+            preferredLanguageSelect.value = patientData.language || '';
+
+            chiefComplaintSelect.value = patientData.chiefComplaint || '';
+
+            // Handle checkboxes
+            hpiCheckboxes.forEach(cb => cb.checked = patientData.hpi && patientData.hpi.includes(cb.value));
+            pastMedicalHistoryCheckboxes.forEach(cb => cb.checked = patientData.pastMedicalHistory && patientData.pastMedicalHistory.includes(cb.value));
+            personalHabitsCheckboxes.forEach(cb => cb.checked = patientData.personalHabits && patientData.personalHabits.includes(cb.value));
+
+            currentMedicationsTextarea.value = patientData.currentMedications || '';
+            knownAllergiesTextarea.value = patientData.knownAllergies || '';
+            chronicConditionsTextarea.value = patientData.chronicConditions || '';
+            pastSurgeriesTextarea.value = patientData.pastSurgeries || '';
+            pregnancyStatusRadios.forEach(radio => radio.checked = (radio.value === patientData.pregnancyStatus));
+            primaryDentalConcernsTextarea.value = patientData.primaryDentalConcerns || '';
+            lastDentalVisitInput.value = patientData.lastDentalVisit || '';
+    heightInput.value = patientData.height || '';
+    weightInput.value = patientData.weight || '';
+    sugarInput.value = patientData.sugar || '';
+    bpInput.value = patientData.bp || '';
+    bloodGroupInput.value = patientData.bloodGroup || '';
+    drugAllergiesInput.value = patientData.drugAllergies || '';
+    dietAllergiesInput.value = patientData.dietAllergies || '';
+
+        }
+
+        // --- Main Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            hideMessages(); // Hide messages on page load
+
+            // Event Listener for Get/Generate Details Button
+            getDetailsBtn.addEventListener('click', () => {
+                hideMessages();
+                const uniqueId = uniqueIdInput.value.trim().toUpperCase();
+
+                if (uniqueId) {
+                    // Attempt to retrieve existing patient data
+                    const patientData = userDatabase[uniqueId];
+                    if (patientData) {
+                        showMessage(detailsSuccessMessage, `Patient details for ID ${uniqueId} retrieved successfully.`, 'success');
+                        generatedUserId.textContent = uniqueId;
+                        currentUserIIdDisplay.classList.remove('hidden');
+                        detailsFormSection.classList.remove('hidden');
+
+                        populateFormWithPatientData(patientData);
+
+                        // Make fields read-only
+                        
+
+                    } else {
+                        showMessage(detailsMessage, `Patient ID ${uniqueId} not found. Please try another ID or leave blank to generate a new patient.`, 'error');
+                        // Hide form section if ID not found
+                        detailsFormSection.classList.add('hidden');
+                        currentUserIIdDisplay.classList.add('hidden');
+                    }
+                } else {
+                    // Generate new patient details
+                    let newIdCounter = Object.keys(userDatabase).length + 1;
+                    let newId = `U${String(newIdCounter).padStart(3, '0')}`;
+                    // Ensure generated ID is unique (simple check, can be more robust)
+                    while (userDatabase[newId]) {
+                        newIdCounter++;
+                        newId = `U${String(newIdCounter).padStart(3, '0')}`;
+                    }
+
+                    showMessage(detailsSuccessMessage, `New patient ID ${newId} generated. Please fill in the details.`, 'success');
+                    generatedUserId.textContent = newId;
+                    currentUserIIdDisplay.classList.remove('hidden');
+                    detailsFormSection.classList.remove('hidden');
+
+                    // Make fields editable and remove styling
+                    editableFields.forEach(field => {
+                        field.removeAttribute('readonly');
+                        field.removeAttribute('disabled');
+                        field.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                    });
+                    
+                    // Clear previous data for new patient entry
+                    firstNameInput.value = '';
+                    middleNameInput.value = '';
+                    lastNameInput.value = '';
+                    dobInput.value = '';
+                    ageInput.value = '';
+                    genderRadios.forEach(radio => radio.checked = false);
+                    maritalStatusRadios.forEach(radio => radio.checked = false);
+                    preferredLanguageSelect.value = '';
+                    chiefComplaintSelect.value = '';
+                    hpiCheckboxes.forEach(cb => cb.checked = false);
+                    pastMedicalHistoryCheckboxes.forEach(cb => cb.checked = false);
+                    personalHabitsCheckboxes.forEach(cb => cb.checked = false);
+                    currentMedicationsTextarea.value = '';
+                    knownAllergiesTextarea.value = '';
+                    chronicConditionsTextarea.value = '';
+                    pastSurgeriesTextarea.value = '';
+                    pregnancyStatusRadios.forEach(radio => radio.checked = false);
+                    primaryDentalConcernsTextarea.value = '';
+                    lastDentalVisitInput.value = '';
+
+                    // Generate random data for new patient after clearing
+                    generateRandomPatientData();
+                }
+            });
+
+            // Event listener for DOB to calculate age
+            dobInput.addEventListener('change', () => {
+                if (dobInput.value) {
+                    ageInput.value = calculateAge(dobInput.value);
+                } else {
+                    ageInput.value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

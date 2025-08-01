@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor's Prescription</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    body {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('campus.png'); /* Changed to campus.png */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      font-family: "Inter", sans-serif; /* Apply Inter font */
+    }
+    /* Custom styles for better table readability */
+    th, td {
+      padding: 0.5rem;
+      border: 1px solid #4a5568; /* Tailwind gray-700 */
+      text-align: left;
+      vertical-align: top;
+      box-sizing: border-box; /* Include padding and border in the element's total width */
+      white-space: normal; /* Allow text to wrap within cells */
+    }
+    thead th {
+      background-color: #2d3748; /* Tailwind gray-800 */
+      color: white;
+      white-space: nowrap; /* Prevent header text from wrapping too aggressively */
+    }
+    tbody tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    .disabled-input {
+      background-color: #a0aec0 !important; /* Tailwind gray-400 */
+      cursor: not-allowed !important;
+    }
+    /* --- Table Specific Styles --- */
+    .table-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border: 1px solid #4a5568; /* Add border to the container */
+        border-radius: 0.375rem; /* Match parent rounded-md */
+        overflow: hidden; /* Ensures borders are contained */
+        /* Set max-width to the max-w-5xl of the parent div to prevent horizontal scroll if not needed */
+        max-width: 960px; /* Equivalent to max-w-5xl (if 1rem = 16px, 60rem = 960px). Adjust if your base font-size is different. */
+        margin: 0 auto; /* Center the table if it's within a wider container */
+        margin-top: 1rem; /* Added some margin to separate from previous form field */
+        background-color: rgba(0, 0, 0, 0.2); /* Slightly darker background for the table area */
+    }
+    .table-header-fixed table, .scrollable-body-wrapper table {
+        width: 100%; /* Default width */
+        table-layout: fixed; /* Ensures fixed column widths */
+        border-collapse: collapse;
+    }
+    /* This rule helps header align with body when vertical scrollbar is present */
+    .table-header-fixed {
+        padding-right: var(--scrollbar-width, 0px); /* Account for scrollbar in tbody */
+        overflow-x: hidden; /* Hide horizontal scroll on header, it's for the overall container */
+    }
+    /* Style for the scrollable table body */
+    .scrollable-body-wrapper {
+        max-height: 200px; /* Adjust this value to control initial visible height */
+        overflow-y: auto; /* Enable vertical scrolling */
+        overflow-x: auto; /* This is where horizontal scroll will actually appear if content overflows */
+    }
+
+    /* Specific styling for elements within table cells */
+    .dosage-timing-container {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent checkboxes from wrapping */
+        justify-content: center;
+        gap: 0.3rem; /* Reduce gap to make them fit tighter */
+        align-items: center;
+    }
+    .dosage-timing-container label {
+        font-size: 0.85rem; /* Smaller font for labels next to checkboxes */
+        margin-left: 0; /* Remove default margin from global label styles */
+        min-width: unset;
+        flex-shrink: 0; /* Prevent labels from shrinking */
+    }
+    .dosage-timing-container input[type="checkbox"] {
+        transform: scale(0.9); /* Slightly smaller checkboxes */
+        margin-right: 0; /* Adjust spacing */
+    }
+    .food-intake-radio-group {
+        display: flex;
+        flex-direction: column; /* Stack vertically */
+        gap: 0.2rem; /* Tighter spacing */
+    }
+    .duration-input-group {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem; /* Tighter spacing */
+        flex-wrap: nowrap; /* Prevent number input and select from wrapping */
+    }
+    .duration-input-group input[type="number"] {
+        width: 3.5rem; /* Specific width for number input */
+        padding: 0.3rem; /* Smaller padding */
+        font-size: 0.85rem;
+        text-align: center;
+        flex-shrink: 0;
+    }
+    .duration-input-group select {
+        padding: 0.3rem; /* Smaller padding */
+        font-size: 0.85rem;
+        flex-shrink: 0;
+    }
+    .total-quantity {
+        font-size: 0.9rem; /* Smaller font for quantity */
+        font-weight: bold;
+        text-align: center;
+        display: block; /* Ensure it takes its own line if needed */
+    }
+    .as-needed-checkbox {
+        transform: scale(1.1); /* Slightly adjust size for visibility */
+    }
+    /* General input within table cells */
+    .table-container input[type="text"],
+    .table-container select {
+        padding: 0.3rem; /* Smaller padding for inputs/selects within table */
+        font-size: 0.9rem; /* Smaller font size for inputs/selects */
+    }
+
+    /* Styles for the Dosage dropdowns */
+    .dosage-column-container {
+        display: flex;
+        justify-content: space-between; /* Distribute space between items */
+        align-items: flex-start; /* Align items to the start of the cross axis (top) */
+        gap: 0.1rem; /* Reduce gap further */
+        width: 100%; /* Ensure container takes full width of its cell */
+    }
+
+    .dosage-column-container > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0; /* Prevent items from shrinking */
+        /* Explicitly set a calculated width for each dosage group to ensure they fit */
+        width: 24%; /* (100% / 4 columns) - a small margin if needed, but flex gap handles it. 24% gives a bit of room. */
+        min-width: 35px; /* Minimum width to prevent them from becoming too small */
+    }
+
+    .dosage-column-container select.dosage-input {
+        width: 100%; /* Make dropdown fill its parent div */
+        padding: 0.1rem; /* Further reduce padding */
+        font-size: 0.7rem; /* Even smaller font size for the options */
+        min-width: 30px; /* Ensure minimum width for the select box itself */
+        box-sizing: border-box; /* Include padding and border in the width */
+    }
+    .dosage-column-container label {
+        font-size: 0.65rem; /* Smaller labels */
+        margin-bottom: 0; /* No margin at the bottom of the label */
+        white-space: nowrap; /* Prevent label text from wrapping */
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-4">
+
+  <div style="background-color: rgba(37, 40, 107, 0.85);" class="text-white p-8 rounded-2xl shadow-lg w-full max-w-5xl">
+
+    <div class="flex justify-center mb-4">
+      <img src="logo.png" alt="Dental Clinic Logo"
+           class="h-24 w-24 object-contain"> </div>
+
+    <h2 class="text-3xl font-bold mb-6 text-center">SRM Dental College</h2>
+
+    <form class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-semibold">Patient Name:</label>
+          <input type="text" value="John Doe" readonly class="w-full mt-1 p-2 rounded-md text-black bg-gray-200 cursor-not-allowed" id="patientName" />
+        </div>
+        <div>
+          <label class="block font-semibold">Age:</label>
+          <input type="number" value="35" readonly class="w-full mt-1 p-2 rounded-md text-black bg-gray-200 cursor-not-allowed" id="patientAge" />
+        </div>
+        <div>
+          <label class="block font-semibold">Gender:</label>
+          <select disabled class="w-full mt-1 p-2 rounded-md text-black bg-gray-200 cursor-not-allowed" id="patientGender">
+            <option selected>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-semibold">Date:</label>
+          <input type="date" value="2025-07-01" readonly class="w-full mt-1 p-2 rounded-md text-black bg-gray-200 cursor-not-allowed" id="prescriptionDate" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-semibold">Symptoms:</label>
+        <textarea id="symptomsField" readonly class="w-full mt-1 p-2 rounded-md text-black bg-gray-200 cursor-not-allowed" rows="2"></textarea>
+      </div>
+
+      <div>
+        <label class="block font-semibold">Diagnosis:</label>
+        <textarea class="w-full mt-1 p-2 rounded-md text-black" rows="2" id="diagnosis"></textarea>
+      </div>
+
+      <div>
+        <label class="block font-semibold">Prescribed Medicines:</label>
+        <div class="mt-1 table-container">
+          <div class="table-header-fixed">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 4%;">S.No.</th>
+                  <th style="width: 11%;">Type</th>
+                  <th style="width: 26%;">Medicine Name</th>
+                  <th style="width: 18%;">Dosage (M-N-E-N)</th>
+                  <th style="width: 8%;">Food Intake</th>
+                  <th style="width: 18%;">Duration</th>
+                  <th style="width: 10%;">As Needed</th>
+                  <th style="width: 5%;">Remove</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="scrollable-body-wrapper">
+            <table>
+              <tbody id="medicineTableBody">
+                </tbody>
+            </table>
+          </div>
+        </div>
+        <button type="button" id="addRowBtn" class="mt-2 bg-blue-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-700 transition">
+          Add Medicine
+        </button>
+      </div>
+
+      <div>
+        <label class="block font-semibold">Advice:</label>
+        <textarea class="w-full mt-1 p-2 rounded-md text-black" rows="2" id="advice"></textarea>
+      </div>
+
+      <div>
+        <label class="block font-semibold">Next Visit Date:</label>
+        <input type="date" class="w-full mt-1 p-2 rounded-md text-black" id="nextVisitDate" />
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="bg-white text-blue-700 font-semibold px-6 py-2 rounded-md hover:bg-gray-100 transition">
+          Save Prescription
+        </button>
+        <button type="button" id="printPrescriptionBtn" class="ml-4 bg-white text-blue-700 font-semibold px-6 py-2 rounded-md hover:bg-gray-100 transition">
+          Print Prescription
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const symptomsList = [
+      "Toothache",
+      "Swollen gums",
+      "Bleeding while brushing",
+      "Sensitivity to hot/cold",
+      "Bad breath",
+      "Jaw pain",
+      "Loose teeth",
+      "Mouth ulcers"
+    ];
+
+    function getRandomSymptoms() {
+      const shuffled = symptomsList.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, Math.floor(Math.random() * 2) + 1).join(", ");
+    }
+
+    document.getElementById("symptomsField").value = getRandomSymptoms();
+
+    const medicineTableBody = document.getElementById("medicineTableBody");
+    const addRowBtn = document.getElementById("addRowBtn");
+    const printPrescriptionBtn = document.getElementById("printPrescriptionBtn");
+
+    // Define column widths for consistent alignment (must sum to 100%)
+    const columnWidths = {
+        'sno': '4%',
+        'type': '11%',
+        'name': '26%',
+        'dosage': '18%',
+        'food': '8%',
+        'duration': '18%',
+        'asNeeded': '10%',
+        'remove': '5%'
+    };
+    // Sum: 4 + 11 + 26 + 18 + 8 + 18 + 10 + 5 = 100%
+
+    /**
+     * Updates the serial numbers in the first column of the medicine table.
+     * This function should be called whenever rows are added or removed.
+     */
+    function updateSerialNumbers() {
+      const rows = medicineTableBody.querySelectorAll('tr');
+      rows.forEach((row, index) => {
+        const serialCell = row.querySelector('.serial-no-cell');
+        if (serialCell) {
+            serialCell.textContent = index + 1;
+        }
+      });
+    }
+
+    let uniqueIdCounter = 0; // Use a dedicated counter for unique IDs to ensure uniqueness
+
+    /**
+     * Adds a new row to the medicine prescription table.
+     * Each row includes fields for medicine type, name, dosage, food intake, duration, and an "as needed" checkbox.
+     * It also includes a remove button for the row.
+     */
+    function addMedicineRow() {
+      uniqueIdCounter++; // Increment for each new row to ensure unique IDs
+      const row = medicineTableBody.insertRow();
+      row.className = 'bg-gray-700';
+
+      // Construct the inner HTML for the new table row
+      row.innerHTML = `
+        <td class="py-2 px-2 serial-no-cell" style="width: ${columnWidths.sno};"></td>
+        <td class="py-2 px-2" style="width: ${columnWidths.type};">
+          <select class="w-full p-1 rounded-md text-black medicine-type">
+            <option value="">Select Type</option>
+            <option value="injection">Injection</option>
+            <option value="syrup">Syrup</option>
+            <option value="pills">Pills</option>
+            <option value="ointment">Ointment</option>
+          </select>
+        </td>
+        <td class="py-2 px-2" style="width: ${columnWidths.name};">
+          <input type="text" class="w-full p-1 rounded-md text-black medicine-name" placeholder="Medicine Name" />
+        </td>
+        <td class="py-2 px-2 text-center" style="width: ${columnWidths.dosage};">
+          <div class="dosage-column-container">
+            <div>
+              <label for="dosage-m-${uniqueIdCounter}">M</label>
+              <select class="p-1 rounded-md text-black text-center dosage-input" id="dosage-m-${uniqueIdCounter}">
+                <option value="0">0</option>
+                <option value="1/4">1/4</option>
+                <option value="1/2">1/2</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+            <div>
+              <label for="dosage-n-${uniqueIdCounter}">N</label>
+              <select class="p-1 rounded-md text-black text-center dosage-input" id="dosage-n-${uniqueIdCounter}">
+                <option value="0">0</option>
+                <option value="1/4">1/4</option>
+                <option value="1/2">1/2</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+            <div>
+              <label for="dosage-e-${uniqueIdCounter}">E</label>
+              <select class="p-1 rounded-md text-black text-center dosage-input" id="dosage-e-${uniqueIdCounter}">
+                <option value="0">0</option>
+                <option value="1/4">1/4</option>
+                <option value="1/2">1/2</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+            <div>
+              <label for="dosage-n2-${uniqueIdCounter}">N</label>
+              <select class="p-1 rounded-md text-black text-center dosage-input" id="dosage-n2-${uniqueIdCounter}">
+                <option value="0">0</option>
+                <option value="1/4">1/4</option>
+                <option value="1/2">1/2</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+          </div>
+        </td>
+        <td class="py-2 px-2" style="width: ${columnWidths.food};">
+          <select class="w-full p-1 rounded-md text-black food-intake-select">
+            <option value="after" selected>AF</option>
+            <option value="before">BF</option>
+          </select>
+        </td>
+        <td class="py-2 px-2" style="width: ${columnWidths.duration};">
+          <div class="flex items-center space-x-1 duration-input-group">
+            <input type="number" min="0" class="w-20 p-1 rounded-md text-black duration-input" placeholder="No." />
+            <span class="p-1 text-white">Days</span>
+          </div>
+        </td>
+        <td class="py-2 px-2 text-center" style="width: ${columnWidths.asNeeded};">
+          <input type="checkbox" class="as-needed-checkbox" id="as-needed-${uniqueIdCounter}">
+        </td>
+        <td class="py-2 px-2 text-center" style="width: ${columnWidths.remove};">
+          <span class="remove-btn-x cursor-pointer text-red-600 hover:text-red-800 text-xl font-bold" id="remove-btn-${uniqueIdCounter}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-6 h-6 inline-block">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </span>
+        </td>
+      `;
+
+      // Get references to elements in the newly created row
+      const durationInput = row.querySelector('.duration-input');
+      const dosageInputs = row.querySelectorAll('.dosage-input'); // Select all dosage dropdowns by class
+      const asNeededCheckbox = row.querySelector('.as-needed-checkbox');
+      const medicineType = row.querySelector('.medicine-type');
+      const medicineName = row.querySelector('.medicine-name');
+      const removeButton = row.querySelector(`#remove-btn-${uniqueIdCounter}`);
+
+      // Add event listener to duration input to prevent non-numeric and negative input
+      durationInput.addEventListener('keydown', (event) => {
+        // Allow: backspace, delete, tab, escape, enter, arrow keys, and numeric keys (0-9)
+        // Also allow Ctrl/Cmd+A for select all
+        if (
+          event.key === '-' || // Prevent minus key
+          (!/[0-9]/.test(event.key) && // Not a digit
+           event.key !== 'Backspace' &&
+           event.key !== 'Delete' &&
+           event.key !== 'Tab' &&
+           event.key !== 'Escape' &&
+           event.key !== 'Enter' &&
+           event.key !== 'ArrowLeft' &&
+           event.key !== 'ArrowRight' &&
+           event.key !== 'ArrowUp' &&
+           event.key !== 'ArrowDown' &&
+           !(event.ctrlKey || event.metaKey && event.key === 'a') // Allow Ctrl/Cmd+A
+          )
+        ) {
+          event.preventDefault();
+        }
+      });
+
+      // Elements to be disabled when "As Needed" is checked
+      const inputsToDisable = [
+        durationInput, ...dosageInputs
+      ];
+
+      /**
+       * Toggles the disabled state of dosage and duration inputs based on the "As Needed" checkbox.
+       */
+      const toggleAsNeeded = () => {
+        const isAsNeeded = asNeededCheckbox.checked;
+
+        inputsToDisable.forEach(input => {
+          input.disabled = isAsNeeded;
+          input.classList.toggle('disabled-input', isAsNeeded);
+        });
+
+        // Medicine Type and Name should always be editable, regardless of "As Needed"
+        medicineType.disabled = false;
+        medicineType.classList.remove('disabled-input');
+        medicineName.disabled = false;
+        medicineName.classList.remove('disabled-input');
+      };
+
+      // Attach change listener to the "As Needed" checkbox
+      asNeededCheckbox.addEventListener('change', toggleAsNeeded);
+
+      // Attach click listener to the remove button
+      removeButton.addEventListener('click', () => {
+        showConfirmationModal('Are you sure you want to remove this medicine?', () => {
+          row.remove(); // Remove the row from the DOM
+          updateSerialNumbers(); // Re-calculate and update serial numbers
+        });
+      });
+
+      // Initial call to set the correct state based on the checkbox's initial state
+      toggleAsNeeded();
+      // Update serial numbers after adding a new row
+      updateSerialNumbers();
+    }
+
+    /**
+     * Calculates the width of the scrollbar to adjust table headers for alignment.
+     * @returns {number} The width of the scrollbar in pixels.
+     */
+    function getScrollbarWidth() {
+        const outer = document.createElement('div');
+        outer.style.visibility = 'hidden';
+        outer.style.overflow = 'scroll'; // Force scrollbar
+        outer.style.msOverflowStyle = 'scrollbar'; // For IE11
+        document.body.appendChild(outer);
+        const inner = document.createElement('div');
+        outer.appendChild(inner);
+        const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
+        outer.parentNode.removeChild(outer);
+        return scrollbarWidth;
+    }
+
+    // Set scrollbar width as a CSS variable for use in CSS
+    document.documentElement.style.setProperty('--scrollbar-width', `${getScrollbarWidth()}px`);
+
+    // Add initial medicine rows when the page loads
+    for (let i = 0; i < 2; i++) {
+      addMedicineRow();
+    }
+
+    // Event listener for the "Add Medicine" button
+    addRowBtn.addEventListener('click', addMedicineRow);
+
+    // Prevent default form submission behavior
+    document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault();
+    });
+
+    /**
+     * Displays a custom confirmation modal.
+     * @param {string} message - The message to display in the modal.
+     * @param {Function} onConfirm - Callback function to execute if the user confirms.
+     */
+    function showConfirmationModal(message, onConfirm) {
+        const modalId = 'customConfirmModal';
+        let modal = document.getElementById(modalId);
+
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = modalId;
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-black">
+                    <p class="text-lg mb-4 text-center">${message}</p>
+                    <div class="flex justify-center space-x-4">
+                        <button id="confirmYes" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition">Yes</button>
+                        <button id="confirmNo" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 transition">No</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        } else {
+            modal.querySelector('p').textContent = message;
+            modal.style.display = 'flex'; // Show if hidden
+        }
+
+        const confirmYes = modal.querySelector('#confirmYes');
+        const confirmNo = modal.querySelector('#confirmNo');
+
+        // Function to clean up event listeners and hide the modal
+        const cleanup = () => {
+            confirmYes.removeEventListener('click', handleYes);
+            confirmNo.removeEventListener('click', handleNo);
+            modal.style.display = 'none';
+        };
+
+        // Event handler for "Yes" button
+        const handleYes = () => {
+            onConfirm(); // Execute the provided callback
+            cleanup();
+        };
+
+        // Event handler for "No" button
+        const handleNo = () => {
+            cleanup();
+        };
+
+        // Attach event listeners (ensure they are not duplicated if modal already exists)
+        // Remove existing listeners first to prevent multiple calls
+        confirmYes.removeEventListener('click', handleYes);
+        confirmNo.removeEventListener('click', handleNo);
+        confirmYes.addEventListener('click', handleYes);
+        confirmNo.addEventListener('click', handleNo);
+    }
+
+    // PDF Generation Logic
+    printPrescriptionBtn.addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Random Doctor Name
+      const doctorNames = ["Dr. Parvin", "Dr. Smith", "Dr. Johnson", "Dr. Williams", "Dr. Brown", "Dr. Jones"];
+      const randomDoctorName = doctorNames[Math.floor(Math.random() * doctorNames.length)];
+
+      // Get Patient Details
+      const patientName = document.getElementById('patientName').value;
+      const patientAge = document.getElementById('patientAge').value;
+      const patientGender = document.getElementById('patientGender').value;
+      const prescriptionDateInput = document.getElementById('prescriptionDate').value;
+      const symptoms = document.getElementById('symptomsField').value;
+      const diagnosis = document.getElementById('diagnosis').value;
+      const advice = document.getElementById('advice').value;
+      const nextVisitDate = document.getElementById('nextVisitDate').value;
+
+      // Format prescription date to dd-mm-yyyy
+      let formattedPrescriptionDate = '';
+      if (prescriptionDateInput) {
+        const dateParts = prescriptionDateInput.split('-'); // Assuming ISO format (yyyy-mm-dd)
+        if (dateParts.length === 3) {
+          formattedPrescriptionDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+        }
+      }
+
+      // Header Section
+      doc.setFontSize(18);
+      doc.text("SRM Dental College Hospital", 14, 20);
+      doc.setFontSize(10);
+      doc.text("Ramapuram, Chennai - 600089", 14, 25);
+      doc.text("Contact: +91-44-2240-0526", 14, 30);
+      doc.text("Email: info@srmdental.ac.in", 14, 35);
+
+      doc.setFontSize(16);
+      doc.text(`${randomDoctorName}`, 14, 50); // Use the random doctor name
+      doc.setFontSize(10);
+      doc.text("BDS, MDS (Periodontics)", 14, 55);
+      doc.text("Reg No. DCI/80232", 14, 60);
+
+      // Patient Info Section
+      doc.setFontSize(12);
+      doc.text("Patient:", 14, 75);
+      doc.setFontSize(10);
+      doc.text(`${patientName}, ${patientAge} Yrs, ${patientGender}`, 40, 75);
+      doc.text(`Date: ${formattedPrescriptionDate}`, 150, 75); // Use formatted date
+
+      // Symptoms & Diagnosis Section
+      doc.setFontSize(12);
+      doc.text("Symptoms:", 14, 90);
+      doc.setFontSize(10);
+      doc.text(symptoms, 45, 90, { maxWidth: 150 });
+
+      doc.setFontSize(12);
+      doc.text("Diagnosis:", 14, 105);
+      doc.setFontSize(10);
+      doc.text(diagnosis, 45, 105, { maxWidth: 150 });
+
+
+      // Medication Prescribed Table
+      const tableColumn = ["S.No.", "Type", "Medicine Name", "Dosage (M-N-E-N)", "Food Intake", "Duration", "As Needed"];
+      const tableRows = [];
+
+      const medicineRows = medicineTableBody.querySelectorAll('tr');
+      medicineRows.forEach((row, index) => {
+        const type = row.querySelector('.medicine-type').value;
+        const name = row.querySelector('.medicine-name').value;
+        const asNeeded = row.querySelector('.as-needed-checkbox').checked;
+
+        let dosage = '';
+        let duration = '';
+
+        if (asNeeded) {
+          dosage = 'N/A';
+          duration = 'N/A';
+        } else {
+          // Correctly retrieve dosage values by querying elements within the current row
+          const dosageSelects = row.querySelectorAll('.dosage-input');
+          const dosageM = dosageSelects[0] ? dosageSelects[0].value : '0';
+          const dosageN = dosageSelects[1] ? dosageSelects[1].value : '0';
+          const dosageE = dosageSelects[2] ? dosageSelects[2].value : '0';
+          const dosageN2 = dosageSelects[3] ? dosageSelects[3].value : '0'; // Assuming the order is M, N, E, N2
+
+          const durationInput = row.querySelector('.duration-input');
+          const durationValue = durationInput ? durationInput.value : '';
+          
+          dosage = `${dosageM}-${dosageN}-${dosageE}-${dosageN2}`;
+          duration = `${durationValue} Days`; // Use "Days" directly
+        }
+
+        const foodIntakeSelect = row.querySelector('.food-intake-select');
+        const foodIntake = foodIntakeSelect ? (foodIntakeSelect.value === 'after' ? 'AF' : 'BF') : '';
+
+        tableRows.push([index + 1, type, name, dosage, foodIntake, duration, asNeeded ? 'Yes' : 'No']);
+      });
+
+      doc.autoTable({
+        head: [tableColumn],
+        body: tableRows,
+        startY: 120, // Start Y position for the table
+        theme: 'grid',
+        headStyles: { fillColor: [45, 55, 72], textColor: [255, 255, 255], fontStyle: 'bold' },
+        styles: { fontSize: 8, cellPadding: 2, overflow: 'linebreak' },
+        columnStyles: {
+            0: { cellWidth: 15 }, // S.No.
+            1: { cellWidth: 20 }, // Type
+            2: { cellWidth: 50 }, // Medicine Name
+            3: { cellWidth: 30 }, // Dosage
+            4: { cellWidth: 20 }, // Food Intake
+            5: { cellWidth: 25 }, // Duration
+            6: { cellWidth: 20 }  // As Needed
+        }
+      });
+
+      // Notes for MNEN and AF/BF
+      let notesY = doc.autoTable.previous.finalY + 5;
+      doc.setFontSize(8); // Smaller font for notes
+      doc.setTextColor(50); // Darker grey color
+      doc.text("MNEN: Morning-Noon-Evening-Night", 14, notesY);
+      doc.text("AF: After Food, BF: Before Food", 14, notesY + 4); // +4 for a small line height
+
+
+      // Advice & Next Visit Date Section
+      const finalY = notesY + 15; // Adjust finalY based on where notes ended
+      doc.setFontSize(12);
+      doc.setTextColor(0); // Reset text color to black
+      doc.text("Advice & Instructions:", 14, finalY);
+      doc.setFontSize(10);
+      doc.text(advice, 14, finalY + 5, { maxWidth: 180 });
+
+      doc.setFontSize(12);
+      doc.text("Next Visit Date:", 14, finalY + 25);
+      doc.setFontSize(10);
+      doc.text(nextVisitDate, 50, finalY + 25);
+
+
+      doc.save('prescription.pdf'); // Save the generated PDF
+    });
+  </script>
+
+</body>
+</html>

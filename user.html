@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Patient Type Selection</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('campus.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .option-button {
+      cursor: pointer;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1.125rem;
+      font-weight: 500;
+      transition: all 0.3s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 200px;
+      border: 2px solid transparent;
+    }
+
+    .option-button:hover {
+      background-color: #3B82F6;
+      border-color: #BFDBFE;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+  <div class="bg-[rgb(37,40,106)] bg-opacity-90 p-8 md:p-12 rounded-xl shadow-2xl w-full max-w-md mx-auto text-center">
+    <!-- Logo -->
+    <div class="flex justify-center mb-6">
+      <img src="dental logo.png" alt="Clinic Logo" class="rounded-full shadow-lg">
+    </div>
+
+    <!-- Header -->
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Welcome!</h2>
+    <p class="text-white text-lg mb-8">Please tell us about yourself:</p>
+
+    <!-- Centered Buttons -->
+    <div class="flex flex-col items-center gap-6">
+      <button class="option-button" onclick="location.href='appointment login.html'">
+        Existing Patient
+      </button>
+      <button class="option-button" onclick="location.href='signup.html'">
+        New Patient
+      </button>
+    </div>
+  </div>
+</body>
+</html>

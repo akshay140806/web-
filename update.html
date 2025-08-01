@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Update Patient Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('Campus.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .update-form-container {
+            background-color: rgba(37, 40, 107, 0.95); /* Slightly darker for focus */
+            border-radius: 2rem;
+            padding: 4rem;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ccc;
+            color: #333; /* Ensure input text is visible */
+        }
+
+        .button {
+            background-color: white;
+            color: #26286b;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 1rem;
+            margin: 1rem auto;
+            width: 80%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50; /* Green for success */
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .message-box.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="update-form-container">
+        <h1 class="form-title">Update Your Details</h1>
+        <form id="updateForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="" />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="" />
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" value="" />
+            </div>
+            <button type="submit" class="button">Submit Updates</button>
+            <button type="button" class="button" onclick="goBackToDashboard()">Back to Dashboard</button>
+        </form>
+    </div>
+
+    <!-- Custom Message Box -->
+    <div id="messageBox" class="message-box hidden">
+        <span id="messageText"></span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load patient details from localStorage
+            const savedData = localStorage.getItem('patientDetails');
+            let userData = { name: '', email: '', phone: '' };
+            if (savedData) {
+                try {
+                    userData = JSON.parse(savedData);
+                } catch (e) {
+                    console.error("Error parsing patient details from localStorage:", e);
+                }
+            }
+
+            // Populate form fields
+            document.getElementById('name').value = userData.name || '';
+            document.getElementById('email').value = userData.email || '';
+            document.getElementById('phone').value = userData.phone || '';
+
+            // Handle form submission
+            document.getElementById('updateForm').addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default form submission
+
+                const updatedName = document.getElementById('name').value;
+                const updatedEmail = document.getElementById('email').value;
+                const updatedPhone = document.getElementById('phone').value;
+
+                const updatedUserData = {
+                    name: updatedName,
+                    email: updatedEmail,
+                    phone: updatedPhone
+                };
+                localStorage.setItem('patientDetails', JSON.stringify(updatedUserData));
+
+                // Show custom success message
+                showCustomMessage('Details updated successfully!', true);
+            });
+        });
+
+        // Function to display custom messages
+        function showCustomMessage(message, success) {
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            messageText.textContent = message;
+            messageBox.style.backgroundColor = success ? '#4CAF50' : '#f44336'; // Green for success, red for error
+            messageBox.classList.remove('hidden');
+            messageBox.classList.add('flex');
+            setTimeout(() => {
+                messageBox.classList.remove('flex');
+                messageBox.classList.add('hidden');
+            }, 3000); // Hide after 3 seconds
+        }
+
+        // Function to go back to the dashboard
+        function goBackToDashboard() {
+            window.location.href = './patient_dashboard.html'; // Added ./
+        }
+    </script>
+</body>
+</html>
